@@ -1,0 +1,5 @@
+# Replace postiz.YOURDOMAIN.com with your real subdomain.
+# Caddy fetches a free HTTPS certificate automatically.
+postiz.YOURDOMAIN.com {
+    reverse_proxy localhost:5000
+}
