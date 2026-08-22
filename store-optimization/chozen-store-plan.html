@@ -1,0 +1,973 @@
+<title>ChoZen Store Buyability Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+  :root {
+    --ground:      #F7F7F8;
+    --surface:     #FFFFFF;
+    --surface-alt: #F1F1F3;
+    --ink:         #16171A;
+    --ink-soft:    #5C5F66;
+    --ink-faint:   #8C9098;
+    --hairline:    #DFE0E3;
+    --hairline-strong: #C6C8CC;
+    --accent:      #8A6620;
+    --accent-bright: #C9A227;
+    --accent-wash: #F5EFDF;
+    --critical:    #9E2B2B;
+    --critical-wash: #F7E9E9;
+    --good:        #2C6349;
+    --good-wash:   #E6F0EB;
+
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --measure: 68ch;
+    --step-0: 1rem;
+    --step-1: 1.19rem;
+    --step-2: 1.45rem;
+    --step-3: 1.9rem;
+    --step-4: 2.6rem;
+    --step-5: 3.6rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0E0F11;
+      --surface:     #17181B;
+      --surface-alt: #1E2024;
+      --ink:         #ECEDEF;
+      --ink-soft:    #9EA2A9;
+      --ink-faint:   #71757C;
+      --hairline:    #2A2C31;
+      --hairline-strong: #3C3F46;
+      --accent:      #D9B45B;
+      --accent-bright: #E8C87A;
+      --accent-wash: #241F12;
+      --critical:    #E08079;
+      --critical-wash: #2A1A19;
+      --good:        #77C39B;
+      --good-wash:   #16261F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0E0F11;
+    --surface:     #17181B;
+    --surface-alt: #1E2024;
+    --ink:         #ECEDEF;
+    --ink-soft:    #9EA2A9;
+    --ink-faint:   #71757C;
+    --hairline:    #2A2C31;
+    --hairline-strong: #3C3F46;
+    --accent:      #D9B45B;
+    --accent-bright: #E8C87A;
+    --accent-wash: #241F12;
+    --critical:    #E08079;
+    --critical-wash: #2A1A19;
+    --good:        #77C39B;
+    --good-wash:   #16261F;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: var(--step-0);
+    line-height: 1.62;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem) 6rem;
+  }
+
+  .prose { max-width: var(--measure); }
+
+  h1, h2, h3, h4 {
+    font-family: var(--display);
+    text-wrap: balance;
+    line-height: 1.12;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+
+  p { margin: 0; }
+
+  a { color: var(--accent); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-bottom: 1px solid var(--hairline);
+    padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(2rem, 5vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .masthead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+  }
+
+  .masthead h1 {
+    font-size: clamp(2.4rem, 6.5vw, var(--step-5));
+    font-weight: 800;
+    max-width: 18ch;
+  }
+
+  .masthead h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .thesis {
+    font-size: var(--step-2);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+
+  .thesis strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- sections ---------- */
+
+  section { padding-top: clamp(3rem, 7vw, 5rem); }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.6rem, 4vw, var(--step-4));
+    font-weight: 700;
+  }
+
+  .section-head p {
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    font-size: var(--step-1);
+  }
+
+  .stack { display: flex; flex-direction: column; gap: 1.15rem; }
+  .stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+
+  /* ---------- funnel ---------- */
+
+  .funnel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .funnel-cell {
+    background: var(--surface);
+    padding: 1.5rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .funnel-cell .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    min-height: 2.4em;
+  }
+
+  .funnel-cell .value {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .funnel-cell .delta {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  .funnel-cell.is-critical .value { color: var(--critical); }
+
+  .bar-track {
+    height: 5px;
+    background: var(--surface-alt);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+  }
+
+  .bar-fill.is-critical { background: var(--critical); }
+
+  /* ---------- benchmark table ---------- */
+
+  .table-scroll { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    min-width: 520px;
+  }
+
+  th {
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0 0.9rem 0.7rem 0;
+    border-bottom: 1px solid var(--hairline-strong);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.72rem 0.9rem 0.72rem 0;
+    border-bottom: 1px solid var(--hairline);
+    font-variant-numeric: tabular-nums;
+    vertical-align: baseline;
+  }
+
+  td:first-child { font-family: var(--body); font-size: 0.98rem; }
+
+  .num { text-align: right; white-space: nowrap; }
+  .bad { color: var(--critical); font-weight: 600; }
+  .ok  { color: var(--good); font-weight: 600; }
+
+  /* ---------- big stat ---------- */
+
+  .keystat {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .keystat .figure {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .keystat .figure span { color: var(--accent); }
+
+  .keystat p { color: var(--ink-soft); max-width: 62ch; }
+  .keystat p strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- split ---------- */
+
+  .split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .panel h3 {
+    font-size: var(--step-1);
+    font-weight: 700;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.22em 0.55em;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .tag.critical { background: var(--critical-wash); color: var(--critical); }
+  .tag.good { background: var(--good-wash); color: var(--good); }
+  .tag.accent { background: var(--accent-wash); color: var(--accent); }
+
+  .itemlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+  }
+
+  .itemlist li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px dotted var(--hairline);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .itemlist li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .itemlist .n { color: var(--ink-soft); white-space: nowrap; }
+
+  .panel .note { font-size: 0.92rem; color: var(--ink-soft); }
+
+  /* ---------- phases ---------- */
+
+  .phase {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0 1.75rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .phase:last-of-type { border-bottom: 1px solid var(--hairline); }
+
+  .phase-num {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 0.45rem;
+  }
+
+  .phase-num .when {
+    display: block;
+    color: var(--ink-faint);
+    margin-top: 0.4rem;
+    letter-spacing: 0.06em;
+  }
+
+  .phase-body { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+  .phase-body h3 {
+    font-size: var(--step-2);
+    font-weight: 700;
+  }
+
+  .phase-body > p { color: var(--ink-soft); max-width: var(--measure); }
+  .phase-body > p strong { color: var(--ink); font-weight: 600; }
+
+  .actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: var(--measure);
+  }
+
+  .actions li {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.6rem;
+    align-items: start;
+  }
+
+  .actions li::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-top: 0.62em;
+    margin-left: 0.35rem;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .actions strong { font-weight: 600; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-alt);
+    padding: 0.12em 0.38em;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 620px) {
+    .phase { grid-template-columns: 1fr; gap: 0.9rem; }
+    .phase-num { padding-top: 0; }
+    .phase-num .when { display: inline; margin-left: 0.75rem; }
+  }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    background: var(--accent-wash);
+    border-radius: 3px;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: var(--measure);
+  }
+
+  .callout .eyebrow { color: var(--accent); }
+  .callout p { font-size: 0.98rem; }
+
+  .callout.warn { background: var(--critical-wash); }
+  .callout.warn .eyebrow { color: var(--critical); }
+
+  /* ---------- scoreboard ---------- */
+
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .metric {
+    background: var(--surface);
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .metric .name {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    min-height: 2.4em;
+  }
+
+  .metric .path {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    flex-wrap: wrap;
+  }
+
+  .metric .now { font-size: 1.4rem; font-weight: 700; color: var(--critical); }
+  .metric .arrow { color: var(--ink-faint); font-family: var(--mono); font-size: 0.9rem; }
+  .metric .goal { font-size: 1.4rem; font-weight: 700; color: var(--good); }
+
+  .metric .sub { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); }
+
+  /* ---------- footnote ---------- */
+
+  .footnote {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.88rem;
+    color: var(--ink-faint);
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span class="eyebrow">ChoZen Unlimited &middot; chozenunlimited.com</span>
+      <span class="eyebrow">Audit date 22 Aug 2026</span>
+      <span class="eyebrow">Source: live Shopify + Klaviyo data</span>
+    </div>
+    <h1>You don't have a traffic problem. You have a <em>buyability</em> problem.</h1>
+    <p class="thesis">
+      In the last 90 days <strong>1,944 people</strong> visited the store.
+      <strong>Thirteen</strong> of them were able to put something in a cart.
+      Before another dollar goes into content or ads, the store has to become
+      purchasable — because everything downstream multiplies against that number.
+    </p>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Measured &middot; last 90 days</span>
+      <h2>What the numbers actually say</h2>
+      <p>
+        Pulled directly from Shopify analytics — not estimates. The drop-off is not
+        gradual; it happens in the first step.
+      </p>
+    </div>
+
+    <div class="stack-lg">
+      <div class="funnel">
+        <div class="funnel-cell">
+          <span class="label">Sessions</span>
+          <span class="value">1,944</span>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <span class="delta">648 / month</span>
+        </div>
+        <div class="funnel-cell is-critical">
+          <span class="label">Sessions with cart additions</span>
+          <span class="value">13</span>
+          <div class="bar-track"><div class="bar-fill is-critical" style="width:0.7%"></div></div>
+          <span class="delta">0.67% &middot; benchmark 5–8%</span>
+        </div>
+        <div class="funnel-cell">
+          <span class="label">Reached checkout</span>
+          <span class="value">46</span>
+          <div class="bar-track"><div class="bar-fill" style="width:2.4%"></div></div>
+          <span class="delta">2.4% of sessions</span>
+        </div>
+        <div class="funnel-cell is-critical">
+          <span class="label">Completed checkout</span>
+          <span class="value">6</span>
+          <div class="bar-track"><div class="bar-fill is-critical" style="width:0.31%"></div></div>
+          <span class="delta">0.31% &middot; benchmark 1.4–2.2%</span>
+        </div>
+      </div>
+
+      <div class="callout prose">
+        <span class="eyebrow">Read this carefully</span>
+        <p>
+          More sessions reached checkout (46) than added to a cart (13). That gap means most
+          buyers are using express buttons — Shop Pay, PayPal — that skip the cart entirely.
+          It also means <strong>87% of people who reached checkout did not finish</strong>
+          (6 of 46). Two separate problems, both real: almost nobody can add to cart, and
+          almost nobody who starts checkout completes it.
+        </p>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Revenue, trailing 12 months</th>
+              <th class="num">Gross</th>
+              <th class="num">Orders</th>
+              <th class="num">Share</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Deuteronomy 22:5 Maxi Jersey Dress</td><td class="num">$909.92</td><td class="num">9</td><td class="num">29.3%</td></tr>
+            <tr><td>Skyline Track Maxi Dress</td><td class="num">$399.97</td><td class="num">3</td><td class="num">12.9%</td></tr>
+            <tr><td>Signature Modest Set</td><td class="num">$375.00</td><td class="num">3</td><td class="num">12.1%</td></tr>
+            <tr><td>Final Exodus Leather Jacket</td><td class="num">$329.99</td><td class="num">1</td><td class="num">10.6%</td></tr>
+            <tr><td>Flex Cargo Maxi Dress</td><td class="num">$302.48</td><td class="num">3</td><td class="num">9.8%</td></tr>
+            <tr><td>Signature Embossed Hoodie</td><td class="num">$190.00</td><td class="num">3</td><td class="num">6.1%</td></tr>
+            <tr><td>CHZN Heavyweight Tee</td><td class="num">$165.00</td><td class="num">3</td><td class="num">5.3%</td></tr>
+            <tr><td>Everything else (5 products)</td><td class="num">$428.95</td><td class="num">7</td><td class="num">13.8%</td></tr>
+            <tr><td><strong>Total</strong></td><td class="num"><strong>$3,101.31</strong></td><td class="num"><strong>32</strong></td><td class="num">100%</td></tr>
+            <tr><td>All 10 canvases</td><td class="num bad">$0.00</td><td class="num bad">0</td><td class="num">0%</td></tr>
+            <tr><td>All 3 digital products</td><td class="num bad">$0.00</td><td class="num bad">0</td><td class="num">0%</td></tr>
+            <tr><td>Set Apart Embossed Tee (the flagship logo tee)</td><td class="num bad">$0.00</td><td class="num bad">0</td><td class="num">0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="prose">
+        Women's dresses and modest sets are <strong>64% of all revenue</strong>
+        ($1,987 of $3,101). That is the proven demand. Average order value sits
+        around <strong>$97</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Root cause</span>
+      <h2>The catalog is mostly empty shelves</h2>
+    </div>
+
+    <div class="stack-lg">
+      <div class="keystat">
+        <div class="figure">198 units of stock<br>across <span>1,009 variants</span></div>
+        <p>
+          Roughly <strong>four out of five size-and-colour combinations in the store are
+          empty</strong>. A shopper picks a colour they like, opens the size dropdown, finds
+          every size greyed out, and leaves. That is the 0.67% add-to-cart rate — it isn't a
+          copywriting problem or a photography problem, it's arithmetic.
+        </p>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Worst offenders</th>
+              <th class="num">Variants</th>
+              <th class="num">Units in stock</th>
+              <th class="num">Units per variant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Skyline Track Maxi Dress</td><td class="num">104</td><td class="num">16</td><td class="num bad">0.15</td></tr>
+            <tr><td>Deuteronomy 22:5 Maxi Dress <em>(top seller)</em></td><td class="num">95</td><td class="num">12</td><td class="num bad">0.13</td></tr>
+            <tr><td>Unshaken Windbreaker Set (men's)</td><td class="num">84</td><td class="num">4</td><td class="num bad">0.05</td></tr>
+            <tr><td>1 Peter 2:9 Mesh Jersey</td><td class="num">80</td><td class="num">10</td><td class="num bad">0.13</td></tr>
+            <tr><td>Signature Embossed Hoodie</td><td class="num">73</td><td class="num">1</td><td class="num bad">0.01</td></tr>
+            <tr><td>Flex Cargo Maxi Dress</td><td class="num">70</td><td class="num">0</td><td class="num bad">0.00</td></tr>
+            <tr><td>Set Apart Embossed Tee for Her</td><td class="num">64</td><td class="num">0</td><td class="num bad">0.00</td></tr>
+            <tr><td>Signature Modest Set</td><td class="num">56</td><td class="num">0</td><td class="num bad">0.00</td></tr>
+            <tr><td>Set Apart Embossed Tee (men's)</td><td class="num">48</td><td class="num">0</td><td class="num bad">0.00</td></tr>
+            <tr><td>King's Short Set</td><td class="num">48</td><td class="num">0</td><td class="num bad">0.00</td></tr>
+            <tr><td>Unshaken Windbreaker Set (her's)</td><td class="num">81</td><td class="num">65</td><td class="num ok">0.80</td></tr>
+            <tr><td>CHZN Heavyweight Tee</td><td class="num">67</td><td class="num">38</td><td class="num ok">0.57</td></tr>
+            <tr><td>Ephod Ring</td><td class="num">4</td><td class="num">28</td><td class="num ok">7.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn prose">
+        <span class="eyebrow">The clearest example</span>
+        <p>
+          The <strong>Set Apart Embossed Tee</strong> is your flagship logo piece. Across
+          men's, women's and bundle listings it carries <strong>132 variants and zero
+          units</strong>, with inventory policy set to <code>DENY</code> — meaning Shopify
+          refuses the sale rather than taking a pre-order. It has sold <strong>$0 in twelve
+          months</strong>. Not because nobody wants it. Because nobody <em>can</em> buy it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">The inversion</span>
+      <h2>What sells can't be bought. What can be bought isn't sold.</h2>
+      <p>
+        The catalog splits cleanly in two, and the two halves have opposite problems.
+        Recognising this is what makes the plan below obvious.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="panel">
+        <h3>Proven demand <span class="tag critical">Unbuyable</span></h3>
+        <p class="note">
+          These earned real money and are now out of stock with <code>DENY</code> policy —
+          every visitor they attract bounces.
+        </p>
+        <ul class="itemlist">
+          <li><span>Signature Modest Set</span><span class="n">$375 &middot; 0 units</span></li>
+          <li><span>Flex Cargo Maxi Dress</span><span class="n">$302 &middot; 0 units</span></li>
+          <li><span>Signature Embossed Hoodie</span><span class="n">$190 &middot; 1 unit</span></li>
+          <li><span>Deuteronomy 22:5 Dress</span><span class="n">$910 &middot; 12 units</span></li>
+          <li><span>Set Apart Tee (all)</span><span class="n">$0 &middot; 0 units</span></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h3>Infinite supply <span class="tag good">Buyable now</span></h3>
+        <p class="note">
+          Thirteen products anyone can buy, any time, in any quantity — untracked stock,
+          no shipping constraint on the digital ones. Combined revenue: <strong>$0</strong>.
+        </p>
+        <ul class="itemlist">
+          <li><span>10 &times; ChoZen Visuals canvases</span><span class="n">$85–$199</span></li>
+          <li><span>Built to Finish handbook</span><span class="n">$7</span></li>
+          <li><span>AI Age Operator Kit</span><span class="n">$27</span></li>
+          <li><span>Stronger Temple 40</span><span class="n">$59</span></li>
+          <li><span>Fringing Service (add-on)</span><span class="n">$7–$10</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">The plan &middot; dependency-ordered</span>
+      <h2>Seven phases, in this order</h2>
+      <p>
+        Each phase multiplies the ones after it. Doing phase 6 before phase 1 means pouring
+        traffic into a store that can't accept it — which is what's happening today.
+      </p>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 0<span class="when">This week &middot; ~4 hrs</span></div>
+      <div class="phase-body">
+        <h3>Triage the obvious breakage</h3>
+        <p>Nothing strategic here. These are things that are simply wrong right now.</p>
+        <ul class="actions">
+          <li><span><strong>Four active products have no image at all</strong> — Final Exodus Tee ($55), Women's Embossed Maxi Dress ($99.99), Stronger Temple 40 ($59), Fringing Service ($7). They render as blank tiles in collections. The Final Exodus Tee is worst: it's genuinely purchasable (<code>CONTINUE</code> policy) and selling with no photograph. Shoot them or set them to draft — a live product without an image should not exist.</span></li>
+          <li><span><strong>Fix the Deuteronomy price contradiction.</strong> Collection pages advertise "from $99.99"; the White-on-White variants ring up at $110.00. On your single best-selling product, that discrepancy lands at the exact moment of decision.</span></li>
+          <li><span><strong>Draft the Women's Embossed Maxi Dress.</strong> One variant, size 3XL only, no image, no stock. It is a broken listing sitting at $99.99.</span></li>
+          <li><span><strong>Pull seven empty collections out of navigation</strong> — ChoZen Luxury, Limited Edition, and all four Studio 144 sub-collections plus Studio 144 itself. All contain zero products. Every click into them is a dead end.</span></li>
+          <li><span><strong>Delete the duplicate.</strong> "Home &amp; Visuals" exists twice with identical rules (<code>home-visuals</code> and <code>home-visuals-1</code>), splitting its own SEO.</span></li>
+          <li><span><strong>Delete the $0.00 placeholder product</strong> literally titled "Digital product", and the archived <code>-OLD</code> track suit SKUs.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 1<span class="when">Week 1–2</span></div>
+      <div class="phase-body">
+        <h3>Collapse the variant matrix</h3>
+        <p>
+          This is the whole game. <strong>One rule: a colourway stays live only if S through
+          2XL can actually be bought.</strong> Anything else gets archived or converted to
+          a real pre-order.
+        </p>
+        <ul class="actions">
+          <li><span><strong>Archive dead colourways.</strong> Skyline goes from 104 variants to roughly 15. Deuteronomy from 95 to about 18 — protect this one, it's 29% of revenue. The men's Windbreaker has 4 units across 84 variants; cut to one colourway.</span></li>
+          <li><span><strong>Convert proven-but-empty products to pre-order</strong> rather than deleting them. Switch inventory policy from <code>DENY</code> to <code>CONTINUE</code>, add a pre-order badge and a dated ship window. This applies to the Modest Set, Flex Cargo Maxi, King's Short Set, and both Set Apart tees — all have demand and no stock.</span></li>
+          <li><span><strong>Fix the promise-mechanics mismatch.</strong> The Deuteronomy description already reads "PREORDER | EXPECTED PRODUCTION TIME: 3–4 WEEKS", but its variants are set to <code>DENY</code>. You are promising pre-orders while the cart refuses them. The Final Exodus Tee is configured correctly — copy that pattern.</span></li>
+          <li><span><strong>Lead with the healthy SKUs.</strong> Windbreaker for Her (65 units), Heavyweight Tee (38), Ephod Ring (28) are the only apparel you can sell at volume today. They should be the first things a visitor sees.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 2<span class="when">Week 2</span></div>
+      <div class="phase-body">
+        <h3>Give the catalog a spine</h3>
+        <p>
+          Most products carry <strong>no tags at all</strong>, and several collections are
+          smart collections keyed on tags. The catalog is invisible to its own automation.
+        </p>
+        <ul class="actions">
+          <li><span><strong>Tag every product</strong> on four axes: audience (<code>mens</code>/<code>womens</code>/<code>unisex</code>), category (<code>tee</code>, <code>dress</code>, <code>set</code>, <code>canvas</code>, <code>digital</code>…), availability (<code>in-stock</code>/<code>preorder</code>), and line (<code>chozen-collection</code>, <code>chozen-visuals</code>, <code>chozen-digital</code>).</span></li>
+          <li><span><strong>Men's Apparel and Women's Apparel repair themselves</strong> the moment you do. They currently hold 3 and 7 products out of ~30, purely because the tags they filter on don't exist.</span></li>
+          <li><span><strong>Rewrite the main collection rule.</strong> "THE ChoZen COLLECTION" currently filters by excluding title strings — <code>NOT_CONTAINS "Premium"</code>, <code>"Bundle"</code>, <code>"Narroway"</code>, <code>"Exclusive"</code> — plus <code>price ≠ 199</code>. That rule silently drops both $199 Visuals canvases, the Premium Track Suit and the Narroway Canvas from your primary collection. Rebuild it on tags.</span></li>
+          <li><span><strong>Stronger Temple 40 is in no digital collection.</strong> Its type is "Wellness Program" and vendor is "Covenant Wellness", so it matches neither the ChoZen Digital rule (vendor-based) nor Digital &amp; Music (type-based). A $59 product at ~100% margin is orphaned.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 3<span class="when">Week 2–3</span></div>
+      <div class="phase-body">
+        <h3>Sell the thirteen things that never run out</h3>
+        <p>
+          Ten canvases and three digital products have unlimited availability and have earned
+          <strong>nothing in twelve months</strong>. While apparel restocks, this is your
+          entire sellable inventory.
+        </p>
+        <ul class="actions">
+          <li><span><strong>Put a canvas and a digital product above the fold</strong> on the homepage. Right now the store leads with apparel a visitor mostly cannot buy.</span></li>
+          <li><span><strong>Treat the $7 handbook as the front door, not a revenue line.</strong> At $7 its job is to convert a stranger into a buyer and an email address; apparel is the follow-up. That is also the cheapest possible fix for your dead email list.</span></li>
+          <li><span><strong>Give Stronger Temple 40 a start date and a cap.</strong> It's described as a cohort, but it's listed as an always-open product with no image and no urgency. A cohort without a date is just a PDF.</span></li>
+          <li><span><strong>The canvases are your most searchable asset</strong> — "Lion of Judah canvas", "Psalm 107:2 wall art". Nothing else in the catalog has that kind of intent behind it. See phase 6.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 4<span class="when">Week 3</span></div>
+      <div class="phase-body">
+        <h3>Raise order value with what you already built</h3>
+        <ul class="actions">
+          <li><span><strong>The Fringing Service is the best product nobody can find.</strong> $7–$10, grounded in Numbers 15:38, untracked, always available, correctly configured — and it has no image and no placement. It should appear as a checkbox on every garment page and again in the cart. At 32 orders it would have added roughly <strong>$270 at near-100% margin</strong> this year, for zero additional inventory.</span></li>
+          <li><span><strong>Rebuild the bundles.</strong> The Set Apart Tee Bundle is live with zero stock; the for-Her bundle is stuck in draft. Both are dead weight. Build bundles only from stockable pieces.</span></li>
+          <li><span><strong>Target AOV $97 → $130.</strong> Fringing attach plus one real bundle gets you most of the way.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 5<span class="when">Week 3–4</span></div>
+      <div class="phase-body">
+        <h3>Feed the email engine you already own</h3>
+        <p>
+          Klaviyo has <strong>six live flows</strong> — Abandoned Cart, Browse Abandonment,
+          Welcome, SMS Welcome, Winback, Order Confirmed — and eight lists. In 90 days email
+          drove <strong>two sessions</strong>. The machine isn't broken. Nothing is entering it.
+        </p>
+        <ul class="actions">
+          <li><span><strong>You have four lead-magnet lists already created</strong> — The Chosen 144, Hype Check → Covenant Wellness, 500 Prompt Book, DEVCAS Waitlist — and no on-site path into any of them. Wire up capture with a real offer.</span></li>
+          <li><span><strong>87% checkout abandonment means the abandoned-cart flow has fuel</strong> the moment capture improves. Those 40 abandoned checkouts are the highest-intent audience you have.</span></li>
+          <li><span><strong>Send one campaign a week.</strong> Email is 0.1% of your traffic. For a brand this identity-driven it should be 20–30%.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 6<span class="when">Ongoing</span></div>
+      <div class="phase-body">
+        <h3>Build traffic that compounds</h3>
+        <p>
+          Search brought <strong>87 sessions in 90 days</strong> — 4.5%. Direct (64%) plus
+          social (31%) is traffic that stops the day you stop posting. Nothing accrues.
+        </p>
+        <ul class="actions">
+          <li><span><strong>Your product descriptions target nothing.</strong> "Step into purpose with…" appears near-verbatim across multiple listings. Rewrite against real queries: "modest athletic maxi dress", "1 Peter 2:9 shirt", "Lion of Judah canvas", "Deuteronomy 22:5 dress".</span></li>
+          <li><span><strong>"Tzitzit fringing service" is a genuine opening.</strong> High intent, almost no e-commerce competition, and you already offer it. Nobody is ranking for it.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">Phase 7<span class="when">After phase 1</span></div>
+      <div class="phase-body">
+        <h3>Where the publishing system plugs in</h3>
+        <p>
+          The publishing engine is the last piece, not the first. Aimed at today's store it
+          would drive visitors into a catalog where four in five options are empty — spending
+          reach to produce bounces.
+        </p>
+        <ul class="actions">
+          <li><span><strong>Point campaigns only at what's buyable:</strong> Windbreaker for Her, Heavyweight Tee, Ephod Ring, the ten canvases, the three digital products.</span></li>
+          <li><span><strong>Hold campaigns off</strong> the Set Apart Tee, Modest Set, King's Short Set and Flex Cargo Maxi until they're restocked or genuinely on pre-order. Promoting them today sends people to a wall.</span></li>
+          <li><span><strong>Every post should land on a page that can take money.</strong> That is the only rule that matters here.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">The scoreboard</span>
+      <h2>Seven numbers to check every Monday</h2>
+    </div>
+
+    <div class="scoreboard">
+      <div class="metric">
+        <span class="name">Add-to-cart rate</span>
+        <div class="path"><span class="now">0.67%</span><span class="arrow">→</span><span class="goal">7%</span></div>
+        <span class="sub">The single most important number</span>
+      </div>
+      <div class="metric">
+        <span class="name">Checkout completion</span>
+        <div class="path"><span class="now">13%</span><span class="arrow">→</span><span class="goal">50%</span></div>
+        <span class="sub">6 of 46 today</span>
+      </div>
+      <div class="metric">
+        <span class="name">Conversion rate</span>
+        <div class="path"><span class="now">0.31%</span><span class="arrow">→</span><span class="goal">2.0%</span></div>
+        <span class="sub">Apparel benchmark 1.4–2.2%</span>
+      </div>
+      <div class="metric">
+        <span class="name">Average order value</span>
+        <div class="path"><span class="now">$97</span><span class="arrow">→</span><span class="goal">$130</span></div>
+        <span class="sub">Via fringing attach + bundles</span>
+      </div>
+      <div class="metric">
+        <span class="name">Purchasable variants</span>
+        <div class="path"><span class="now">~20%</span><span class="arrow">→</span><span class="goal">85%</span></div>
+        <span class="sub">Est. from 198 units / 1,009 variants</span>
+      </div>
+      <div class="metric">
+        <span class="name">Email share of sessions</span>
+        <div class="path"><span class="now">0.1%</span><span class="arrow">→</span><span class="goal">25%</span></div>
+        <span class="sub">2 sessions in 90 days</span>
+      </div>
+      <div class="metric">
+        <span class="name">Search share of sessions</span>
+        <div class="path"><span class="now">4.5%</span><span class="arrow">→</span><span class="goal">15%</span></div>
+        <span class="sub">Traffic that compounds</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Why the order matters</span>
+      <h2>The same goal, at four different conversion rates</h2>
+      <p>
+        $5,000 a month at $100 average order value means 50 orders a month. Here is how much
+        traffic that takes, depending on nothing but conversion rate.
+      </p>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th class="num">Conversion</th>
+            <th class="num">Sessions / month needed</th>
+            <th class="num">vs today (648)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Today, unchanged</td><td class="num">0.31%</td><td class="num bad">16,100</td><td class="num bad">25&times;</td></tr>
+          <tr><td>After phases 0–2</td><td class="num">1.2%</td><td class="num">4,200</td><td class="num">6.5&times;</td></tr>
+          <tr><td>After phases 0–5</td><td class="num">2.0%</td><td class="num">2,500</td><td class="num">3.9&times;</td></tr>
+          <tr><td>Phases 0–5, AOV at $130</td><td class="num ok">2.0%</td><td class="num ok">1,925</td><td class="num ok">3.0&times;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout prose" style="margin-top:2rem">
+      <span class="eyebrow">The whole argument in one line</span>
+      <p>
+        Fixing what's in this document is the difference between needing
+        <strong>25 times your current traffic</strong> and needing <strong>three times</strong>
+        it. The store is not underexposed. It is unbuyable.
+      </p>
+    </div>
+  </section>
+
+  <div class="footnote">
+    <p>
+      All figures pulled live from the ChoZen Unlimited Shopify Admin API and Klaviyo on
+      22 August 2026. Session and funnel data covers the trailing 90 days; revenue covers
+      the trailing 12 months. Variant and inventory counts reflect the sixteen multi-variant
+      products in the catalog.
+    </p>
+    <p>
+      Benchmarks cited for add-to-cart rate, checkout completion and conversion are standard
+      apparel e-commerce ranges, used here for orientation rather than as precise targets.
+    </p>
+  </div>
+
+</div>
