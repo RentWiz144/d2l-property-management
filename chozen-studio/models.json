@@ -1,0 +1,25 @@
+{
+  "_note": "Model catalog. Slugs marked verified:true were read from docs.kie.ai. Those marked verified:false could not be confirmed from the public docs — check the model string your studio.sh already uses and correct it here. This file is data: fixing a slug never requires a code change.",
+  "image": [
+    { "id": "google/imagen4",            "label": "Imagen 4",        "verified": true,  "params": ["aspect_ratio"] },
+    { "id": "flux2/pro-text-to-image",   "label": "Flux 2 Pro",      "verified": true,  "params": ["aspect_ratio"] },
+    { "id": "z-image/z-image",           "label": "Z-Image",         "verified": true,  "params": ["aspect_ratio"] },
+    { "id": "qwen/text-to-image",        "label": "Qwen",            "verified": true,  "params": ["aspect_ratio"] },
+    { "id": "grok-imagine/text-to-image","label": "Grok Imagine",    "verified": true,  "params": ["aspect_ratio"] },
+    { "id": "nano-banana-pro/text-to-image", "label": "Nano Banana Pro", "verified": false, "params": ["aspect_ratio"] }
+  ],
+  "video": [
+    { "id": "bytedance/seedance-2",      "label": "Seedance 2.0",    "verified": true,  "params": ["aspect_ratio", "resolution", "duration", "generate_audio"] },
+    { "id": "bytedance/seedance-2-fast", "label": "Seedance 2.0 Fast","verified": true, "params": ["aspect_ratio", "resolution", "duration", "generate_audio"] },
+    { "id": "bytedance/seedance-1.5-pro","label": "Seedance 1.5 Pro","verified": true,  "params": ["aspect_ratio", "resolution", "duration"] },
+    { "id": "kling/v2-1-pro",            "label": "Kling 2.1 Pro",   "verified": true,  "params": ["aspect_ratio", "duration"] },
+    { "id": "sora2/sora-2-pro-text-to-video", "label": "Sora 2 Pro", "verified": true,  "params": ["aspect_ratio", "duration"] },
+    { "id": "grok-imagine/text-to-video","label": "Grok Video",      "verified": true,  "params": ["aspect_ratio", "duration"] },
+    { "id": "google/veo3",               "label": "Veo 3",           "verified": false, "params": ["aspect_ratio", "duration", "generate_audio"] }
+  ],
+  "options": {
+    "aspect_ratio": ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    "resolution": ["480p", "720p", "1080p"],
+    "duration": [5, 10, 15]
+  }
+}

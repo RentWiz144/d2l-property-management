@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChoZen Studio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M10 16.5l4 4L23 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="brand-text">ChoZen<span class="brand-thin"> Studio</span></span>
+  </div>
+
+  <div class="hud" id="hud">
+    <div class="hud-item"><span class="hud-label">Balance</span><span class="hud-value" id="hud-credits">—</span></div>
+    <div class="hud-item"><span class="hud-label">Value</span><span class="hud-value" id="hud-usd">—</span></div>
+    <div class="hud-item"><span class="hud-label">This month</span><span class="hud-value" id="hud-spend">—</span></div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Sections">
+    <button class="rail-btn is-active" data-view="image" aria-current="page"><span class="rail-icon" aria-hidden="true">◆</span><span>Image</span></button>
+    <button class="rail-btn" data-view="video"><span class="rail-icon" aria-hidden="true">▶</span><span>Video</span></button>
+    <button class="rail-btn" data-view="library"><span class="rail-icon" aria-hidden="true">▤</span><span>Library</span></button>
+  </nav>
+
+  <main class="main">
+    <div class="banner" id="banner" hidden role="alert"></div>
+
+    <!-- CREATE -->
+    <section class="view" id="view-create">
+      <h1 class="view-title" id="create-title">Make an image</h1>
+
+      <div class="panel">
+        <label class="field-label" for="prompt">Prompt</label>
+        <textarea id="prompt" class="prompt" rows="4" placeholder="Describe what you want. Specific beats poetic — subject, lighting, mood, lens."></textarea>
+
+        <div class="field-label">Model</div>
+        <div class="model-grid" id="model-grid" role="radiogroup" aria-label="Model"></div>
+
+        <div class="params" id="params"></div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="generate">
+            <span class="btn-label">Generate</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+          <p class="hint" id="hint">Runs on your kie.ai credits. Results save to your output folder automatically.</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Activity</h2>
+      <div id="jobs" class="jobs"></div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="view" id="view-library" hidden>
+      <div class="view-head">
+        <h1 class="view-title">Library</h1>
+        <button class="btn btn-ghost" id="reveal">Open folder</button>
+      </div>
+      <p class="path" id="output-path"></p>
+      <div id="library" class="library"></div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js" type="module"></script>
+</body>
+</html>

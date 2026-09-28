@@ -1,0 +1,11 @@
+{
+  "name": "chozen-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ChoZen Studio - local image and video generation desk on the kie.ai API",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server/index.js"
+  }
+}
