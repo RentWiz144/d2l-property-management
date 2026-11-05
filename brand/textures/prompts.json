@@ -1,0 +1,18 @@
+{
+  "model": "bytedance/seedance-2",
+  "defaults": { "resolution": "720p", "aspect_ratio": "16:9", "duration": 6, "generate_audio": false },
+  "clips": [
+    {
+      "id": "liquid-chrome",
+      "prompt": "Seamless abstract background loop. Slow-moving liquid chrome surface on pure black, mirror-polished silver ripples catching a cold electric-blue light from the upper right. Deep navy shadows. Minimal, futuristic, premium. No text, no logos, no people, no purple or pink. Camera locked, very slow motion."
+    },
+    {
+      "id": "blue-light-sweep",
+      "prompt": "Seamless abstract background loop. A thin beam of electric blue light sweeps left to right across a black void, reflecting off faint machined brushed-steel lines. Subtle haze. Futuristic, calm, set-apart mood. No text, no logos, no people, no purple. Camera locked."
+    },
+    {
+      "id": "brushed-silver-grain",
+      "prompt": "Seamless abstract background loop. Extreme macro of brushed silver metal with fine parallel grain, a soft chrome highlight drifting slowly across it, edges falling off into black and deep navy blue. Precise, machined, futuristic. No text, no logos, no people. Camera locked, slow drift."
+    }
+  ]
+}
