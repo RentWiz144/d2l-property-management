@@ -1,0 +1,520 @@
+{
+ "snapshot": "2026-11-10",
+ "source": "Shopify Admin API + storefront product JSON",
+ "store": "https://chozenunlimited.com",
+ "supportEmail": "support@chozenunlimited.com",
+ "sizes": [
+  "XS",
+  "S",
+  "M",
+  "L",
+  "XL",
+  "2XL",
+  "3XL",
+  "4XL"
+ ],
+ "fringeService": {
+  "handle": "fringing-service-fringes-blue-ribbon-sewn-on",
+  "price": 1000,
+  "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/fringes-and-a-ribband-of-blue.png?v=1787464073",
+  "colors": {
+   "Coordinated to garment": 49126821560555,
+   "White": 49126821593323,
+   "Black": 49126821626091
+  }
+ },
+ "colorways": [
+  {
+   "slug": "original-pink",
+   "style": "original",
+   "color": "Pink",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-30-04_2.jpg?v=1777830149",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181705605355,
+    "S": 48181705638123,
+    "M": 48181705670891,
+    "L": 48181705703659,
+    "XL": 48181705736427,
+    "2XL": 48181705769195,
+    "3XL": 48181705801963,
+    "4XL": 48181705834731
+   }
+  },
+  {
+   "slug": "original-white",
+   "style": "original",
+   "color": "White",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-01_14-42-46_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181705867499,
+    "S": 48181705900267,
+    "M": 48181705933035,
+    "L": 48181705965803,
+    "XL": 48181705998571,
+    "2XL": 48181706031339,
+    "3XL": 48181706064107,
+    "4XL": 48181706096875
+   }
+  },
+  {
+   "slug": "original-cream",
+   "style": "original",
+   "color": "Cream",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-27-18_2.jpg?v=1777830149",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181706129643,
+    "S": 48181706162411,
+    "M": 48181706195179,
+    "L": 48181706227947,
+    "XL": 48181706260715,
+    "2XL": 48181706293483,
+    "3XL": 48181706326251,
+    "4XL": 48181706359019
+   }
+  },
+  {
+   "slug": "original-brown",
+   "style": "original",
+   "color": "Brown",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-35-38_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181706391787,
+    "S": 48181706424555,
+    "M": 48181706457323,
+    "L": 48181706490091,
+    "XL": 48181706522859,
+    "2XL": 48181706555627,
+    "3XL": 48181706588395,
+    "4XL": 48181706621163
+   }
+  },
+  {
+   "slug": "original-dark-teal",
+   "style": "original",
+   "color": "Dark Teal",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-47-21_2.jpg?v=1777830149",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181706653931,
+    "S": 48181706686699,
+    "M": 48181706719467,
+    "L": 48181706752235,
+    "XL": 48181706785003,
+    "2XL": 48181706817771,
+    "3XL": 48181706850539,
+    "4XL": 48181706883307
+   }
+  },
+  {
+   "slug": "original-burnt-orange",
+   "style": "original",
+   "color": "Burnt Orange",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-57-42_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181706916075,
+    "S": 48181706948843,
+    "M": 48181706981611,
+    "L": 48181707014379,
+    "XL": 48181707047147,
+    "2XL": 48181707079915,
+    "3XL": 48181707112683,
+    "4XL": 48181707145451
+   }
+  },
+  {
+   "slug": "original-charcoal-grey",
+   "style": "original",
+   "color": "Charcoal Grey",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-02_23-53-04_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181707178219,
+    "S": 48181707210987,
+    "M": 48181707243755,
+    "L": 48181707276523,
+    "XL": 48181707309291,
+    "2XL": 48181707342059,
+    "3XL": 48181707374827,
+    "4XL": 48181707407595
+   }
+  },
+  {
+   "slug": "original-navy",
+   "style": "original",
+   "color": "Navy",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-03_00-02-40_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181707440363,
+    "S": 48181707473131,
+    "M": 48181707505899,
+    "L": 48181707538667,
+    "XL": 48181707571435,
+    "2XL": 48181707604203,
+    "3XL": 48181707636971,
+    "4XL": 48181707669739
+   }
+  },
+  {
+   "slug": "original-athletic-red",
+   "style": "original",
+   "color": "Athletic Red",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/photo_2026-05-03_00-07-29_2.jpg?v=1777830148",
+   "price": 10999,
+   "sizes": {
+    "XS": 48181707702507,
+    "S": 48181707735275,
+    "M": 48181707768043,
+    "L": 48181707800811,
+    "XL": 48181707833579,
+    "2XL": 48181707866347,
+    "3XL": 48181707899115,
+    "4XL": 48181707931883
+   }
+  },
+  {
+   "slug": "original-black",
+   "style": "original",
+   "color": "Black",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-black-original.jpg?v=1789616250",
+   "price": 10999,
+   "sizes": {
+    "XS": 48990357979371,
+    "S": 48990358012139,
+    "M": 48990358044907,
+    "L": 48990358077675,
+    "XL": 48990358110443,
+    "2XL": 48990358143211,
+    "3XL": 48990358175979,
+    "4XL": 48990358208747
+   }
+  },
+  {
+   "slug": "original-purple",
+   "style": "original",
+   "color": "Purple",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-purple-on-purple-fringed.jpg?v=1789616250",
+   "price": 10999,
+   "sizes": {
+    "XS": 49424930832619,
+    "S": 49424930865387,
+    "M": 49424930898155,
+    "L": 49424930930923,
+    "XL": 49424930963691,
+    "2XL": 49424930996459,
+    "3XL": 49424931029227,
+    "4XL": 49424931061995
+   }
+  },
+  {
+   "slug": "patent-white-on-white",
+   "style": "patent",
+   "color": "White on White",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/f8323ce0-0007-4bdb-8de2-ca9d503ae5b7.png?v=1783298977",
+   "price": 11999,
+   "sizes": {
+    "XS": 48990551769323,
+    "S": 48990551802091,
+    "M": 48990551834859,
+    "L": 48990551867627,
+    "XL": 48990551900395,
+    "2XL": 48990551933163,
+    "3XL": 48990551965931,
+    "4XL": 48990551998699
+   }
+  },
+  {
+   "slug": "patent-purple-on-purple",
+   "style": "patent",
+   "color": "Purple on Purple",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-purple-on-purple_b22a8339-08d8-42c1-bcf0-60cf7b817802.jpg?v=1787644746",
+   "price": 11999,
+   "sizes": {
+    "XS": 48882128355563,
+    "S": 48882128388331,
+    "M": 48882128421099,
+    "L": 48882128453867,
+    "XL": 48882128486635,
+    "2XL": 48882128519403,
+    "3XL": 48882128552171,
+    "4XL": 49283891429611
+   }
+  },
+  {
+   "slug": "patent-pink-on-pink",
+   "style": "patent",
+   "color": "Pink on Pink",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-patent-pink-on-pink.jpg?v=1789613161",
+   "price": 11999,
+   "sizes": {
+    "XS": 49424769941739,
+    "S": 49424769974507,
+    "M": 49424770007275,
+    "L": 49424770040043,
+    "XL": 49424770072811,
+    "2XL": 49424770105579,
+    "3XL": 49424770138347,
+    "4XL": 49424770171115
+   }
+  },
+  {
+   "slug": "patent-texas-burnt-orange-on-texas-burnt-orange",
+   "style": "patent",
+   "color": "Texas Burnt Orange on Texas Burnt Orange",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-patent-texas-burnt-orange-on-texas-burnt-orange.jpg?v=1789613161",
+   "price": 11999,
+   "sizes": {
+    "XS": 49424770203883,
+    "S": 49424770236651,
+    "M": 49424770269419,
+    "L": 49424770302187,
+    "XL": 49424770334955,
+    "2XL": 49424770367723,
+    "3XL": 49424770400491,
+    "4XL": 49424770433259
+   }
+  },
+  {
+   "slug": "patent-royal-blue-on-royal-blue",
+   "style": "patent",
+   "color": "Royal Blue on Royal Blue",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-patent-royal-blue-on-royal-blue.jpg?v=1789613161",
+   "price": 11999,
+   "sizes": {
+    "XS": 49424770466027,
+    "S": 49424770498795,
+    "M": 49424770531563,
+    "L": 49424770564331,
+    "XL": 49424770597099,
+    "2XL": 49424770629867,
+    "3XL": 49424770662635,
+    "4XL": 49424770695403
+   }
+  },
+  {
+   "slug": "patent-black-on-black",
+   "style": "patent",
+   "color": "Black on Black",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/hf_20260705_235130_f2cf28b1-c758-468b-af76-bd54c1e775c0.png?v=1783297096",
+   "price": 11999,
+   "sizes": {
+    "XS": 49424834560235,
+    "S": 49424834593003,
+    "M": 49424834625771,
+    "L": 49424834658539,
+    "XL": 49424834691307,
+    "2XL": 49424834724075,
+    "3XL": 49424834756843,
+    "4XL": 49424834789611
+   }
+  },
+  {
+   "slug": "patent-red-on-red",
+   "style": "patent",
+   "color": "Red on Red",
+   "productHandle": "chozen-deuteronomy-22-5-maxi-jersey-dress",
+   "productStatus": "ACTIVE",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/hf_20260705_235503_1a91d305-552b-4e3e-8cf2-65a3a32d18ea.png?v=1783297096",
+   "price": 11999,
+   "sizes": {
+    "XS": 49424931094763,
+    "S": 49424931127531,
+    "M": 49424931160299,
+    "L": 49424931193067,
+    "XL": 49424931225835,
+    "2XL": 49424931258603,
+    "3XL": 49424931291371,
+    "4XL": 49424931324139
+   }
+  },
+  {
+   "slug": "satin-buttercup",
+   "style": "satin",
+   "color": "Buttercup",
+   "productHandle": "deuteronomy-22-5-satin-maxi-dress-buttercup",
+   "productStatus": "DRAFT",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/buttercup-deuteronomy22-v5-waterfront.png?v=1788232564",
+   "price": 12999,
+   "sizes": {
+    "XS": 49289485156587,
+    "S": 49289485189355,
+    "M": 49289485222123,
+    "L": 49289485254891,
+    "XL": 49289485287659,
+    "2XL": 49289485320427,
+    "3XL": 49289485353195,
+    "4XL": 49289485385963
+   },
+   "fringeSizes": {
+    "XS": 49289485418731,
+    "S": 49289485451499,
+    "M": 49289485484267,
+    "L": 49289485517035,
+    "XL": 49289485549803,
+    "2XL": 49289485582571,
+    "3XL": 49289485615339,
+    "4XL": 49289485648107
+   },
+   "fringePrice": 13999
+  },
+  {
+   "slug": "satin-pink",
+   "style": "satin",
+   "color": "Pink",
+   "productHandle": "deuteronomy-22-5-satin-maxi-dress-buttercup",
+   "productStatus": "DRAFT",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-satin-pink.jpg?v=1789613214",
+   "price": 12999,
+   "sizes": {
+    "XS": 49424770826475,
+    "S": 49424770957547,
+    "M": 49424771088619,
+    "L": 49424771219691,
+    "XL": 49424771350763,
+    "2XL": 49424771481835,
+    "3XL": 49424771612907,
+    "4XL": 49424771743979
+   },
+   "fringeSizes": {
+    "XS": 49424771875051,
+    "S": 49424772006123,
+    "M": 49424772137195,
+    "L": 49424772268267,
+    "XL": 49424772399339,
+    "2XL": 49424772530411,
+    "3XL": 49424772661483,
+    "4XL": 49424772792555
+   },
+   "fringePrice": 13999
+  },
+  {
+   "slug": "satin-lime",
+   "style": "satin",
+   "color": "Lime",
+   "productHandle": "deuteronomy-22-5-satin-maxi-dress-buttercup",
+   "productStatus": "DRAFT",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-satin-lime.jpg?v=1789613214",
+   "price": 12999,
+   "sizes": {
+    "XS": 49424770859243,
+    "S": 49424770990315,
+    "M": 49424771121387,
+    "L": 49424771252459,
+    "XL": 49424771383531,
+    "2XL": 49424771514603,
+    "3XL": 49424771645675,
+    "4XL": 49424771776747
+   },
+   "fringeSizes": {
+    "XS": 49424771907819,
+    "S": 49424772038891,
+    "M": 49424772169963,
+    "L": 49424772301035,
+    "XL": 49424772432107,
+    "2XL": 49424772563179,
+    "3XL": 49424772694251,
+    "4XL": 49424772825323
+   },
+   "fringePrice": 13999
+  },
+  {
+   "slug": "satin-tangerine",
+   "style": "satin",
+   "color": "Tangerine",
+   "productHandle": "deuteronomy-22-5-satin-maxi-dress-buttercup",
+   "productStatus": "DRAFT",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-satin-tangerine.jpg?v=1789613214",
+   "price": 12999,
+   "sizes": {
+    "XS": 49424770892011,
+    "S": 49424771023083,
+    "M": 49424771154155,
+    "L": 49424771285227,
+    "XL": 49424771416299,
+    "2XL": 49424771547371,
+    "3XL": 49424771678443,
+    "4XL": 49424771809515
+   },
+   "fringeSizes": {
+    "XS": 49424771940587,
+    "S": 49424772071659,
+    "M": 49424772202731,
+    "L": 49424772333803,
+    "XL": 49424772464875,
+    "2XL": 49424772595947,
+    "3XL": 49424772727019,
+    "4XL": 49424772858091
+   },
+   "fringePrice": 13999
+  },
+  {
+   "slug": "satin-lilac",
+   "style": "satin",
+   "color": "Lilac",
+   "productHandle": "deuteronomy-22-5-satin-maxi-dress-buttercup",
+   "productStatus": "DRAFT",
+   "image": "https://cdn.shopify.com/s/files/1/0779/5231/9723/files/deuteronomy-satin-lilac.jpg?v=1789613215",
+   "price": 12999,
+   "sizes": {
+    "XS": 49424770924779,
+    "S": 49424771055851,
+    "M": 49424771186923,
+    "L": 49424771317995,
+    "XL": 49424771449067,
+    "2XL": 49424771580139,
+    "3XL": 49424771711211,
+    "4XL": 49424771842283
+   },
+   "fringeSizes": {
+    "XS": 49424771973355,
+    "S": 49424772104427,
+    "M": 49424772235499,
+    "L": 49424772366571,
+    "XL": 49424772497643,
+    "2XL": 49424772628715,
+    "3XL": 49424772759787,
+    "4XL": 49424772890859
+   },
+   "fringePrice": 13999
+  }
+ ]
+}
