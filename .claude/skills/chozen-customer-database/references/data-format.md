@@ -77,6 +77,7 @@ Leads: same `customers` query with `query: "orders_count:0"`, selecting `display
 - `items[].amount`: `discountedTotalSet` for the line. Item amounts exclude tax and shipping, so they will not add up to the order total; that is expected.
 - `store` and `pulled_on` are printed in each profile's header. `currency` is informational: amounts are shown with `$`.
 - A date without a time is read as midnight UTC.
+- `excluded`: optional. Set to a short reason string (for example `"insider: owner decision 2026-01-15"`) only when Amoz has said to leave this record out. Excluded records get no folder and are left out of the index and totals; the script prints them separately so the order count still reconciles with Shopify.
 - `flags`: only flags you add by judgment (such as `insider_possible`). The script adds the rest.
 
 Channel names come from `source`: `web` Online store, `tiktok` TikTok Shop, `shopify_draft_order` Manual order (draft), `pos` Point of sale, and `279941` or an order name starting `ETSY_COM` Etsy. `3890849` is mapped to Shop app by inference from the "Login with Shop" tags on those customers, not from Shopify documentation. An unknown source shows as `Other (<value>)`; add it to `SOURCES` in the script once identified.

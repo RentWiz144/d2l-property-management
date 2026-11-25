@@ -148,6 +148,11 @@ def main():
             for field in ("name", "date", "total"):
                 if o.get(field) in (None, ""):
                     fail(f"an order for {c['name']} is missing '{field}'")
+    # Records the owner has ruled out (team, family, test accounts) get no folder and no stats.
+    excluded = [c for c in customers if c.get("excluded")]
+    customers = [c for c in customers if not c.get("excluded")]
+    if not customers:
+        fail("every customer is marked excluded")
     store = data.get("store") or "Shopify"
     pulled = data.get("pulled_on") or today.isoformat()
 
@@ -311,6 +316,11 @@ def main():
 
     print(f"{len(rows)} customers; {entered} orders entered ({entered - cancelled_n} completed, {cancelled_n} cancelled); "
           f"{money(sum(Decimal(r['Lifetime value']) for r in rows))} total lifetime value")
+    if excluded:
+        ex_orders = sum(len(c["orders"]) for c in excluded)
+        ex_ltv = sum((d(c["shopify_amount_spent"]) for c in excluded), Decimal(0))
+        print(f"Excluded by owner decision: {len(excluded)} record(s), {ex_orders} orders, {money(ex_ltv)} "
+              f"({'; '.join(str(c['excluded']) for c in excluded)})")
     if problems:
         shutil.rmtree(out)
         print("\nCHECKS FAILED, nothing was written. Compare customers.json with the Shopify response:")

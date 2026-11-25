@@ -86,8 +86,16 @@ Tell Amoz, in this order: the Drive link; how many customers, orders and total l
 | `no_email_on_file` | Manual order with no contact info | Add contact details in Shopify if known. |
 | `no_completed_orders` | Every order on the record was cancelled | Keep as a customer, or treat as a lead? |
 | `etsy_sync_date` | Etsy orders from different customers landed within 15 minutes of each other, so the true purchase date is earlier than shown | Tenure is understated; check Etsy for real dates. |
-| `insider_possible` | Address appears on internal business email | Keep, or exclude from customer stats? |
+| `insider_possible` | Address appears on internal business email | Keep, or exclude from customer stats? If Amoz says exclude, set `excluded` on the record (see `references/data-format.md`) and carry that forward on every refresh. |
 | `ltv_check_failed` / `order_count_check_failed` | Entered orders disagree with Shopify | The script refuses to write files; see step 2. |
+
+## Standing exclusions
+
+Decisions Amoz has already made. Apply them on every build without asking again.
+
+| Shopify customer ID | Decision | Date |
+|---|---|---|
+| 8773305532651 | Exclude from the customer database (insider, not a customer) | 2026-11-25 |
 
 ## Answering lookups
 
