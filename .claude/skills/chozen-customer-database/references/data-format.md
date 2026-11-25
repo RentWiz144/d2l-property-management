@@ -75,9 +75,11 @@ Leads: same `customers` query with `query: "orders_count:0"`, selecting `display
 - `shopify_amount_spent`, `shopify_order_count`: copied from Shopify as-is; the script checks the orders against them.
 - `date`: the order's `processedAt`. `source`: the order's `sourceName`. `cancelled`: true when `cancelledAt` is set.
 - `items[].amount`: `discountedTotalSet` for the line. Item amounts exclude tax and shipping, so they will not add up to the order total; that is expected.
+- `store` and `pulled_on` are printed in each profile's header. `currency` is informational: amounts are shown with `$`.
+- A date without a time is read as midnight UTC.
 - `flags`: only flags you add by judgment (such as `insider_possible`). The script adds the rest.
 
-Channel names come from `source`: `web` Online store, `tiktok` TikTok Shop, `shopify_draft_order` Manual order, order names starting `ETSY_COM` Etsy. `3890849` is mapped to Shop app by inference from the "Login with Shop" tags on those customers, not from Shopify documentation. An unknown source shows as `Other (<value>)`; add it to `SOURCES` in the script once identified.
+Channel names come from `source`: `web` Online store, `tiktok` TikTok Shop, `shopify_draft_order` Manual order (draft), `pos` Point of sale, and `279941` or an order name starting `ETSY_COM` Etsy. `3890849` is mapped to Shop app by inference from the "Login with Shop" tags on those customers, not from Shopify documentation. An unknown source shows as `Other (<value>)`; add it to `SOURCES` in the script once identified.
 
 ## messages/<customer_id>.json
 
@@ -91,12 +93,11 @@ Channel names come from `source`: `web` Online store, `tiktok` TikTok Shop, `sho
   "klaviyo": [
     {"date": "2025-06-10", "direction": "opened", "subject": "New arrivals"}
   ],
-  "klaviyo_status": "No Klaviyo profile for this address.",
-  "shopify": []
+  "klaviyo_status": "No Klaviyo profile for this address."
 }
 ```
 
-Each section is a list of entries; when the list is empty the matching `_status` line is printed instead, so always say why a section is empty. A section may also be a plain string for a short summary.
+Each section is a list of entries; when the list is empty the matching `_status` line is printed instead, so always say why a section is empty. A section may also be a plain string for a short summary. The Shopify notes section is filled in by the script from the customer and order notes in `customers.json`, so do not enter it here.
 
 ## leads.json
 
