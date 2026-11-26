@@ -45,7 +45,7 @@ node docs/chozen-system/tools/size-split.js --pieces N [--votes S=..,M=..]
 node docs/chozen-system/tools/size-split.js --preorders S=..,M=.. --buffer 10
 node docs/chozen-system/tools/test.js   # run if you touch the tools
 ```
-Any "!!" line is a hard stop until resolved; "note:" lines are information. Default drop day: Sunday or Monday evening. Use the tool's printed times for every send, since it moves Saturday sends to Saturday night after sundown so the copy stays true.
+Any "!!" line is a hard stop until resolved; "note:" lines are information. Default drop day: Sunday or Monday evening. Use the tool's printed times for every send: it moves sends off Shabbat and keeps texts in 8 AM–9 PM ET. Copy always names the day, never "tomorrow".
 
 ## Step 3: Draft, don't send
 - Copy comes from `messages.md`, filled from Worksheet 1, then passed through

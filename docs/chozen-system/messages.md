@@ -1,6 +1,6 @@
 # MESSAGE LIBRARY: every word, in the order it goes
 
-Swap the [brackets]. Keep subject lines lowercase (they read like a friend, not an ad). One job and one button per email. Texts under 160 characters, **ChoZen** first so they know who it is. Every message passes through `chozen-humanizer` and Amoz's yes before it goes out. Nothing sends during Shabbat.
+Swap the [brackets]. Name the day ("Sunday at 7 PM"), never "tomorrow" or "3 days": `drop-calendar.js` may move a send off Shabbat or out of late-night hours, and the day name stays true. Keep subject lines lowercase (they read like a friend, not an ad). One job and one button per email. Texts under 160 characters, **ChoZen** first so they know who it is. Every message passes through `chozen-humanizer` and Amoz's yes before it goes out. Nothing sends during Shabbat.
 
 **Greeting:** default to "[Peace / Shalom] [name]". Amoz picks one and it stays the house greeting.
 
@@ -26,15 +26,15 @@ Swap the [brackets]. Keep subject lines lowercase (they read like a friend, not 
 |---|---|---|
 | 0 | On signup | ChoZen: You're on the list for the [piece]. You shop before everybody on [date] at [time] ET. Reply STOP to opt out. |
 | 1 | Announce (≈9 days out) | ChoZen: The [piece] drops [day] at [time] ET. You're on the list, so you shop first. Set a reminder. |
-| 2 | 3 days out | ChoZen: 3 days. Here's the [piece] again: [photo]. Numbered, made only for this pre-order. Know your size: [size chart] |
-| 3 | 24h out | ChoZen: Tomorrow, [time] ET. Your early-access link comes here first. Don't sleep on it. |
+| 2 | ~3 days out (tool time) | ChoZen: [Day] at [time] ET. Here's the [piece] again: [photo]. Numbered, made only for this pre-order. Know your size: [size chart] |
+| 3 | ~24h out (tool time) | ChoZen: [Day], [time] ET. Your early-access link comes here first. Don't sleep on it. |
 | 4 | **Drop time** | ChoZen: It's live for the list only. You got first shot: [link] |
 | 5 | +15 min | ChoZen: Open to everybody now. If you were waiting, this is it: [link] |
 | 6 | Hours later (**only if true**) | ChoZen: [Size/piece] is almost gone. If you wanted one, now's the time: [link] |
 | 7 | Next morning | ChoZen: Thank you for showing up for this one. If you got yours, tag us when it lands. Next drop, you're first again. |
-| W | Window close −24h (if open) | ChoZen: Pre-order window closes tomorrow [time] ET. After that, the numbered run is locked: [link] |
+| W | Window close −24h (tool time) | ChoZen: Pre-order window closes [Day] at [time] ET. After that, the run is locked: [link] |
 
-Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to opt out" on the first text, then at least once a month · only to people who checked the box.
+Text rules: only between 8 AM and 9 PM ET (the tool checks this) · under 160 characters when you can · ChoZen first · "Reply STOP to opt out" on the first text, then at least once a month · only to people who checked the box.
 
 ---
 
@@ -56,18 +56,18 @@ Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to 
 > It's a **pre-order: every piece numbered, made only for the people who order. Ships [date range].** Sizes [S–6XL]. $[price]. Know your size before drop day.
 > **[ SEE THE SIZE CHART ]**
 
-**Email 3 · 3 days out** · *3 days. here's how it works* / so you don't miss it
+**Email 3 · ~3 days out** · *almost here. here's how it works* / so you don't miss it
 > Quick one so you don't miss it.
 > 1. [Day] at [time] ET, your early-access link lands in your texts and here.
 > 2. You get 15 minutes before anybody else.
-> 3. Then it opens to everybody. The pre-order window stays open [N] days, or until the numbered run is gone.
+> 3. Then it opens to everybody. The pre-order window stays open until [Day, date] at [time] ET [only if a real cap is set: or until all [MAX] are claimed].
 > Do two things now:
 > • Save our number as ChoZen so our texts don't get muted.
 > • Check your size: [size chart link]
 > See you [day].
 
-**Email 4 · 24h out** · *tomorrow at [time]* / your link comes first
-> Tomorrow at **[time] ET** your link comes here first.
+**Email 4 · ~24h out** · *[day] at [time]* / your link comes first
+> **[Day] at [time] ET** your link comes here first.
 > Get ready tonight:
 > • Pick your size: [size chart link]
 > • Save your card in your phone so checkout takes seconds
@@ -96,7 +96,7 @@ Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to 
 > Questions? Reply here. A real person reads it.
 
 **Your number (window close day)** · *you're #[number]*
-> The window's closed. [N] made, and yours is **#[number]**. Still on track to ship **[date range]**.
+> The window's closed. [Orders] people ordered, and yours is **#[number] of [Orders]**. Still on track to ship **[date range]**.
 
 **Delay notice (same day the delay is known; if during Shabbat, right after Saturday sundown)** · *an honest update on your order*
 > I owe you a straight answer: your [piece] will ship **[new date]**, not [old date]. Here's why: [one true sentence].

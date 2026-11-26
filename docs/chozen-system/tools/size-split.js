@@ -6,7 +6,11 @@
 const CPO_CURVE = { S: 1, M: 1, L: 2, XL: 3, '2XL': 2, '3XL': 1 };
 
 function parseMap(s) {
-  return Object.fromEntries(s.split(',').map(kv => { const [k, v] = kv.split('='); return [k.trim(), Number(v)]; }));
+  return Object.fromEntries(s.split(',').map(kv => {
+    const [k, v] = kv.split('='); const n = Number(v);
+    if (!k || !Number.isFinite(n) || n < 0) throw new Error(`bad entry "${kv}" (use SIZE=NUMBER)`);
+    return [k.trim().toUpperCase(), n];
+  }));
 }
 
 // Largest-remainder allocation so pieces always sum exactly to total.
@@ -39,7 +43,7 @@ function preorderRun(orders, bufferPct) {
     make: orders[k] + (extra[k] ? extra[k].pieces : 0) }]));
 }
 
-module.exports = { allocate, preorderRun, CPO_CURVE, NO_BUFFER };
+module.exports = { allocate, preorderRun, parseMap, CPO_CURVE, NO_BUFFER };
 
 if (require.main === module) {
   const a = process.argv.slice(2), get = f => { const i = a.indexOf(f); return i >= 0 ? a[i + 1] : null; };

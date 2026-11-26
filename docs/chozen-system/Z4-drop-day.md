@@ -27,7 +27,7 @@ Entry tees / supporting pieces: in-stock or POD, regular shipping. Label them cl
 | **+15 min** | Open to everybody (Option A: remove the password) · **Text 5** · story: "Open to everybody" | Claude sends on Amoz's yes / Amoz |
 | **A few hours later** | **Text 6 + Email 6 ONLY if true** (real counts) · screenshot sales for content · answer every DM | Amoz / Wife |
 | **Next morning** | **Text 7** thank-you · thank-you story · POD/in-stock orders start the Z5 batch | Amoz / Son |
-| **Window close −24h** (the tool moves it out of Shabbat) | "Window closes tomorrow" text + email | Claude sends on Amoz's yes |
+| **Window close −24h** (the tool moves it out of Shabbat) | "Window closes [Day] at [time]" text + email | Claude sends on Amoz's yes |
 | **Window close** | Pre-order closes · count the orders · start Z5 | Son + Amoz |
 
 Copy for every send: [messages.md](messages.md).

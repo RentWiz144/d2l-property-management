@@ -30,12 +30,26 @@ for (const drop of ['2027-01-10T19:00', '2027-03-14T19:00', '2027-06-20T19:00', 
 const mar = build('2027-03-14T19:00', 7).timeline.find(t => t.what.startsWith('Window close -24h'));
 assert(/Sat, 3\/20, 8:13 PM/.test(mar.when), 'reminder moved after sundown: ' + mar.when);
 // A send moved off Shabbat must stay before the drop (copy stays true).
-const jun = build('2027-06-20T19:00', 7).rows.find(r => r.day === 29);
-assert(/Sat, 6\/19, 9:4\d PM/.test(jun.date), '24h text Saturday night: ' + jun.date);
 assert.throws(() => build('2027-01-12T19:00', NaN), /whole number/, 'NaN window rejected');
 assert(build('2027-01-16T12:00').errors.some(e => e.includes('inside Shabbat')), 'Shabbat drop rejected');
 assert(build('2027-01-15T12:00').errors.some(e => e.includes('Friday drop')), 'Friday drop rejected');
 assert.strictEqual(build('2027-01-14T19:00', 10).errors.length, 0, 'Thursday is a note, not a stop');
 assert(build('2027-01-14T19:00', 9).errors.some(e => e.includes('closes Sat')), 'Sat close flagged');
 assert.strictEqual(build('2027-01-12T19:00', 7).errors.length, 0, 'Tue drop + 7-day window is clean');
+// Second-pass findings
+assert(build('2027-07-17T22:00', 8).errors.some(e => e.includes('Saturday drop')), 'Saturday drop rejected (N1)');
+assert(build('2027-01-16T19:00', 8).errors.some(e => e.includes('Saturday drop')), 'Saturday-night drop rejected');
+assert(build('2027-01-10T22:00', 7).errors.some(e => e.includes('8 AM and 8:45 PM')), 'late drop rejected (N2)');
+// Summer Sunday drop: Saturday-night sends would be after 9 PM -> fall back to Friday before sundown (N2/N4)
+const sum = build('2027-06-20T19:00', 7);
+assert.strictEqual(sum.errors.length, 0, 'summer Sunday drop clean: ' + sum.errors.join('; '));
+const t3 = sum.rows.find(r => r.day === 29);
+assert(/^Fri, 6\/18/.test(t3.date) && /Friday sundown/.test(t3.note), 'summer Text 3 falls back to Friday: ' + t3.date);
+const rem = sum.timeline.find(t => t.what.startsWith('Window close -24h'));
+assert(/^Fri, 6\/25/.test(rem.when), 'summer reminder falls back to Friday: ' + rem.when);
+const few = sum.timeline.find(t => t.what.startsWith('Few hours'));
+assert(/8:45 PM/.test(few.when), 'Text 6 capped at 8:45 PM: ' + few.when);
+// Lowercase sizes normalized so the S/3XL no-buffer rule holds (N5)
+const lc = preorderRun(require('./size-split').parseMap('s=5,m=9,l=14,3xl=4'), 10);
+assert.strictEqual(lc.S.buffer + lc['3XL'].buffer, 0, 'lowercase sizes normalized');
 console.log('all tests passed');

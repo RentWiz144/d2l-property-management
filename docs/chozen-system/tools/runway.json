@@ -158,7 +158,7 @@
  {
   "daysBefore": 1,
   "type": "send",
-  "task": "Text 3 (24h). Email 4. FINAL CHECK: send every text + email to yourself first; links, sizes, cap, ship window on PDP + cart + emails; date/time/zone in every message.",
+  "task": "Text 3 + Email 4 (final checks are the drop-week 'Day before' row).",
   "critical": true
  },
  {

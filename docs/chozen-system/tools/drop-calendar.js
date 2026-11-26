@@ -6,6 +6,8 @@ const { sunsetUTC, detroitParts, detroitToUTC, isShabbat, fmtTime } = require('.
 const PLAN = require('./runway.json');
 const MARGIN_MIN = 60;   // Friday work must finish this long before sundown
 const AFTER_MIN = 30;    // Saturday-night sends go out this long after sundown
+const QUIET_START = 8 * 60, QUIET_END = 21 * 60; // texts only 8 AM-9 PM ET (common US quiet hours; verify for your list)
+const inHours = dt => { const p = detroitParts(dt); const t = p.hh * 60 + p.mm; return t >= QUIET_START && t <= QUIET_END; };
 
 function addDays(y, m, d, n) {
   const t = new Date(Date.UTC(y, m - 1, d + n));
@@ -27,9 +29,9 @@ function safeSend(at, deadline) {
   const p = detroitParts(at);
   const sat = p.wd === 'Sat' ? p : addDays(p.y, p.m, p.d, 1);
   const satNight = addMin(sunsetUTC(sat.y, sat.m, sat.d), AFTER_MIN);
-  if (!deadline || satNight < deadline) return { at: satNight, note: 'moved to Saturday night, 30 min after sundown' };
+  if ((!deadline || satNight < deadline) && inHours(satNight)) return { at: satNight, note: 'moved to Saturday night, 30 min after sundown' };
   const fri = p.wd === 'Fri' ? p : addDays(sat.y, sat.m, sat.d, -1);
-  return { at: addMin(sunsetUTC(fri.y, fri.m, fri.d), -MARGIN_MIN), note: 'moved to 1h before Friday sundown' };
+  return { at: addMin(sunsetUTC(fri.y, fri.m, fri.d), -MARGIN_MIN), note: 'moved to 1h before Friday sundown (copy uses the day name, so it stays true)' };
 }
 
 function build(dropLocal, windowDays = 7) {
@@ -43,7 +45,8 @@ function build(dropLocal, windowDays = 7) {
   const dropAt = detroitToUTC(y, m, d, hh, mm);
   const dp = detroitParts(dropAt);
   if (isShabbat(dropAt)) errors.push('Drop time falls inside Shabbat. Pick Sunday-Thursday.');
-  if (dp.wd === 'Fri') errors.push('Friday drop: not allowed (COO: never Friday/Saturday). Pick Sunday or Monday.');
+  if (dp.wd === 'Fri' || dp.wd === 'Sat') errors.push(`${dp.wd === 'Fri' ? 'Friday' : 'Saturday'} drop: not allowed (COO: never Friday/Saturday). Pick Sunday or Monday.`);
+  if (!inHours(dropAt) || !inHours(addMin(dropAt, 15))) errors.push('Drop time must be between 8 AM and 8:45 PM ET so Texts 4 + 5 land inside texting hours.');
   if (dp.wd !== 'Sun' && dp.wd !== 'Mon') notes.push(`${dp.wd} drop is allowed, but the ChoZen default is Sunday or Monday (COO/CMO): a full work week of fulfillment before Shabbat.`);
   if (windowDays < 7 || windowDays > 10) errors.push('Pre-order window must be 7-10 days (CPO rule).');
   const close = addDays(y, m, d, windowDays);
@@ -60,6 +63,7 @@ function build(dropLocal, windowDays = 7) {
     if (task.type === 'send' || task.type === 'drop') {
       const s = safeSend(at, dropAt); at = s.at; note = s.note;
       if (isShabbat(at)) errors.push(`Day ${30 - task.daysBefore} send could not be made Shabbat-safe.`);
+      if (!inHours(at)) errors.push(`Day ${30 - task.daysBefore} send lands outside 8 AM-9 PM ET (${fmtFull(at)}).`);
     } else {
       const wd = detroitParts(at).wd;
       if (wd === 'Sat') { const n = addDays(day.y, day.m, day.d, 1); at = detroitToUTC(n.y, n.m, n.d, 12, 0); note = 'moved from Sat -> Sun'; }
@@ -76,14 +80,15 @@ function build(dropLocal, windowDays = 7) {
     ['Day before: test order, link check, schedule sends (Z4)', detroitToUTC(dayBefore.y, dayBefore.m, dayBefore.d, 12, 0), dropAt],
     ['Drop: unlock for the list, Text 4 + Email 5', dropAt, null],
     ['+15 min: open to everybody, Text 5', addMin(dropAt, 15), null],
-    ['Few hours later: Text 6 + Email 6 (only if true)', addMin(dropAt, 180), null],
+    ['Few hours later: Text 6 + Email 6 (only if true)', (() => { const cap = detroitToUTC(y, m, d, 20, 45); const t = addMin(dropAt, 180); return t > cap ? cap : t; })(), null],
     ['Next morning: Text 7 thank-you', (() => { const n = addDays(y, m, d, 1); return detroitToUTC(n.y, n.m, n.d, 10, 0); })(), null],
     ['Window close -24h reminder (only if open)', addMin(closeAt, -1440), closeAt],
     ['Window closes', closeAt, null],
   ].map(([what, at, deadline]) => {
     if (what.startsWith('Day before')) {
-      // prep work, not a send: if Saturday, do it Friday before sundown
+      // prep work, not a send: if Saturday (or Friday), finish Friday before sundown
       const p = detroitParts(at);
+      if (p.wd === 'Fri') return { what, when: `Fri ${p.m}/${p.d} by ${fmtTime(addMin(sunsetUTC(p.y, p.m, p.d), -MARGIN_MIN))}`, note: '1h before sundown' };
       if (p.wd === 'Sat') { const f = addDays(p.y, p.m, p.d, -1); return { what, when: `Fri ${f.m}/${f.d} by ${fmtTime(addMin(sunsetUTC(f.y, f.m, f.d), -MARGIN_MIN))}`, note: 'Saturday is Shabbat: do it Friday' }; }
       return { what, when: `${p.wd} ${p.m}/${p.d}`, note: '' };
     }
@@ -93,6 +98,8 @@ function build(dropLocal, windowDays = 7) {
     }
     const s = safeSend(at, deadline);
     if (isShabbat(s.at)) errors.push(`${what} could not be made Shabbat-safe.`);
+    if (!inHours(s.at)) errors.push(`${what} lands outside 8 AM-9 PM ET texting hours (${fmtFull(s.at)}).`);
+    if (what.startsWith('Few hours') && s.at - dropAt < 45 * 60000) s.note = 'too close to the drop: skip, or fold into Text 7 next morning (only if true)';
     return { what, when: fmtFull(s.at), note: s.note };
   });
   return { dropAt, closeAt, rows, timeline, errors, notes };

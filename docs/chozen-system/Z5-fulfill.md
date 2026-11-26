@@ -11,7 +11,7 @@
    node docs/chozen-system/tools/size-split.js --preorders S=4,M=9,L=14,XL=11,2XL=6,3XL=3 --buffer 10
    ```
    The buffer covers defects and exchanges only (no restock on drop items). The tool caps it at 10% and never puts buffer on S or 3XL+ (CPO: never stock those speculatively); those are made to order only.
-3. Assign numbers: order sequence → numbered tag (e.g., 001/N, N = final run). Log them in the notes sheet and email each buyer their number (template: "your number", messages.md).
+3. Assign numbers: order sequence → numbered tag (e.g., 001/[orders]; buffer pieces are not numbered for sale). Log them in the notes sheet and email each buyer their number (template: "your number", messages.md).
 4. Place production. Get a written completion date. **If it's later than the promised ship window → same-day delay notice (messages.md) with a cancel option** (learned during Shabbat → first thing after Saturday sundown). Hard stop.
 
 ## B. Make it (hand-finished in Detroit)
@@ -28,7 +28,7 @@
 6. **No sessions and no marketing sends from Friday sundown to Saturday sundown.** Automatic carrier/transactional notices follow Amoz's store-open vs. fully-closed decision (README Law 1).
 
 ## D. Customer care (Wife, off macros)
-Gorgias Starter (or the Shopify inbox) + 10 macros: order status · pre-order ship date · exchange · return · restock/waitlist · shipping delay · damaged item · wrong address · event question · wholesale. Answer within 24h (Etsy Star Seller counts this). Every macro is humanized.
+Gorgias Starter (or the Shopify inbox) + 10 macros: order status · pre-order ship date · exchange · return · sold out → next-drop list · shipping delay · damaged item · wrong address · event question · wholesale. Answer within 24h (Etsy Star Seller counts this). Every macro is humanized.
 
 ## E. Inventory truth
 - One ledger: Shopify (online + Etsy sync + POS at events).

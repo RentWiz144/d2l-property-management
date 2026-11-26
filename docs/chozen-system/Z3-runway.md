@@ -6,7 +6,7 @@
 ```bash
 node docs/chozen-system/tools/drop-calendar.js --drop 2027-01-10T19:00 --window 7 --md
 ```
-It prints every task with a real date and the full drop-week timeline. Saturday content moves to Sunday. A Saturday send goes out **Saturday night, 30 min after sundown**, so "tomorrow" and "3 days" stay true. Friday work must finish an hour before sundown. It refuses ("!!") a Friday/Saturday drop, a window close on or next to Shabbat, and any send it can't make Shabbat-safe. "note:" lines are information only.
+It prints every task with a real date and the full drop-week timeline. Saturday content moves to Sunday. A Saturday send goes out **Saturday night, 30 min after sundown**, so timing stays close to plan. Friday work must finish an hour before sundown. Texts land only 8 AM–9 PM ET; if a Saturday-night send would be later than 9 PM (summer), it falls back to Friday before sundown, and the copy names the day, so it stays true. Drop time must be 8 AM–8:45 PM ET. It refuses ("!!") a Friday/Saturday drop, a window close on or next to Shabbat, any send it can't make Shabbat-safe, and any text outside texting hours. "note:" lines are information only.
 
 **Pick the drop day:** Sunday or Monday evening (COO/CMO): a full work week to fulfill before Shabbat, on a fixed monthly cadence. Tuesday–Thursday is allowed (the tool prints a note). Never Friday or Saturday.
 
@@ -47,7 +47,7 @@ Types: **story** · **post** · **live** (max 2, ≤30 min, seated) · **list** 
 | 24 | Mon 1/4 | batch | BATCH DAY: pre-write sold-out + window-closed + weekly-update emails; Gorgias macros loaded. |  |
 | 27 | Thu, 1/7, 7:00 PM | send | Text 2 (3 days). Email 3 'here's how it works'. |  |
 | 28 | Fri 1/8 | story | Countdown sticker on story + repost your best video. 'How early access works': list first, public 15 min later, window closes [date]. | finish by 4:16 PM EST (1h before sundown) |
-| 29 | Sat, 1/9, 7:00 PM | send | Text 3 (24h). Email 4. FINAL CHECK: send every text + email to yourself first; links, sizes, cap, ship window on PDP + cart + emails; date/time/zone in every message. |  |
+| 29 | Sat, 1/9, 7:00 PM | send | Text 3 + Email 4 (final checks are the drop-week 'Day before' row). |  |
 | 30 | Sun, 1/10, 7:00 PM | drop | DROP DAY. Run Z4 exactly. |  |
 
 **Drop week**
@@ -57,7 +57,7 @@ Types: **story** · **post** · **live** (max 2, ≤30 min, seated) · **list** 
 | Day before: test order, link check, schedule sends (Z4) | Fri 1/8 by 4:16 PM EST | Saturday is Shabbat: do it Friday |
 | Drop: unlock for the list, Text 4 + Email 5 | Sun, 1/10, 7:00 PM |  |
 | +15 min: open to everybody, Text 5 | Sun, 1/10, 7:15 PM |  |
-| Few hours later: Text 6 + Email 6 (only if true) | Sun, 1/10, 10:00 PM |  |
+| Few hours later: Text 6 + Email 6 (only if true) | Sun, 1/10, 8:45 PM |  |
 | Next morning: Text 7 thank-you | Mon, 1/11, 10:00 AM |  |
 | Window close -24h reminder (only if open) | Sat, 1/16, 7:00 PM |  |
 | Window closes | Sun, 1/17, 7:00 PM |  |
