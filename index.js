@@ -16,6 +16,10 @@
  *                                                           # multi-shot list for a Reel
  *   node index.js --moves-list                              # list camera moves
  *
+ * Shoot Day (the seven shots):
+ *   node index.js --shoot-day "Unshaken tee:standard,Satin maxi:womens,Windbreaker:athletic"
+ *   node index.js --shoot-day "Unshaken tee" --shots hero,detail,phone
+ *
  * Output: the full assembled scene prompt, ready to paste into any AI image generator.
  */
 
@@ -29,6 +33,7 @@ const {
   movesFor,
 } = require("./src/generator");
 const { MOVES } = require("./src/modules/CameraMove");
+const { buildShootDay, toMarkdown } = require("./src/shoots/SevenShots");
 
 function flagValue(args, flag) {
   const i = args.indexOf(flag);
@@ -71,6 +76,23 @@ function run() {
       console.log(`      best for: ${m.bestFor.join(", ")}`);
     });
     console.log();
+    return;
+  }
+
+  const shootDay = flagValue(args, "--shoot-day");
+  if (shootDay) {
+    try {
+      const garments = shootDay.split(",").map(x => x.trim()).filter(Boolean).map(x => {
+        const [name, line] = x.split(":").map(y => y.trim());
+        return { name, line: line || "standard" };
+      });
+      const shots = flagValue(args, "--shots");
+      const only = shots ? shots.split(",").map(x => x.trim()).filter(Boolean) : undefined;
+      console.log(toMarkdown(buildShootDay(garments, { only })));
+    } catch (err) {
+      console.error(`Error: ${err.message}`);
+      process.exit(1);
+    }
     return;
   }
 

@@ -24,6 +24,7 @@ ChoZen Publisher does.
 | Visual Studio (cards artifact) | `content-system/visual-studio.html` — live at https://claude.ai/artifact/TK9TXCCfmsNQMAh7vbjtvh | Handoff JSON → 4:5 / 1:1 / 9:16 PNG cards |
 | Shot Director | `src/modules/CameraMove.js` | `node index.js --preset <p> --moves tracking,whip-pan,pull-back` |
 | Content mix | `content-system/content-mix.json` | The three content types and their % |
+| Shoot Day | `src/shoots/SevenShots.js` | `node index.js --shoot-day "Tee:standard,Maxi:womens"` — 7 shots per garment |
 
 ## Workflow
 
@@ -40,7 +41,8 @@ ChoZen Publisher does.
 4. **Design.** Static posts → Visual Studio. Brand look comes from the ChoZen design system
    (black/void, chrome, silver, navy, blue/glow; Orbitron + Exo 2). Worn product in any
    image must pass the garment law (see `chozen-autopost/references/brand-law-preflight.md`).
-5. **Shoot.** Video posts carry `camera_moves`. Run the Shot Director with the same preset
+5. **Shoot.** Plan the photo/video day with the seven shots (`references/shoot-day.md`) —
+   one day, every funnel layer, Brand Law checklist per garment line. Video posts carry `camera_moves`. Run the Shot Director with the same preset
    for every clip of one Reel so the identity lock holds; see `references/shot-director.md`.
 6. **Hand off.** Export `chozen-plan.json` (`references/handoff-schema.md`) to ChoZen
    Publisher. Publisher attaches media, verifies scripture, runs Brand Law pre-flight,
@@ -57,6 +59,10 @@ ChoZen Publisher does.
 - Pronunciation: "ChoZen" = "chosen" in any voiceover or generated speech.
 
 ## Open items
+
+- MNTO's own seven shots are in their paid "Shoot Day" PDF — the list here is ChoZen's own.
+- Garment law for jackets/hoodies: brand-law-preflight says shirts AND jackets carry fringes;
+  a Nov 2026 note in the Sophie skill says jackets and hoodies are exempt. Confirm which rules.
 
 - Dee's three content types (DM-gated) — replace the placeholder mix.
 - ChoZen Publisher (`chozen-publisher-pi.vercel.app`, Next.js + Postgres, `x-api-key` auth,

@@ -9,6 +9,7 @@ Built from three concepts:
 | Content Globe planner | AI Savvy Founders (v1.0, 24 Nov 2026) | Brief → Reddit research → idea globe → calendar → writers → humanizer → export. Rebuilt for ChoZen; their code was not copied. |
 | 3 types of content | `deebuildsbiz` reel | A fixed three-type mix enforced across the calendar. **The breakdown is DM-gated — the current mix is a placeholder** (`content-mix.json`). |
 | 4 camera moves | `red.voss` reel | Tracking, orbit, whip pan, pull back as the Scene Generator's Shot Director layer. |
+| Shoot Day / seven shots | MNTO Studios playbook ($7 PDF, not purchased) | A seven-shot list per garment covering the whole funnel. **ChoZen's own seven** — MNTO's are behind the purchase. |
 
 ## Pieces
 
@@ -17,6 +18,7 @@ Built from three concepts:
 | **Content Globe** (planner) | `content-globe.html` · published: https://claude.ai/artifact/GtCTLC4TqDh4FjZZTfEgUR | claude.ai (asks Claude; optional Parallel Search connector) |
 | **Visual Studio** (cards) | `visual-studio.html` · published: https://claude.ai/artifact/TK9TXCCfmsNQMAh7vbjtvh | claude.ai or any browser |
 | **Shot Director** (video prompts) | `src/modules/CameraMove.js` | `node index.js --preset authority --moves tracking,whip-pan,pull-back` |
+| **Shoot Day** (seven shots) | `src/shoots/SevenShots.js` | `node index.js --shoot-day "Unshaken tee:standard,Satin maxi:womens"` |
 | **Skill** | `.claude/skills/chozen-content-system/` | Claude Code / Cowork |
 
 ## Flow
