@@ -6,7 +6,11 @@
       "mcp__Windsor_ai__execute_action",
       "mcp__Windsor_ai_for_E-commerce__execute_action",
       "mcp__Windsor_ai_for_Social_Media__execute_action",
-      "mcp__Windsor_ai_for_Web_Analytics__execute_action"
+      "mcp__Windsor_ai_for_Web_Analytics__execute_action",
+      "Bash(node brand/textures/generate.js *--confirm*)",
+      "Bash(node ./brand/textures/generate.js *--confirm*)",
+      "Bash(curl *kie.ai*)",
+      "WebFetch(domain:api.kie.ai)"
     ]
   }
 }
