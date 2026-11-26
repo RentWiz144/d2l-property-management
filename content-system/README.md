@@ -1,6 +1,6 @@
 # ChoZen Content System
 
-One brief in → a researched, mixed, Sabbath-safe month of platform-native posts → on-brand cards and shot lists → a handoff file for ChoZen Publisher.
+One brief in → up to 40 researched, mixed, Sabbath-safe platform-native posts (≤31 days per run) → on-brand cards and shot lists → a handoff file for ChoZen Publisher.
 
 Built from three concepts:
 
@@ -33,4 +33,6 @@ Built from three concepts:
 - Best times: Mon–Fri FB/TikTok/IG/Threads from ChoZen's history; Sunday reuses Monday; **YouTube and X times are assumed** and flagged "time assumed" per post.
 - Scripture references are always exported `scripture_verified: false`.
 - Caps: 40 posts and 31 days per run, as in the original planner.
-- The handoff schema is `chozen-content-system/plan@1` (see the skill's `references/handoff-schema.md`). **ChoZen Publisher's own input format was not available in this repo; confirm it matches.**
+- The handoff schema is `chozen-content-system/plan@1` (see the skill's `references/handoff-schema.md`). **ChoZen Publisher's source is only on Amoz's Mac; its `POST /api/posts` body is unconfirmed until that code is on GitHub.**
+- Instagram feed crops to 4:5 — use 9:16 cards for Reels/Stories only. Publisher has no carousel support yet.
+- Installed alongside (from fable-brain): `chozen-autopost` (with fable-brain's corrected `engine-setup.md`), `chozen-creator-os`, `humanized-writing`.

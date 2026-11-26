@@ -34,8 +34,9 @@ ChoZen Publisher does.
    session without the artifact — produce the same output by hand: one idea per posting
    day, native versions per platform, types assigned to hold the mix.
 3. **Time it.** Use the timing table in `chozen-social-command`. Every slot passes the
-   computed Sabbath guard (`chozen-autopost/scripts/sundown_guard.py`, or the planner's
-   identical JS port). User-facing copy says "Sabbath", not "Shabbat".
+   computed Sabbath guard (`.claude/skills/chozen-autopost/scripts/sundown_guard.py`, or the
+   planner's JS port — same window to the millisecond; its next-safe slot is window end
+   +15 min rounded to 5, vs the Python's +5). User-facing copy says "Sabbath", not "Shabbat".
 4. **Design.** Static posts → Visual Studio. Brand look comes from the ChoZen design system
    (black/void, chrome, silver, navy, blue/glow; Orbitron + Exo 2). Worn product in any
    image must pass the garment law (see `chozen-autopost/references/brand-law-preflight.md`).
@@ -58,5 +59,9 @@ ChoZen Publisher does.
 ## Open items
 
 - Dee's three content types (DM-gated) — replace the placeholder mix.
-- ChoZen Publisher's input format was not in this repo — confirm the handoff schema with it.
+- ChoZen Publisher (`chozen-publisher-pi.vercel.app`, Next.js + Postgres, `x-api-key` auth,
+  hourly cron) — its source is only on Amoz's Mac. Once it is pushed to GitHub, map
+  `plan@1` onto its `POST /api/posts` body. Known limits: no Instagram carousels; IG feed
+  crops to 4:5, so 9:16 cards are for Reels/Stories only.
+- One run is capped at 40 posts; a full month on 4 platforms needs two runs.
 - YouTube and X best times are assumed until the ledger has data.

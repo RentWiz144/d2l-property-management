@@ -49,7 +49,7 @@ details summary{cursor:pointer;color:var(--blue);min-height:32px}
 <main class="band"><div class="wrap">
   <div class="strip">
     <div><label for="file">Plan file <span class="small">(publisher handoff .json)</span></label><input type="file" id="file" accept=".json,application/json"></div>
-    <div><label for="fmt">Format</label><select id="fmt"><option value="post">Post 4:5 (1080×1350)</option><option value="square">Quote card 1:1 (1080×1080)</option><option value="story">Reel cover / story 9:16 (1080×1920)</option></select></div>
+    <div><label for="fmt">Format</label><select id="fmt"><option value="post">Post 4:5 (1080×1350)</option><option value="square">Quote card 1:1 (1080×1080)</option><option value="story">Reel cover / story 9:16 (1080×1920) — not for the IG feed</option></select></div>
     <div><label for="tpl">Style</label><select id="tpl"><option value="chrome">Chrome verdict</option><option value="navy">Navy slab</option><option value="photo">Photo overlay</option></select></div>
     <div><label for="photos">Photos <span class="small">optional, for Photo overlay</span></label><input type="file" id="photos" accept="image/*" multiple></div>
     <div><label for="logo">Logo <span class="small">optional PNG/SVG</span></label><input type="file" id="logo" accept="image/*"></div>
@@ -77,11 +77,14 @@ const grain = (() => { const g = document.createElement("canvas"); g.width = g.h
     im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = Math.random() * 26 * (0.4 + cluster); }
   x.putImageData(im, 0, 0); return g; })();
 
-function wrap(ctx, text, maxW) { const words = String(text).split(/\s+/).filter(Boolean), lines = []; let line = "";
+function wrap(ctx, text, maxW) { const words = [], lines = []; let line = "";
+  for (const w of String(text).split(/\s+/).filter(Boolean)) { // break words wider than the box
+    if (ctx.measureText(w).width <= maxW) { words.push(w); continue; } let part = "";
+    for (const ch of w) { if (ctx.measureText(part + ch + "-").width > maxW && part) { words.push(part + "-"); part = ch; } else part += ch; } if (part) words.push(part); }
   for (const w of words) { const t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
   if (line) lines.push(line); return lines; }
 function fit(ctx, text, family, weight, maxW, maxH, start, min) { // shrink until it fits; report if it never does
-  for (let s = start; s >= min; s -= 4) { ctx.font = `${weight} ${s}px ${family}`; const lines = wrap(ctx, text, maxW); if (lines.length * s * 1.12 <= maxH) return {size: s, lines, cut: false}; }
+  for (let s = start; s >= min; s -= 4) { ctx.font = `${weight} ${s}px ${family}`; const lines = wrap(ctx, text, maxW); if (lines.length * s * 1.12 <= maxH) return {size: s, lines, cut: lines.some(l => /-$/.test(l) && !/-$/.test(String(text)))}; }
   ctx.font = `${weight} ${min}px ${family}`; const lines = wrap(ctx, text, maxW), keep = Math.max(1, Math.floor(maxH / (min * 1.12)));
   return {size: min, lines: lines.slice(0, keep).map((l, i, a) => i === a.length - 1 && lines.length > keep ? l.replace(/\s*\S*$/, "…") : l), cut: lines.length > keep}; }
 
@@ -140,14 +143,15 @@ $("all").addEventListener("click", async () => {
   const fmt = $("fmt").value, zip = new JSZip(), cvs = [...$("grid").querySelectorAll("canvas")];
   for (let i = 0; i < cvs.length; i++) { const b = await new Promise(r => cvs[i].toBlob(r, "image/png")); zip.file(`${cards[i].file}-${fmt}.png`, b); }
   const blob = await zip.generateAsync({type: "blob"});
-  if (downloads) { try { await downloads.save({filename: `chozen-cards-${fmt}.zip`, data: blob}); return; } catch (_) {} }
+  if (downloads) { try { await downloads.save({filename: `chozen-cards-${fmt}.zip`, data: blob}); return; } catch (e) { if (e && e.code === "declined") return; } }
   $("status").textContent = "Downloads are not available in this view — save cards one at a time from the preview.";
 });
 
 function load(plan) {
   if (!plan || !Array.isArray(plan.posts)) throw new Error("That is not a Content Globe publisher handoff (no posts list).");
   const ideas = new Map((plan.ideas || []).map(i => [i.id, i]));
-  const byIdea = new Map(); for (const p of plan.posts) { if (!byIdea.has(p.idea_id) || p.platform === "instagram") byIdea.set(p.idea_id, p); }
+  const byIdea = new Map(); for (const p of plan.posts.filter(x => x && typeof x === "object")) { if (!byIdea.has(p.idea_id) || p.platform === "instagram") byIdea.set(p.idea_id, p); }
+  if (!byIdea.size) throw new Error("That plan has no posts to design.");
   cards = [...byIdea.values()].map((p, n) => { const idea = ideas.get(p.idea_id) || {};
     return {n, text: String(p.hook || idea.title || "").trim() || "Chosen.", type: String(p.content_type || "ChoZen"), ref: idea.scripture_ref ? String(idea.scripture_ref) : "",
       date: String(p.local_time || "").slice(0, 10), tag: String(p.campaign_tag || ""), file: String(p.idea_id || `card-${n + 1}`).replace(/[^a-z0-9-]/gi, "")}; });

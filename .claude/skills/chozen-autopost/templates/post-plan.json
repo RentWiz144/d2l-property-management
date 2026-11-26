@@ -1,0 +1,116 @@
+{
+  "_comment": "ChoZen one-idea-to-five-platforms working file. Copy, fill, work top to bottom. The core block is written once; each platform block is written SEPARATELY from the core, never copied from another platform.",
+
+  "core": {
+    "idea": "One plain sentence. The thing you actually want to say.",
+    "scripture": {
+      "reference": "Revelation 12:11",
+      "translation": "KJV",
+      "precept": "The one-line principle drawn out of the verse.",
+      "cross_references": ["Verify each of these actually echoes the main verse before using."]
+    },
+    "product_tie": {
+      "item": "At most one. Leave empty if it would be forced.",
+      "line": "athletic | standard | none",
+      "_note": "The 'line' field drives the Brand Law check. Athletic/windbreaker carries NO fringes."
+    },
+    "ask": "The one action a person should take."
+  },
+
+  "media": {
+    "source_files": ["local path(s) — must exist before scheduling"],
+    "postiz_uploaded_urls": ["filled in after `postiz upload` — required for IG/TikTok/YouTube"],
+    "brand_law_verdict": "PENDING | CLEAR | BLOCKED",
+    "brand_law_notes": "If BLOCKED, exactly what failed and what fixes it."
+  },
+
+  "platforms": {
+    "instagram": {
+      "enabled": true,
+      "type": "POST | REEL | STORY | CAROUSEL",
+      "hook_125": "The first 125 characters. This is the whole game.",
+      "caption": "Hook, then short paragraphs with real line breaks.",
+      "first_comment_hashtags": "8-15 tags, tiered broad/mid/narrow. NOT in the caption.",
+      "alt_text": "Describe the garment including fringes and ribband.",
+      "local_time": "2026-08-10T14:00:00",
+      "utc_time": "",
+      "shabbat_guard": "PENDING | PASS | BLOCKED",
+      "humanized": false
+    },
+
+    "tiktok": {
+      "enabled": true,
+      "caption": "100-150 characters. Short. The hook is in the video.",
+      "hashtags": "3-5, in the caption",
+      "video_hook_2s": "What literally happens in the first two seconds.",
+      "spoken_cta": "The CTA said out loud in the video.",
+      "sound": "trending audio ID, or 'original voiceover'",
+      "pronunciation_verified": false,
+      "burned_in_captions": false,
+      "local_time": "2026-08-10T18:00:00",
+      "utc_time": "",
+      "shabbat_guard": "PENDING | PASS | BLOCKED",
+      "humanized": false
+    },
+
+    "facebook": {
+      "enabled": true,
+      "type": "POST | REEL | STORY",
+      "caption": "200-500 words. Long is fine here. This is the warm audience — full testimony belongs here.",
+      "hashtags": "0-2, or none at all",
+      "link": "Facebook is the one network where a product link earns its place.",
+      "local_time": "2026-08-10T11:00:00",
+      "utc_time": "",
+      "shabbat_guard": "PENDING | PASS | BLOCKED",
+      "humanized": false
+    },
+
+    "threads": {
+      "enabled": true,
+      "caption": "Under 500 characters. One thought. No polish — Threads punishes polish.",
+      "hashtags": "1 maximum",
+      "thread_replies": ["Optional. Each part must stand alone."],
+      "local_time": "2026-08-10T20:00:00",
+      "utc_time": "",
+      "shabbat_guard": "PENDING | PASS | BLOCKED",
+      "humanized": false
+    },
+
+    "youtube": {
+      "enabled": false,
+      "type": "video | short",
+      "title": "60 chars. Front-load the searchable term.",
+      "description": "First 150 chars show in search. Then 200+ words, timestamps, links at the bottom.",
+      "tags": ["10-15 tags"],
+      "thumbnail": "local path — must read at phone size",
+      "made_for_kids": false,
+      "privacy": "public",
+      "pronunciation_verified": false,
+      "local_time": "",
+      "utc_time": "",
+      "shabbat_guard": "PENDING | PASS | BLOCKED",
+      "humanized": false
+    }
+  },
+
+  "preflight": {
+    "male_garment_law": "N/A | PASS | BLOCK",
+    "female_garment_law": "N/A | PASS | BLOCK",
+    "fringe_ribbon_color": "N/A | PASS | BLOCK",
+    "pronunciation": "N/A | PASS | BLOCK",
+    "copy_integrity": "PASS | BLOCK",
+    "inclusivity": "PASS | FLAG",
+    "shabbat_all_times": "PASS | BLOCK",
+    "humanizer_all_captions": "PASS | BLOCK",
+    "verdict": "CLEAR TO SCHEDULE | BLOCKED",
+    "blocked_reason": ""
+  },
+
+  "scheduled": {
+    "engine": "postiz",
+    "post_ids": {},
+    "draft_mode": true,
+    "scheduled_at": "",
+    "notes": "Report anything the guard or Brand Law moved, with the reason."
+  }
+}

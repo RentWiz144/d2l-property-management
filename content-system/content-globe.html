@@ -75,7 +75,7 @@ pre{background:var(--gun);padding:12px;border-radius:2px;max-height:260px;overfl
 <body>
 <header class="band top">
   <div><h1>ChoZen Content Globe</h1>
-  <p>One brief in, a month of platform-native ChoZen posts out — researched, mixed across your three content types, timed for Detroit, and held clear of the Sabbath.</p></div>
+  <p>One brief in, up to 40 platform-native ChoZen posts out (31 days max) — researched, mixed across your three content types, timed for Detroit, and held clear of the Sabbath.</p></div>
   <div class="chips" aria-live="polite">
     <span class="chip" id="c-claude" data-s="off">Claude: checking</span>
     <span class="chip" id="c-research" data-s="off">Reddit research: checking</span>
@@ -101,7 +101,7 @@ pre{background:var(--gun);padding:12px;border-radius:2px;max-height:260px;overfl
   <label>Platforms</label>
   <div class="plats" id="plats"></div>
   <div class="row">
-    <div><label for="ppw">Posts / week / platform</label><input id="ppw" type="number" min="1" max="7" value="3"></div>
+    <div><label for="ppw">Posts / week / platform</label><input id="ppw" type="number" min="1" max="6" value="3"></div>
     <div><label for="start">Start</label><input id="start" type="date"></div>
     <div><label for="end">End <span class="hint">≤31 days</span></label><input id="end" type="date"></div>
   </div>
@@ -117,6 +117,7 @@ pre{background:var(--gun);padding:12px;border-radius:2px;max-height:260px;overfl
     <button type="submit" class="go" id="gen">Generate plan</button>
     <button type="button" id="stop" disabled>Stop</button>
     <button type="button" id="demo">Load sample plan</button>
+    <button type="button" id="retry" hidden>Retry unwritten posts</button>
   </div>
   <p class="small" id="est"></p>
 </form>
@@ -246,24 +247,25 @@ function renderPlatforms(on) { $("plats").innerHTML = PLATFORMS.map(p => `<label
 function renderMix() {
   $("mix").innerHTML = mix.map((t, i) => `<div class="mix"><span class="dot" style="background:${TYPE_COLORS[i]}"></span>
     <input aria-label="Type ${i + 1} name" data-i="${i}" data-f="name" value="${esc(t.name)}">
-    <input aria-label="Type ${i + 1} percent" data-i="${i}" data-f="pct" type="number" min="0" max="100" value="${t.pct}">
+    <input aria-label="Type ${i + 1} percent" data-i="${i}" data-f="pct" type="number" min="0" max="100" value="${esc(+t.pct || 0)}">
     <span></span><input aria-label="Type ${i + 1} definition" data-i="${i}" data-f="def" value="${esc(t.def)}"><span></span></div>`).join("");
-  $("legend").innerHTML = mix.map((t, i) => `<span><i class="dot" style="background:${TYPE_COLORS[i]}"></i>${esc(t.name)} ${t.pct}%</span>`).join("");
+  renderLegend();
 }
+function renderLegend() { $("legend").innerHTML = mix.map((t, i) => `<span><i class="dot" style="background:${TYPE_COLORS[i]}"></i>${esc(t.name)} ${esc(+t.pct || 0)}%</span>`).join(""); }
 $("mix").addEventListener("input", e => { const i = +e.target.dataset.i, f = e.target.dataset.f; if (!f) return;
   mix[i][f] = f === "pct" ? Math.max(0, Math.min(100, +e.target.value || 0)) : e.target.value; saveBrief();
-  $("legend").innerHTML = mix.map((t, j) => `<span><i class="dot" style="background:${TYPE_COLORS[j]}"></i>${esc(t.name)} ${t.pct}%</span>`).join(""); });
+  renderLegend(); });
 
 function readBrief() {
   const b = {}; for (const k of ["brand","site","goal","about","voice","aud","avoid","ppw","start","end","subs","topics"]) b[k] = $(k).value.trim();
-  b.platforms = [...$("plats").querySelectorAll("input:checked")].map(i => i.value); b.humanize = $("human").checked; b.mix = mix; return b; }
+  b.platforms = [...$("plats").querySelectorAll("input:checked")].map(i => i.value); b.humanize = $("human").checked; b.mix = mix.map(t => ({...t})); return b; }
 function saveBrief() { store.set("czg-brief", readBrief()); estimate(); }
 function loadBrief() {
   const s = store.get("czg-brief") || {}; const today = new Date(); const iso = d => d.toISOString().slice(0, 10);
   const st = new Date(today.getTime() + 86400000), en = new Date(st.getTime() + 13 * 86400000);
   for (const k of Object.keys(DEFAULTS)) $(k).value = s[k] ?? DEFAULTS[k];
   $("ppw").value = s.ppw || 3; $("start").value = s.start || iso(st); $("end").value = s.end || iso(en);
-  $("human").checked = s.humanize ?? true; if (Array.isArray(s.mix) && s.mix.length === 3) mix = s.mix;
+  $("human").checked = s.humanize ?? true; if (Array.isArray(s.mix) && s.mix.length === 3) mix = s.mix.map((t, i) => ({name: String((t && t.name) || DEFAULT_MIX[i].name), def: String((t && t.def) || ""), pct: Math.max(0, Math.min(100, +(t && t.pct) || 0))}));
   renderPlatforms(s.platforms || DEFAULT_ON); renderMix(); estimate();
 }
 $("brief").addEventListener("change", saveBrief);
@@ -289,7 +291,12 @@ function buildSlots(b) {
     });
   }
   slots.sort((a, b2) => a.ts - b2.ts);
-  return slots.slice(0, MAX_POSTS);
+  // Cap at whole posting days so no idea loses some of its platforms.
+  const out = []; let lastDay = null;
+  for (const d of [...new Set(slots.map(x => x.dateKey))].sort()) {
+    const day = slots.filter(x => x.dateKey === d); if (out.length + day.length > MAX_POSTS) break; out.push(...day); lastDay = d; }
+  out.sort((a, b2) => a.ts - b2.ts);
+  out.total = slots.length; out.lastDay = lastDay; return out;
 }
 function offsetTime(row, p, k) { // YouTube follows TikTok +45 min; X follows Threads −30 min (assumed)
   const add = (t, m) => { const [h, mi] = t.split(":").map(Number), x = h * 60 + mi + m; return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`; };
@@ -301,7 +308,8 @@ function assignTypes(count) { // largest-deficit so the mix holds across the run
   return out;
 }
 function estimate() { try { const b = readBrief(), s = buildSlots(b), ideas = new Set(s.map(x => x.dateKey)).size;
-  $("est").textContent = `${s.length} posts across ${ideas} ideas (one idea, native versions per platform). Cap: ${MAX_POSTS} posts, ${MAX_DAYS} days.`; } catch (e) { $("est").textContent = e.message; } }
+  $("est").textContent = `${s.length} posts across ${ideas} ideas (one idea, native versions per platform).` +
+    (s.total > s.length ? ` The ${MAX_POSTS}-post cap ends this run on ${s.lastDay}; ${s.total - s.length} more posts need a second run starting the day after.` : ` Cap: ${MAX_POSTS} posts, ${MAX_DAYS} days.`); } catch (e) { $("est").textContent = e.message; } }
 
 /* ---------- log + globe ---------- */
 function log(msg, cls) { const d = document.createElement("div"); d.textContent = `${new Date().toLocaleTimeString()} — ${msg}`; if (cls) d.className = cls; $("log").prepend(d); }
@@ -414,14 +422,23 @@ Return JSON only: {"ideas":[{"i":0,"title":"...","angle":"...","source_url":"htt
     const ideas = dates.map((d, i) => { const x = list.find(y => +y.i === i) || list[i] || {};
       const src = typeof x.source_url === "string" && threads.some(t => t.url === x.source_url) ? x.source_url : null;
       return {id: `idea-${i + 1}`, dateKey: d, type: types[i], title: String(x.title || `Idea ${i + 1}`), angle: String(x.angle || ""), source_url: src, scripture_ref: x.scripture_ref ? String(x.scripture_ref) : null}; });
+    if (slots.total > slots.length) { b.end = slots.lastDay; log(`Run capped at ${MAX_POSTS} posts — ends ${slots.lastDay}. Start a second run the next day for the rest.`); }
     plan = {brief: b, ideas, posts: [], threads, created: Date.now()}; drawGlobe(); log(`${ideas.length} ideas planned.`, "k");
     slots.forEach(s => plan.posts.push(newPost(s, ideas.find(i => i.dateKey === s.dateKey))));
     renderCal();
     let next = 0; const lane = async name => { while (next < ideas.length && !signal.aborted) { const idea = ideas[next++]; await writeIdea(idea, name, b, signal); } };
     await Promise.all([lane("Writer 1"), lane("Writer 2")]);
+    plan.posts.forEach(p => { if (p.status === "writing") p.status = "not written"; }); renderCal();
     store.set("czg-plan", plan); log(signal.aborted ? "Stopped. Finished posts are kept." : "Plan complete. Review, edit, then export the publisher handoff.", "k");
   } catch (e) { log(e && e.code === "rate_limited" ? "Claude usage limit reached — wait and try again." : e && e.code === "not_granted" ? "Claude was not allowed for this page." : `Stopped: ${(e && e.message) || e}`, "e"); }
-  finally { busy(false); }
+  finally { busy(false); $("retry").hidden = !(plan && !plan.sample && plan.posts.some(p => p.status !== "draft")); }
+});
+$("retry").addEventListener("click", async () => {
+  if (!sample || !plan || plan.sample) return; const todo = plan.ideas.filter(i => plan.posts.some(p => p.idea_id === i.id && p.status !== "draft"));
+  if (!todo.length) return; abort = new AbortController(); busy(true); log(`Retrying ${todo.length} ideas…`);
+  try { let next = 0; const lane = async n => { while (next < todo.length && !abort.signal.aborted) await writeIdea(todo[next++], n, plan.brief, abort.signal); };
+    await Promise.all([lane("Writer 1"), lane("Writer 2")]); plan.posts.forEach(p => { if (p.status === "writing") p.status = "not written"; }); store.set("czg-plan", plan); renderCal(); }
+  finally { busy(false); $("retry").hidden = !plan.posts.some(p => p.status !== "draft"); }
 });
 $("stop").addEventListener("click", () => abort && abort.abort());
 
@@ -431,7 +448,7 @@ function newPost(s, idea) { const m = mix[idea.type]; const ym = s.dateKey.slice
 
 async function writeIdea(idea, lane, b, signal) {
   const posts = plan.posts.filter(p => p.idea_id === idea.id); if (!posts.length) return;
-  log(`${lane}: “${idea.title.slice(0, 60)}”`);
+  posts.forEach(p => p.status = "writing"); log(`${lane}: “${idea.title.slice(0, 60)}”`);
   try {
     const r = await askJSON(`${brandBlock(b)}
 
@@ -447,7 +464,7 @@ Return JSON only: {"posts":[{"platform":"instagram","hook":"...","caption":"..."
     for (const p of posts) { const w = ((r && r.posts) || []).find(x => x.platform === p.platform) || {};
       Object.assign(p, {hook: String(w.hook || ""), caption: String(w.caption || ""), hashtags: Array.isArray(w.hashtags) ? w.hashtags.map(String).slice(0, 8) : [],
         cta: String(w.cta || ""), visual_brief: String(w.visual_brief || ""), camera_moves: Array.isArray(w.camera_moves) ? w.camera_moves.map(String).filter(x => MOVES.includes(x)).slice(0, 3) : [],
-        status: w.caption ? "draft" : "failed", humanized: !!(b.humanize && w.caption)}); }
+        status: w.caption ? "draft" : "failed", humanized: !!(b.humanize && w.caption) /* humanizer rules were in the writing prompt; no separate pass */}); }
   } catch (e) { if (signal.aborted) return; posts.forEach(p => p.status = "failed"); log(`${lane}: could not write “${idea.title.slice(0, 40)}” (${(e && e.code) || (e && e.message) || "error"}).`, "e"); }
   renderCal();
 }
@@ -470,7 +487,7 @@ function renderCal() {
       ${p.caption ? `<details><summary>Caption, visual and shots</summary>
         <textarea data-id="${esc(p.id)}" aria-label="Caption for ${esc(pl ? pl.name : p.platform)}">${esc(p.caption)}</textarea>
         <p class="small">${esc(p.hashtags.join(" "))}${p.cta ? ` · CTA: ${esc(p.cta)}` : ""}</p>
-        <p class="small">Visual: ${esc(p.visual_brief)}${p.camera_moves.length ? ` · Shots: ${esc(p.camera_moves.join(" → "))} (node index.js --moves ${esc(p.camera_moves.join(","))})` : ""}</p>
+        <p class="small">Visual: ${esc(p.visual_brief)}${p.camera_moves.length ? ` · Shots: ${esc(p.camera_moves.join(" → "))} (node index.js --preset &lt;preset&gt; --moves ${esc(p.camera_moves.join(","))})` : ""}</p>
         ${idea.scripture_ref ? `<p class="small">Scripture: ${esc(idea.scripture_ref)} — verify before publishing</p>` : ""}
         ${idea.source_url ? `<p class="small">Research: <a href="${esc(idea.source_url)}">${esc(idea.source_url)}</a></p>` : ""}
         <p class="small">${esc(p.campaign_tag)}</p></details>` : ""}
@@ -478,7 +495,7 @@ function renderCal() {
   $("exports").hidden = false;
 }
 $("cal").addEventListener("input", e => { const id = e.target.dataset && e.target.dataset.id; if (!id || !plan) return;
-  const p = plan.posts.find(x => x.id === id); if (p) { p.caption = e.target.value; p.humanized = false; p.edited = true; store.set("czg-plan", plan); } });
+  const p = plan.posts.find(x => x.id === id); if (p) { p.caption = e.target.value; p.humanized = false; p.edited = true; if (!plan.sample) store.set("czg-plan", plan); } });
 
 /* ---------- exports ---------- */
 function handoff() {
@@ -492,9 +509,10 @@ function handoff() {
       time_assumed: !!p.timeAssumed, hook: p.hook, caption: p.caption, hashtags: p.hashtags, cta: p.cta, visual_brief: p.visual_brief, camera_moves: p.camera_moves,
       media_required: !!(PLATFORMS.find(x => x.id === p.platform) || {}).media, media: null, humanized: p.humanized, status: "draft"}))};
 }
-const csvCell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+const csvCell = v => { let t = String(v ?? ""); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return `"${t.replace(/"/g, '""')}"`; };
 function exportAs(kind) {
-  if (!plan) return; const h = handoff(); let name, data;
+  if (!plan) return;
+  if (plan.sample) { log("This is the sample plan — placeholder captions can't be exported. Press Generate for a real plan.", "e"); return; } const h = handoff(); let name, data;
   if (kind === "handoff") { name = "chozen-plan.json"; data = JSON.stringify(h, null, 2); }
   if (kind === "csv") { name = "chozen-plan.csv"; const cols = ["local_time","platform","content_type","campaign_tag","hook","caption","hashtags","cta","visual_brief","camera_moves","sabbath_guard"];
     data = [cols.join(","), ...h.posts.map(p => cols.map(c => csvCell(Array.isArray(p[c]) ? p[c].join(" ") : p[c])).join(","))].join("\n"); }
@@ -522,12 +540,16 @@ $("demo").addEventListener("click", () => {
   slots.forEach(s => { const idea = ideas.find(i => i.dateKey === s.dateKey), p = newPost(s, idea);
     Object.assign(p, {hook: idea.title, caption: `Sample caption for ${s.platform}. Generate to replace this with real copy.`, hashtags: ["#ChoZen"], cta: "Link in bio", visual_brief: "Sample visual brief.",
       camera_moves: ["tiktok","instagram","youtube"].includes(s.platform) ? ["tracking","pull-back"] : [], status: "draft"}); plan.posts.push(p); });
-  drawGlobe(); renderCal(); log("Sample plan loaded — every caption is placeholder text.", "k");
+  drawGlobe(); renderCal(); log("Sample plan loaded — placeholder text only; exports are disabled until you Generate.", "k");
 });
 
 /* ---------- boot ---------- */
 loadBrief(); drawGlobe();
-const saved = store.get("czg-plan"); if (saved && saved.posts) { plan = saved; drawGlobe(); renderCal(); log("Restored your last plan from this browser."); }
+const saved = store.get("czg-plan");
+if (saved && Array.isArray(saved.posts) && Array.isArray(saved.ideas) && !saved.sample) {
+  plan = saved; plan.ideas.forEach(i => { if (typeof i.source_url !== "string" || !/^https:\/\//.test(i.source_url)) i.source_url = null; });
+  drawGlobe(); renderCal(); log("Restored your last plan from this browser.");
+  if (plan.posts.some(p => p.ts < Date.now())) log("Some restored posts are in the past — regenerate or edit times before handing off.", "e"); }
 (async () => {
   if (!(window.claude && window.claude.use)) { setChip("c-claude", "off", "Claude: open in claude.ai"); setChip("c-research", "off", "Reddit research: off"); setChip("c-dl", "off", "Downloads: copy instead"); return; }
   const [s, m, d] = await Promise.all(["sample", "mcp", "downloads"].map(n => window.claude.use(n).catch(() => null)));

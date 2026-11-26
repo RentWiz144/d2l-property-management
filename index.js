@@ -94,6 +94,10 @@ function run() {
 
   const move = flagValue(args, "--move");
   const moves = flagValue(args, "--moves");
+  if (move && moves) {
+    console.error("Error: use --move (one clip) or --moves (shot list), not both.");
+    process.exit(1);
+  }
 
   try {
     if (moves) {
@@ -110,7 +114,7 @@ function run() {
 
     if (!move) {
       const fit = movesFor(require("./src/generator").PRESETS[preset.toLowerCase()]?.emotionalState);
-      if (fit.length) console.log(`[Video tip: --move ${fit[0].toLowerCase().replace(/_/g, "-")} fits this preset]\n`);
+      if (fit.length) console.error(`[Video tip: --move ${fit[0].toLowerCase().replace(/_/g, "-")} fits this preset]`);
     }
 
     const prompt = generateFromPreset(preset, move ? { cameraMove: move } : {});

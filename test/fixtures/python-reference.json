@@ -1,5 +1,5 @@
 {
- "source": "chozen-autopost/scripts/sundown_guard.py",
+ "source": ".claude/skills/chozen-autopost/scripts/sundown_guard.py",
  "sunsets": [
   {
    "date": "2026-01-02",
