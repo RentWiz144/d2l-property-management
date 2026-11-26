@@ -7,12 +7,12 @@
 ## The 4 rules
 1. **One poll per story.** Sample on a real body, never just a flat lay.
 2. **One poll a day.** It should feel like a conversation, not a survey.
-3. **Same time every day** so people know when to look. *(Saturdays dark: the calendar tool moves them.)*
+3. **Same time every day** so people know when to look. *(Saturdays dark: the calendar tool moves them. On Fridays, post at least an hour before sundown, which is ~4 PM in winter.)*
 4. **DM every single "yes."** That's where the buyers are.
 
 ## The 15 polls, in ChoZen's voice
 
-**Round 1 · Days 1–4 · IS IT RIGHT?**
+**Round 1 · Days 1–3 · IS IT RIGHT?**
 1. "Set apart or not for me?" → *Set apart* / *Not for me*
 2. "Would you wear this to service AND the gym?" → *Both* / *Nah*
 3. Slider: "Rate it."
@@ -20,7 +20,7 @@
 
 *How to read it:* under ~70% positive, or the same complaint keeps coming back? Fix it now, while it only costs a sample. **Hard stop.**
 
-**Round 2 · Days 5–7 · DO THEY WANT IT?**
+**Round 2 · Days 4–7 · DO THEY WANT IT?**
 5. "Who's ready for the [piece]?" → *About time* / *Not yet* ← **the green light.** Every "About time" gets a DM today.
 6. "Would you grab this on drop day?" → *Instantly* / *Maybe*
 7. Two colorways side by side: "Which one?" → *[Color A]* / *[Color B]*

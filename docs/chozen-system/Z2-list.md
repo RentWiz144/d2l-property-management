@@ -5,7 +5,7 @@
 > When you post "we just dropped," you're fighting the algorithm. A text goes straight to their phone.
 
 ## Pick one
-- **Option A: lock the site** (best for a first big hero drop). Shopify → Online Store → Preferences → Password protection; signup form on the password page.
+- **Option A: lock the site** (best for a first big hero drop). Shopify → Online Store → Preferences → Password protection; signup form on the password page. At drop time, the **storefront password goes to the list only** (Text 4 / Email 5); at +15 min the password comes off for everybody.
 - **Option B: stay open with a popup.** A Klaviyo signup form on every page. *(Best when the Etsy/POD catalog needs to keep selling.)*
 
 **ChoZen default: Option B.** The store keeps earning while the list builds.
@@ -31,7 +31,7 @@ Step 1: Email → **Next** · Step 2: Phone + consent → **Put me on** · Step 
    - "Dropping soon. Get on the list and shop before everybody else."
    - "Only the list gets early access. Link in bio."
    - "Y'all told me your size. Now get on the list so you actually get yours."
-2. **Nano creators** (faith, fitness, plus-size; 1K–50K followers, real comments). Free product, they pick their piece. Or skip mailing anything: send a photo, a 2-line script, and the link.
+2. **Nano creators** (faith, fitness, plus-size; 1K–50K followers, real comments). 20–30 DMs on push days, sent by wife/son from the template. Free product, they pick their piece. Or skip mailing anything: send a photo, a 2-line script, and the link.
 3. **Events:** a QR at every table pointing to the signup. Incentive: a free digital devotional (zero cost). Capture non-buyers too. **The list is the product of the event.**
 4. **Etsy + POD inserts:** a "Get first access" card with the QR in every package.
 5. **Ads (only when the CFO clears it):** $10–20/day warm retargeting or lead ads straight to the signup, using organic creative that already won.

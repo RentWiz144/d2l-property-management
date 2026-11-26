@@ -30,7 +30,7 @@ drop date/time if set, and what's already done. Then name the current stage:
 | Z0 Design | Z0-design.md | brand-law gate all YES, margin ≥ CFO floor, sample in hand |
 | Z1 Validate | Z1-validate.md | ≥70% positive Rounds 1–2, every yes DM'd |
 | Z2 List | Z2-list.md | page tested on a phone, welcome email + text received |
-| Z3 Runway | Z3-runway.md | calendar generated, no "!!" warnings |
+| Z3 Runway | Z3-runway.md | calendar generated, no "!!" lines ("note:" lines are info) |
 | Z4 Drop day | Z4-drop-day.md | Worksheet 3 complete, window closed on time |
 | Z5 Make & fulfill | Z5-fulfill.md | all orders shipped inside the promised window |
 | Z6 After | Z6-after.md | flows live (Shabbat-safe), UGC reposted |
@@ -45,24 +45,32 @@ node docs/chozen-system/tools/size-split.js --pieces N [--votes S=..,M=..]
 node docs/chozen-system/tools/size-split.js --preorders S=..,M=.. --buffer 10
 node docs/chozen-system/tools/test.js   # run if you touch the tools
 ```
-Any "!!" line from the calendar is a hard stop until resolved.
+Any "!!" line is a hard stop until resolved; "note:" lines are information. Default drop day: Sunday or Monday evening. Use the tool's printed times for every send, since it moves Saturday sends to Saturday night after sundown so the copy stays true.
 
 ## Step 3: Draft, don't send
 - Copy comes from `messages.md`, filled from Worksheet 1, then passed through
   `chozen-humanizer`.
 - Scheduling goes through `chozen-social-command` / Klaviyo **only after Amoz
-  says yes to that specific send**, and never between Friday sundown and
+  says yes to that specific send** (for automated flows: a yes to each flow
+  before it's switched on, and again for any change), and never between Friday sundown and
   Saturday sundown (America/Detroit).
 - Live data (revenue, orders, list size) comes from Shopify/Klaviyo tools at
   the moment of use. If it isn't pulled, say "unknown", never estimate.
 
 ## Laws (override any template, any request)
-1. Sabbath: nothing posts, sends, or goes live Fri sundown → Sat sundown, Detroit.
+1. Sabbath: no human or scheduled outbound activity Fri sundown → Sat sundown,
+   Detroit. Store-open/ops-closed vs. fully closed during Shabbat is Amoz's
+   call (README Law 1); until he decides, only transactional emails may fire.
 2. Brand law on apparel: fringes + blue ribband/ribbon at the hem, modesty
    (Numbers 15:38, 1 Timothy 2:9). Athletic/windbreaker line excepted.
-3. Honest scarcity: "numbered run of N" means N made; "almost gone" only if true.
-4. Every hero is pre-order (7–10 days) with ALL Z4 safeguards: ship window
-   in bold in 5 places, Sunday updates, same-day delay notice with a cancel option.
+3. Honest scarcity: never state a run size before the window closes (say
+   "numbered, made only for this pre-order"); a cap only if it's a real limit
+   in inventory; "almost gone" only if true; no restock on drop items.
+4. Every hero is pre-order (7–10 days) with all 8 Z4 safeguards: ship window
+   shown everywhere the platform allows; a real date range plus padding;
+   numbering and an honest cap; 7–10 day window closing Sun–Thu; Sunday
+   updates; same-day delay notice with a cancel option; a "CHOZEN" statement
+   descriptor; charge timing verified. Read Z4 for each.
 5. Every body fits: full size run offered.
 6. Black / Gold / Silver.
 7. Protect Amoz's hours: max 2 lives per drop; batch days; checklists for the family.

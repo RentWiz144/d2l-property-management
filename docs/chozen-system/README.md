@@ -29,9 +29,9 @@ Supporting files: [Worksheets](worksheets.md) · [Message Library](messages.md) 
 
 ## The Laws (these beat every template in this system)
 
-1. **Sabbath.** Nothing posts, sends, goes live, or runs on a schedule from Friday sundown to Saturday sundown, Detroit time. Drops happen Sunday–Thursday. Pre-order windows close Sunday–Thursday. `tools/drop-calendar.js` enforces this; don't override it.
+1. **Sabbath.** No human or scheduled outbound activity (posts, texts, marketing emails, lives, drops, window closes) from Friday sundown to Saturday sundown, Detroit time. Drops default to **Sunday or Monday** evening (COO/CMO), never Friday or Saturday; pre-order windows close Sunday–Thursday. `tools/drop-calendar.js` enforces this, including moving Saturday sends to Saturday night after sundown; don't override it. **Open decision for Amoz:** during Shabbat, is the store *open with ops closed* (checkout stays on, only automatic transactional emails like order confirmations fire) or *fully closed* (Shabbat Mode app closes checkout)? The COO calls both defensible. Until Amoz decides, the system assumes store-open/ops-closed, and all marketing flows (including abandoned cart) are blocked during Shabbat.
 2. **Brand law (apparel).** Men's shirts and jackets carry fringes plus a blue ribband on the lower hem (Numbers 15:38), except the athletic/windbreaker line. Women's maxi skirts and dresses carry fringes plus a blue ribbon at the hem, modest per 1 Timothy 2:9. The ribbon is always a hue of blue.
-3. **Never promise what you can't prove.** If you say "numbered run of 75," make 75. "Almost gone" only when it's true. Faith audiences punish dishonesty hardest, and the list remembers.
+3. **Never promise what you can't prove.** Every hero piece is individually numbered, but the run size N isn't known until the pre-order window closes, so before then never say "numbered run of N." Say "numbered, made only for this pre-order." A cap may be stated only if it's a real production limit enforced in inventory. Publish N after close. "Almost gone" only when it's true; sold out means sold out (no restock on drop items, per the CMO). Faith audiences punish dishonesty hardest, and the list remembers.
 4. **Every hero is pre-order.** Fringed hero pieces sell in a 7–10 day numbered pre-order window. Customers fund the run, extended sizes carry no inventory risk, and we never mark down. *(Owner decision, Nov 2026. The kit's warning still applies: pre-orders cost its author chargebacks. The Pre-Order Safeguards in Z4 and Z5 are mandatory, not optional.)*
 5. **Every body fits.** The full size run is offered from smallest to 6'5"/275. Extended sizes are never an afterthought.
 6. **Black / Gold / Silver.** Chrome wordmark and C-checkmark, undistorted. One seasonal accent at most. *(The orange #FF6B35 token in `chozen-design-system` conflicts with brand law and should be removed there.)*
@@ -65,7 +65,10 @@ Skill routing inside the system: `chozen-brandkit` (Z0 look) · `chozen-cpo` (Z0
 | Post a poll every day, same time | Same, but Saturdays are dark; the tool moves Saturday tasks | Sabbath law |
 | 5 lives in 30 days | 2 lives, plus 2 batch days | Amoz's capacity |
 | "Order 50 after the votes" | Votes size the **pre-order window**; the run is sized from real orders plus a buffer of 10% or less | Owner decision: every hero is pre-order |
-| "I don't recommend pre-orders as your default" | Pre-order is the default for heroes, **with mandatory safeguards** (ship window in bold in 5 places, Sunday updates, a delay notice with a cancel option) | Keep the kit's lesson and the CPO's model |
+| "I don't recommend pre-orders as your default" | Pre-order is the default for heroes, **with all 8 Z4 safeguards** (ship window shown everywhere the platform allows, Sunday updates, delay notice with a cancel option, and more) | Keep the kit's lesson and the CPO's model |
+| Drop any day | Sunday or Monday evening by default | COO: a full work week of fulfillment before Shabbat; CMO: fixed monthly cadence |
+| Restock when it sells out | No restock on drop items; sold-out signups go to the next drop's list | CMO hard no-restock rule |
+| DM 20–30 influencers a day | Same volume, sent by wife/son from the template | Kit volume, protect Amoz's hours |
 | No votes yet? 10 of each size | No votes yet? Use the CPO curve 1:1:2:3:2:1 (S–3XL), extended sizes on demand | 2XL/3XL are always underestimated |
 | Influencers under 100K | Faith / fitness / plus-size **nano** creators (1K–50K), free product, they pick their piece | CMO playbook, testimony converts |
 | Generic retention emails | Plus a free "Why the Fringes" digital guide with every hero, and a $9–19 digital add-on on the thank-you page | Margin plus conviction |

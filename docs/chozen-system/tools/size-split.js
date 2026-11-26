@@ -22,23 +22,30 @@ function allocate(weights, total) {
   return Object.fromEntries(raw.map(r => [r.k, { pct: Math.round(weights[r.k] / sum * 1000) / 10, pieces: r.n }]));
 }
 
-// Pre-order mode: every real order is made; buffer pieces follow the order curve.
+// Sizes the CPO says never to stock speculatively: buffer never lands here (make to order only).
+const NO_BUFFER = new Set(['XS', 'S', '3XL', '4XL', '5XL', '6XL']);
+const MAX_BUFFER_PCT = 10;
+
+// Pre-order mode: every real order is made; buffer (<=10%) follows the order curve, core sizes only.
 function preorderRun(orders, bufferPct) {
+  if (!(bufferPct >= 0)) throw new Error('--buffer must be a number >= 0');
+  if (bufferPct > MAX_BUFFER_PCT) throw new Error(`--buffer ${bufferPct}% is over the ${MAX_BUFFER_PCT}% cap`);
   const total = Object.values(orders).reduce((a, b) => a + b, 0);
   const buffer = Math.round(total * bufferPct / 100);
-  const extra = buffer > 0 ? allocate(orders, buffer) : {};
+  const core = Object.fromEntries(Object.entries(orders).filter(([k, v]) => !NO_BUFFER.has(k) && v > 0));
+  const extra = buffer > 0 && Object.keys(core).length ? allocate(core, buffer) : {};
   return Object.fromEntries(Object.keys(orders).map(k => [k, {
     orders: orders[k], buffer: extra[k] ? extra[k].pieces : 0,
     make: orders[k] + (extra[k] ? extra[k].pieces : 0) }]));
 }
 
-module.exports = { allocate, preorderRun, CPO_CURVE };
+module.exports = { allocate, preorderRun, CPO_CURVE, NO_BUFFER };
 
 if (require.main === module) {
   const a = process.argv.slice(2), get = f => { const i = a.indexOf(f); return i >= 0 ? a[i + 1] : null; };
   if (get('--preorders')) {
-    const r = preorderRun(parseMap(get('--preorders')), Number(get('--buffer') || 0));
-    console.table(r);
+    try { console.table(preorderRun(parseMap(get('--preorders')), Number(get('--buffer') || 0))); }
+    catch (e) { console.error('!! ' + e.message); process.exit(1); }
   } else {
     const pieces = Number(get('--pieces'));
     if (!pieces) { console.error('need --pieces N (and --votes S=..,M=..) or --preorders'); process.exit(1); }

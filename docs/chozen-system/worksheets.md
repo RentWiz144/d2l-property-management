@@ -25,11 +25,12 @@
 | Different because (2) | | Pre-order window (7–10 days) closes | |
 | Different because (3) | | Early-access link | |
 | Price | | Size chart link | |
-| Sizes | S → 6XL | Numbered run cap (N) | |
+| Sizes | S → 6XL | Production capacity cap (blank if none) | |
 | Colors | | Ship date range (promised) | |
 | Greeting (Peace / Shalom) | | Pre-order? | **YES (hero rule)** |
+| Pre-order target (units) | | Store during Shabbat (open/ops-closed or fully closed) | |
 
-Run `node docs/chozen-system/tools/drop-calendar.js --drop YYYY-MM-DDTHH:MM --window N`. No "!!" lines allowed.
+Run `node docs/chozen-system/tools/drop-calendar.js --drop YYYY-MM-DDTHH:MM --window N`. No "!!" lines allowed ("note:" lines are fine).
 
 ## Worksheet 2 · Size split
 **The math:** pieces for a size = (votes for that size ÷ total votes) × total pieces. Round smalls down.
@@ -49,13 +50,13 @@ Run `node docs/chozen-system/tools/drop-calendar.js --drop YYYY-MM-DDTHH:MM --wi
 | **Total** | | 100% | | ≤10% | |
 
 ## Worksheet 3 · Drop-day checklist
-**Day before:** ☐ run caps in inventory match the plan ☐ real test order placed + refunded ☐ every link tested on a phone ☐ texts + emails scheduled, ET checked, none in Shabbat ☐ ship window in bold in all 5 places
-**1 hour before:** ☐ countdown on story ☐ phone charged, packing area clear ☐ DMs open ☐ inbox macros loaded
+**Day before** (Sunday drop → Friday, 1h before sundown): ☐ caps in inventory match the plan ☐ real test order placed + refunded ☐ every text + email sent to yourself first ☐ every link tested on a phone ☐ date, time + time zone checked in every message ☐ sends scheduled on Amoz's yes, `drop-calendar.js` clean ☐ ship window shown on PDP, cart, confirmation email
+**1 hour before:** ☐ countdown sticker on story ☐ phone charged, packing area clear ☐ DMs open ☐ inbox macros loaded
 **Drop time:** ☐ unlock for the list ☐ Text 4 + Email 5 out ☐ story: "Live for the list"
 **+15 min:** ☐ open to everybody ☐ Text 5 out ☐ story: "Open to everybody"
 **A few hours later:** ☐ Text 6 + Email 6 only if true ☐ screenshot sales for content ☐ answer every DM
 **Next morning:** ☐ Text 7 thank-you ☐ thank-you story ☐ in-stock/POD orders into Monday's batch
-**Window close:** ☐ −24h reminder (if open) ☐ window closed on time ☐ orders exported → Worksheet 2
+**Window close:** ☐ −24h reminder at the time the tool printed ☐ window closed on time ☐ orders exported → Worksheet 2 ☐ numbers assigned + "your number" email ☐ % of pre-order target recorded
 
 ## Worksheet 4 · Packing checklist (every box)
 ☐ Piece checked against the brand-law gate ☐ numbered tag matches the order ☐ "Why the Fringes" card/QR ☐ "Why are you ChoZen?" testimony card ☐ next-drop list QR ☐ care card ☐ label matches the order ☐ tracking uploaded (Etsy orders: through Etsy)

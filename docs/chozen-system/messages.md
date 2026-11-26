@@ -26,7 +26,7 @@ Swap the [brackets]. Keep subject lines lowercase (they read like a friend, not 
 |---|---|---|
 | 0 | On signup | ChoZen: You're on the list for the [piece]. You shop before everybody on [date] at [time] ET. Reply STOP to opt out. |
 | 1 | Announce (≈9 days out) | ChoZen: The [piece] drops [day] at [time] ET. You're on the list, so you shop first. Set a reminder. |
-| 2 | 3 days out | ChoZen: 3 days. Here's the [piece] again: [photo]. Numbered run of [N]. Know your size: [size chart] |
+| 2 | 3 days out | ChoZen: 3 days. Here's the [piece] again: [photo]. Numbered, made only for this pre-order. Know your size: [size chart] |
 | 3 | 24h out | ChoZen: Tomorrow, [time] ET. Your early-access link comes here first. Don't sleep on it. |
 | 4 | **Drop time** | ChoZen: It's live for the list only. You got first shot: [link] |
 | 5 | +15 min | ChoZen: Open to everybody now. If you were waiting, this is it: [link] |
@@ -53,7 +53,7 @@ Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to 
 > [3–4 photos on real bodies, including 2XL+]
 > This is the [piece]. It drops **[day, date] at [time] ET**.
 > You're on the list, so your link comes first, by text and email. 15 minutes later it opens to everybody.
-> It's a **pre-order: numbered run, ships [date range].** Sizes [S–6XL]. $[price]. Know your size before drop day.
+> It's a **pre-order: every piece numbered, made only for the people who order. Ships [date range].** Sizes [S–6XL]. $[price]. Know your size before drop day.
 > **[ SEE THE SIZE CHART ]**
 
 **Email 3 · 3 days out** · *3 days. here's how it works* / so you don't miss it
@@ -72,7 +72,7 @@ Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to 
 > • Pick your size: [size chart link]
 > • Save your card in your phone so checkout takes seconds
 > • Turn your notifications on
-> [Only if true: We're making [N]. When they're gone, they're gone.]
+> [Only if a real production cap is set in inventory: We can only make [MAX]. When they're gone, they're gone.]
 
 **Email 5 · drop time** · *you're in. it's live for the list* / your early access link is inside
 > [hero photo]
@@ -95,15 +95,19 @@ Text rules: under 160 characters when you can · ChoZen first · "Reply STOP to 
 > Still on track to ship **[date range]**. [photo from the workroom]
 > Questions? Reply here. A real person reads it.
 
-**Delay notice (same day the delay is known)** · *an honest update on your order*
+**Your number (window close day)** · *you're #[number]*
+> The window's closed. [N] made, and yours is **#[number]**. Still on track to ship **[date range]**.
+
+**Delay notice (same day the delay is known; if during Shabbat, right after Saturday sundown)** · *an honest update on your order*
 > I owe you a straight answer: your [piece] will ship **[new date]**, not [old date]. Here's why: [one true sentence].
 > If that works, you don't need to do anything. If it doesn't, reply "cancel" and you get a full refund, no questions.
+> *(Silence-as-consent is only allowed for certain delays under the FTC Mail/Internet Order Rule. Verify on ftc.gov before the first use; for a second or longer delay, ask for an explicit "keep".)*
 > Thank you for your patience.
 > Amoz
 
 <a id="post-purchase"></a>
 ## Post-purchase
-1. **you got it. here's what happens next** / and when it ships: "Thank you for grabbing the [piece]. You're #[number] of [N]. **Ships [date range].** You'll get tracking the second it leaves. Questions? Reply to this email. A real person reads it."
+1. **you got it. here's what happens next** / and when it ships: "Thank you for grabbing the [piece]. It's a numbered pre-order; your number comes by email when the window closes [date]. **Ships [date range].** You'll get tracking the second it leaves. Questions? Reply to this email. A real person reads it."
 2. **it's here. how to wear it** / 3 ways to style it: "Your [piece] landed. • [styling tip] • [fit tip] • Care: wash cold, inside out, hang dry to keep the fringes right. And here's why the fringes matter: [Why the Fringes guide link]"
 3. **tag us wearing it** / we repost our favorites: "We repost our favorite fits every week. Tag @[brand] and tell us: why are you ChoZen?"
 4. **you're first next time** / something new is coming: "Because you bought this one, you get first shot at the next drop. Make sure you're on the list." **[ PUT ME ON THE LIST ]**

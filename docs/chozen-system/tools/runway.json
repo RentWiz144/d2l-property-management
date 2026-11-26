@@ -1,30 +1,170 @@
 [
-  {"daysBefore":29,"type":"story","task":"First look: sample on a real body (not a flat lay). Poll 1.","critical":false},
-  {"daysBefore":28,"type":"story","task":"Close-up of the detail nobody else has: the fringes + blue ribband. Poll 2.","critical":false},
-  {"daysBefore":27,"type":"live","task":"LIVE #1 (max 30 min, seated): wear it, tell the why (Numbers 15:38). Poll 3 slider.","critical":false},
-  {"daysBefore":26,"type":"story","task":"Try-on front + back. Poll 4 question box. DM every yes (messages.md DM 1).","critical":false},
-  {"daysBefore":25,"type":"post","task":"Reel: piece in motion. Story: Poll 5 (the green-light poll).","critical":false},
-  {"daysBefore":24,"type":"story","task":"Two colorways side by side. Poll 7.","critical":false},
-  {"daysBefore":23,"type":"batch","task":"BATCH DAY: review votes + DMs, fix complaints on the sample, film next week's content.","critical":false},
-  {"daysBefore":22,"type":"list","task":"Early-access page goes live. Story: 'The list is open.' Poll 12.","critical":false},
-  {"daysBefore":21,"type":"post","task":"Styling video, 3 ways to wear it. Poll 9 sizes (S through 6XL).","critical":false},
-  {"daysBefore":20,"type":"story","task":"Poll 10 fit. DM every yes the signup link.","critical":false},
-  {"daysBefore":19,"type":"post","task":"Behind the scenes: hand-finishing fringes in Detroit. Poll 11 price.","critical":false},
-  {"daysBefore":18,"type":"live","task":"LIVE #2: 'Only the list shops first.' Read testimonies from DMs.","critical":false},
-  {"daysBefore":17,"type":"story","task":"Show the real list count. Poll 13.","critical":false},
-  {"daysBefore":16,"type":"send","task":"Lock size curve + numbered run cap + ship window (Worksheet 1). Email 1 'something's coming'.","critical":true},
-  {"daysBefore":15,"type":"post","task":"Best content of the month. Story: production/sourcing update.","critical":false},
-  {"daysBefore":14,"type":"list","task":"Creator push: DM 10-20 faith / fitness / plus-size nano creators the photo + caption + link.","critical":false},
-  {"daysBefore":13,"type":"story","task":"Poll 14 teaser. Repost any creator stories.","critical":false},
-  {"daysBefore":12,"type":"post","task":"Customer-style try-on (wife/son/real body sizes). Signup link on every story.","critical":false},
-  {"daysBefore":11,"type":"story","task":"Question box: 'What do you want to know?' Answer them all (feeds the FAQ).","critical":false},
-  {"daysBefore":10,"type":"list","task":"Creator stories go up. Repost every one.","critical":false},
-  {"daysBefore":9,"type":"send","task":"ANNOUNCE THE DATE. Post + story. Text 1 + Email 2.","critical":true},
-  {"daysBefore":8,"type":"story","task":"The piece again, every angle. Signup link.","critical":false},
-  {"daysBefore":7,"type":"post","task":"Detail close-up reel. Poll 15 last call.","critical":false},
-  {"daysBefore":6,"type":"batch","task":"BATCH DAY: pre-write sold-out + window-closed + weekly-update emails; Gorgias macros loaded.","critical":false},
-  {"daysBefore":3,"type":"send","task":"Text 2 (3 days). Email 3 'here's how it works'.","critical":true},
-  {"daysBefore":2,"type":"story","task":"'How early access works': list first, public 15 min later, window closes [date].","critical":false},
-  {"daysBefore":1,"type":"send","task":"Text 3 (24h). Email 4. FINAL CHECK: links, sizes, run cap, ship window on PDP + checkout + emails.","critical":true},
-  {"daysBefore":0,"type":"drop","task":"DROP DAY. Run Z4 exactly.","critical":true}
+ {
+  "daysBefore": 29,
+  "type": "story",
+  "task": "First look: sample on a real body (not a flat lay). Poll 1.",
+  "critical": false
+ },
+ {
+  "daysBefore": 28,
+  "type": "story",
+  "task": "Close-up of the detail nobody else has: the fringes + blue ribband. Poll 2.",
+  "critical": false
+ },
+ {
+  "daysBefore": 27,
+  "type": "live",
+  "task": "LIVE #1 (max 30 min, seated): wear it, tell the why (Numbers 15:38). Poll 3 slider.",
+  "critical": false
+ },
+ {
+  "daysBefore": 26,
+  "type": "story",
+  "task": "Try-on front + back. Poll 4 question box. DM every yes (messages.md DM 1).",
+  "critical": false
+ },
+ {
+  "daysBefore": 25,
+  "type": "post",
+  "task": "Reel: piece in motion. Story: Poll 5 (the green-light poll).",
+  "critical": false
+ },
+ {
+  "daysBefore": 24,
+  "type": "story",
+  "task": "Two colorways side by side. Poll 7.",
+  "critical": false
+ },
+ {
+  "daysBefore": 23,
+  "type": "batch",
+  "task": "BATCH DAY: review votes + DMs, fix complaints on the sample, film next week's content.",
+  "critical": false
+ },
+ {
+  "daysBefore": 22,
+  "type": "list",
+  "task": "Early-access page goes live. Story: 'The list is open.' Poll 12.",
+  "critical": false
+ },
+ {
+  "daysBefore": 21,
+  "type": "post",
+  "task": "Styling video, 3 ways to wear it. Poll 9 sizes (S through 6XL).",
+  "critical": false
+ },
+ {
+  "daysBefore": 20,
+  "type": "story",
+  "task": "Poll 10 fit. DM every yes the signup link.",
+  "critical": false
+ },
+ {
+  "daysBefore": 19,
+  "type": "post",
+  "task": "Behind the scenes: hand-finishing fringes in Detroit. Poll 11 price.",
+  "critical": false
+ },
+ {
+  "daysBefore": 18,
+  "type": "live",
+  "task": "LIVE #2: 'Only the list shops first.' Read testimonies from DMs.",
+  "critical": false
+ },
+ {
+  "daysBefore": 17,
+  "type": "story",
+  "task": "Show the real list count. Poll 13.",
+  "critical": false
+ },
+ {
+  "daysBefore": 16,
+  "type": "send",
+  "task": "Lock size curve + production capacity cap + ship window (Worksheet 1). Email 1 'something's coming'.",
+  "critical": true
+ },
+ {
+  "daysBefore": 15,
+  "type": "post",
+  "task": "Best content of the month. Story: production/sourcing update.",
+  "critical": false
+ },
+ {
+  "daysBefore": 14,
+  "type": "list",
+  "task": "Creator push: DM 20-30 faith / fitness / plus-size nano creators (wife/son send from the template) the photo + caption + link.",
+  "critical": false
+ },
+ {
+  "daysBefore": 13,
+  "type": "story",
+  "task": "Poll 14 teaser. Repost any creator stories.",
+  "critical": false
+ },
+ {
+  "daysBefore": 12,
+  "type": "post",
+  "task": "Customer-style try-on (wife/son/real body sizes). Signup link on every story.",
+  "critical": false
+ },
+ {
+  "daysBefore": 11,
+  "type": "story",
+  "task": "Question box: 'What do you want to know?' Answer them all (feeds the FAQ).",
+  "critical": false
+ },
+ {
+  "daysBefore": 10,
+  "type": "list",
+  "task": "Creator stories go up. Repost every one.",
+  "critical": false
+ },
+ {
+  "daysBefore": 9,
+  "type": "send",
+  "task": "ANNOUNCE THE DATE. Post + story. Text 1 + Email 2.",
+  "critical": true
+ },
+ {
+  "daysBefore": 8,
+  "type": "story",
+  "task": "The piece again, every angle. Signup link.",
+  "critical": false
+ },
+ {
+  "daysBefore": 7,
+  "type": "post",
+  "task": "Detail close-up reel. Poll 15 last call.",
+  "critical": false
+ },
+ {
+  "daysBefore": 6,
+  "type": "batch",
+  "task": "BATCH DAY: pre-write sold-out + window-closed + weekly-update emails; Gorgias macros loaded.",
+  "critical": false
+ },
+ {
+  "daysBefore": 3,
+  "type": "send",
+  "task": "Text 2 (3 days). Email 3 'here's how it works'.",
+  "critical": true
+ },
+ {
+  "daysBefore": 2,
+  "type": "story",
+  "task": "Countdown sticker on story + repost your best video. 'How early access works': list first, public 15 min later, window closes [date].",
+  "critical": false
+ },
+ {
+  "daysBefore": 1,
+  "type": "send",
+  "task": "Text 3 (24h). Email 4. FINAL CHECK: send every text + email to yourself first; links, sizes, cap, ship window on PDP + cart + emails; date/time/zone in every message.",
+  "critical": true
+ },
+ {
+  "daysBefore": 0,
+  "type": "drop",
+  "task": "DROP DAY. Run Z4 exactly.",
+  "critical": true
+ }
 ]

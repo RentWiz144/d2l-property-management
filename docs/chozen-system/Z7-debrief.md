@@ -1,6 +1,6 @@
 # Z7 · DEBRIEF → NEXT — Learn, keep winners, cut the rest
 
-**Owner:** Amoz + `chozen-ceo` (scoreboard) + `chozen-cfo` (verdicts) · **When:** 14 days after the window closes (Sunday or Monday, never on Shabbat) · **Time:** 60 min
+**Owner:** Amoz + `chozen-ceo` (scoreboard) + `chozen-cfo` (verdicts) · **When:** about 14 days after the window closes, on the nearest Sunday or Monday (never on Shabbat) · **Time:** 60 min
 
 > Run on numbers, not vibes. Unknown means "pull it," not "guess it."
 
@@ -23,6 +23,7 @@
 | Digital attach rate | | | rising |
 
 ## 3. Verdicts (CFO): APPROVE / REPRICE / CAP / KILL, with the math shown
+- Hero sold **<40% of its pre-order target** (Worksheet 1) → design retired, never re-dropped (CPO).
 - Design took >40% of drop revenue twice → becomes a permanent core item, considered for a bulk run.
 - POD art with 0 sales in 90 days → delist.
 - Any SKU under 50% gross margin → reprice on the NEXT drop (never raise existing listings).
