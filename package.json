@@ -1,7 +1,7 @@
 {
   "name": "chozen-scene-generator",
   "version": "1.0.0",
-  "description": "Modular scene generator engine — Authority / Faith / Pressure / Discipline",
+  "description": "Modular scene generator engine \u2014 Authority / Faith / Pressure / Discipline",
   "main": "index.js",
   "bin": {
     "chozen": "./index.js"
@@ -11,8 +11,15 @@
     "authority": "node index.js --preset authority",
     "faith": "node index.js --preset faith",
     "pressure": "node index.js --preset pressure",
-    "discipline": "node index.js --preset discipline"
+    "discipline": "node index.js --preset discipline",
+    "test": "node --test",
+    "moves": "node index.js --moves-list"
   },
-  "keywords": ["scene-generator", "prompt-engine", "ai-image", "modular"],
+  "keywords": [
+    "scene-generator",
+    "prompt-engine",
+    "ai-image",
+    "modular"
+  ],
   "license": "MIT"
 }

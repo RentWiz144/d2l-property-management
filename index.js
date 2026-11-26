@@ -10,12 +10,36 @@
  *   node index.js --preset discipline
  *   node index.js --list                  # List all presets
  *
+ * Shot Director (video):
+ *   node index.js --preset authority --move orbit           # one video clip prompt
+ *   node index.js --preset discipline --moves tracking,whip-pan,pull-back
+ *                                                           # multi-shot list for a Reel
+ *   node index.js --moves-list                              # list camera moves
+ *
  * Output: the full assembled scene prompt, ready to paste into any AI image generator.
  */
 
 "use strict";
 
-const { generateFromPreset, listPresets } = require("./src/generator");
+const {
+  generateFromPreset,
+  generateShotList,
+  listPresets,
+  listMoves,
+  movesFor,
+} = require("./src/generator");
+const { MOVES } = require("./src/modules/CameraMove");
+
+function flagValue(args, flag) {
+  const i = args.indexOf(flag);
+  if (i === -1) return undefined;
+  const v = args[i + 1];
+  if (!v || v.startsWith("--")) {
+    console.error(`Error: ${flag} requires a value.`);
+    process.exit(1);
+  }
+  return v;
+}
 
 const DIVIDER = "═".repeat(70);
 const SECTION  = "─".repeat(70);
@@ -38,6 +62,18 @@ function run() {
     return;
   }
 
+  if (args.includes("--moves-list")) {
+    header();
+    console.log("Camera moves (Shot Director):\n");
+    listMoves().forEach(k => {
+      const m = MOVES[k];
+      console.log(`  → ${k.toLowerCase().replace(/_/g, "-")}  ${m.label} — ${m.useAs}`);
+      console.log(`      best for: ${m.bestFor.join(", ")}`);
+    });
+    console.log();
+    return;
+  }
+
   let preset = null;
 
   const presetIdx = args.indexOf("--preset");
@@ -56,8 +92,28 @@ function run() {
 
   header();
 
+  const move = flagValue(args, "--move");
+  const moves = flagValue(args, "--moves");
+
   try {
-    const prompt = generateFromPreset(preset);
+    if (moves) {
+      const list = generateShotList(preset, moves.split(",").map(m => m.trim()).filter(Boolean));
+      list.forEach(s => {
+        console.log(`\n${SECTION}\n  SHOT ${s.shot} of ${list.length} — ${s.move}\n${SECTION}\n`);
+        console.log(s.prompt);
+      });
+      console.log("\n" + DIVIDER);
+      console.log(`  SHOT LIST: ${preset.toUpperCase()} — ${list.length} shots. Same identity lock in every shot.`);
+      console.log(DIVIDER + "\n");
+      return;
+    }
+
+    if (!move) {
+      const fit = movesFor(require("./src/generator").PRESETS[preset.toLowerCase()]?.emotionalState);
+      if (fit.length) console.log(`[Video tip: --move ${fit[0].toLowerCase().replace(/_/g, "-")} fits this preset]\n`);
+    }
+
+    const prompt = generateFromPreset(preset, move ? { cameraMove: move } : {});
     console.log(prompt);
     console.log("\n" + DIVIDER);
     console.log(`  SCENE: ${preset.toUpperCase()} — generation complete.`);

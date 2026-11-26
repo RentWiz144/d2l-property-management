@@ -6,6 +6,7 @@
  */
 
 const { buildScene, validateScene } = require("./engine/SceneEngine");
+const { resolveMove, listMoves, movesFor } = require("./modules/CameraMove");
 
 const PRESETS = {
   authority: require("./presets/authority"),
@@ -55,6 +56,30 @@ function generateCustom(config) {
 }
 
 /**
+ * Build a multi-shot list for a Reel/TikTok: same preset (same man, same
+ * identity lock), one camera move per shot. Paste each prompt into the
+ * image-to-video model as its own clip, then cut them together in order.
+ *
+ * @param {string} presetName
+ * @param {string[]} moves - e.g. ["tracking", "whip-pan", "pull-back"]
+ * @param {object} [overrides]
+ * @returns {{shot:number, move:string, prompt:string}[]}
+ */
+function generateShotList(presetName, moves, overrides = {}) {
+  if (!Array.isArray(moves) || moves.length === 0) {
+    throw new Error("generateShotList: provide at least one camera move.");
+  }
+  return moves.map((m, i) => {
+    const move = resolveMove(m);
+    return {
+      shot: i + 1,
+      move,
+      prompt: generateFromPreset(presetName, { ...overrides, cameraMove: move }),
+    };
+  });
+}
+
+/**
  * List all available presets.
  * @returns {string[]}
  */
@@ -62,4 +87,12 @@ function listPresets() {
   return Object.keys(PRESETS);
 }
 
-module.exports = { generateFromPreset, generateCustom, listPresets, PRESETS };
+module.exports = {
+  generateFromPreset,
+  generateCustom,
+  generateShotList,
+  listPresets,
+  listMoves,
+  movesFor,
+  PRESETS,
+};

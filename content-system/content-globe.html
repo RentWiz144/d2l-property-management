@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChoZen Content Globe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a machined control desk for a faith-rooted apparel brand — calm, exact, set apart.
+   IDEA: a mission planner — the content mix orbits a chrome globe, then lands on a flight schedule.
+   PICTURE: the chrome globe with each idea as a node coloured by content type, beside the live log.
+   COLOUR and TYPE: ChoZen design system — void black, gunmetal, silver/chrome, blue + glow; Orbitron + Exo 2.
+   LAYOUT: brief left, globe right; full-width calendar below with large hanging times. */
+:root{color-scheme:light dark;
+--void:light-dark(#F3F5F8,#05070B);--raised:light-dark(#FFFFFF,#0D121A);--gun:light-dark(#E4E9F0,#151C27);
+--line:light-dark(#C9D1DC,#263142);--ink:light-dark(#0A0E14,#EEF2F7);--mute:light-dark(#4A5568,#9AA7B8);
+--silver:light-dark(#5E6878,#C3CAD4);--blue:light-dark(#1F4FE0,#3D7BFF);--onblue:light-dark(#FFFFFF,#05070B);
+--glow:light-dark(#0B6FB0,#5CC8FF);--ok:light-dark(#0F7A4E,#3DDC97);--bad:light-dark(#C21F3A,#FF6B7A);--navy:#0A1F44;
+--t1:light-dark(#1F4FE0,#3D7BFF);--t2:light-dark(#0B6FB0,#5CC8FF);--t3:light-dark(#5E6878,#C3CAD4)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--void);color:var(--ink);font:16px/1.55 "Exo 2","Segoe UI",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Orbitron,"Eurostile","Arial Black",sans-serif;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(26px,4vw,40px);font-weight:800}h2{font-size:22px;font-weight:600}h3{font-size:16px;font-weight:600}
+.band{padding:clamp(20px,3.5vw,48px) max(4vw,16px)}
+.top{background:var(--navy);color:#EEF2F7;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
+.top p{margin:6px 0 0;color:#C3CAD4;max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:4px 10px;border-radius:2px;border:1px solid #263142;background:#0D121A;color:#C3CAD4;white-space:nowrap}
+.chip[data-s=on]{border-color:#3DDC97;color:#3DDC97}.chip[data-s=off]{color:#9AA7B8}.chip[data-s=warn]{border-color:#FF6B7A;color:#FF6B7A}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:start;max-width:1240px;margin:0 auto}
+@media(max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--raised);border:1px solid var(--line);border-radius:6px;padding:20px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+.hint{font-size:13px;color:var(--mute);font-weight:400}
+input,select,textarea{width:100%;font:16px "Exo 2",system-ui,sans-serif;color:var(--ink);background:var(--gun);border:1px solid var(--line);border-radius:2px;padding:9px 10px;min-height:44px}
+textarea{min-height:76px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 12px}
+.plats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.plats label{display:flex;gap:6px;align-items:center;margin:0;font-weight:400;min-height:44px}
+.plats input{width:20px;min-height:20px}
+.mix{display:grid;grid-template-columns:14px minmax(0,1fr) 72px;gap:6px 10px;align-items:center;margin-top:6px}
+.dot{width:12px;height:12px;border-radius:50%}
+.pending{margin-top:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:2px;font-size:14px;color:var(--mute)}
+button{font:600 15px "Exo 2",system-ui,sans-serif;min-height:44px;padding:0 16px;border-radius:6px;border:1px solid var(--line);background:var(--gun);color:var(--ink);cursor:pointer}
+button.go{background:var(--blue);color:var(--onblue);border-color:var(--blue)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.fig{position:relative;min-height:320px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.log{height:200px;overflow:auto;font-size:13px;color:var(--mute);border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+.log div{padding:2px 0}.log .e{color:var(--bad)}.log .k{color:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mute)}.legend span{display:flex;gap:6px;align-items:center}
+.cal{max-width:1240px;margin:0 auto}
+.day{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid var(--line)}
+@media(max-width:600px){.day{grid-template-columns:minmax(0,1fr)}}
+.date{font-family:Orbitron,sans-serif;font-size:15px;color:var(--silver)}
+.post{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;padding:10px 0}
+.time{font-family:Orbitron,sans-serif;font-size:17px;white-space:nowrap}
+@media(max-width:600px){.post{grid-template-columns:minmax(0,1fr);gap:4px}}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--mute);margin-bottom:4px}
+.tag{border:1px solid var(--line);border-radius:2px;padding:1px 7px;white-space:nowrap}
+.tag.moved{border-color:var(--glow);color:var(--glow)}.tag.flag{border-color:var(--bad);color:var(--bad)}
+.hook{font-weight:600}
+details{margin-top:6px}summary{cursor:pointer;color:var(--blue);font-size:14px;min-height:32px}
+.post textarea{min-height:140px;margin-top:6px}
+.small{font-size:13px;color:var(--mute)}
+.exp{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+pre{background:var(--gun);padding:12px;border-radius:2px;max-height:260px;overflow:auto;font-size:13px;white-space:pre-wrap}
+.empty{padding:28px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:6px}
+@media(prefers-reduced-motion:reduce){.spin{animation:none!important}}
+.spin{animation:turn 40s linear infinite;transform-origin:50% 50%}@keyframes turn{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header class="band top">
+  <div><h1>ChoZen Content Globe</h1>
+  <p>One brief in, a month of platform-native ChoZen posts out — researched, mixed across your three content types, timed for Detroit, and held clear of the Sabbath.</p></div>
+  <div class="chips" aria-live="polite">
+    <span class="chip" id="c-claude" data-s="off">Claude: checking</span>
+    <span class="chip" id="c-research" data-s="off">Reddit research: checking</span>
+    <span class="chip" id="c-dl" data-s="off">Downloads: checking</span>
+  </div>
+</header>
+
+<main class="band">
+<div class="grid">
+<form class="card" id="brief" autocomplete="off">
+  <h2>Brief</h2>
+  <div class="row">
+    <div><label for="brand">Brand</label><input id="brand" required></div>
+    <div><label for="site">Website <span class="hint">optional</span></label><input id="site"></div>
+  </div>
+  <label for="goal">Main goal</label>
+  <select id="goal"><option>Drive sales</option><option>Build trust and followers</option><option>Generate leads</option><option>Build authority</option><option>Launch something new</option></select>
+  <label for="about">About the brand <span class="hint">required</span></label><textarea id="about" required></textarea>
+  <label for="voice">Voice</label><input id="voice">
+  <label for="aud">Audience</label><input id="aud">
+  <label for="avoid">Avoid <span class="hint">words, claims, topics</span></label><input id="avoid">
+
+  <label>Platforms</label>
+  <div class="plats" id="plats"></div>
+  <div class="row">
+    <div><label for="ppw">Posts / week / platform</label><input id="ppw" type="number" min="1" max="7" value="3"></div>
+    <div><label for="start">Start</label><input id="start" type="date"></div>
+    <div><label for="end">End <span class="hint">≤31 days</span></label><input id="end" type="date"></div>
+  </div>
+  <label for="subs">Subreddits to research <span class="hint">comma-separated, optional</span></label><input id="subs">
+  <label for="topics">Research topics</label><input id="topics">
+
+  <label>Content mix — three types <span class="hint">name, % of ideas, definition</span></label>
+  <div id="mix"></div>
+  <div class="pending" id="mixnote">Placeholder mix. Paste Dee's “3 types of content” breakdown to replace these names and definitions; the percentages set how often each type is used.</div>
+
+  <label class="plats" style="margin-top:12px"><input type="checkbox" id="human" checked> Humanizer pass on every caption</label>
+  <div class="actions">
+    <button type="submit" class="go" id="gen">Generate plan</button>
+    <button type="button" id="stop" disabled>Stop</button>
+    <button type="button" id="demo">Load sample plan</button>
+  </div>
+  <p class="small" id="est"></p>
+</form>
+
+<section class="card" aria-label="Idea globe and live activity">
+  <h2>Idea globe</h2>
+  <div class="fig" id="globe"><svg id="gsvg" role="img" aria-label="Ideas orbiting the ChoZen globe, coloured by content type"></svg></div>
+  <div class="legend" id="legend"></div>
+  <div class="log" id="log" aria-live="polite"></div>
+</section>
+</div>
+</main>
+
+<section class="band" style="padding-top:0">
+<div class="cal">
+  <div class="exp" style="justify-content:space-between">
+    <h2>Calendar</h2>
+    <div class="exp" id="exports" hidden>
+      <button type="button" data-x="handoff">Publisher handoff .json</button>
+      <button type="button" data-x="csv">.csv</button>
+      <button type="button" data-x="md">.md</button>
+      <button type="button" data-x="ledger">Ledger entries</button>
+    </div>
+  </div>
+  <p class="small" id="calnote">Times are America/Detroit. Slots inside the Sabbath (computed Friday sundown −18 min to Saturday sundown +42 min) are moved to Saturday night and marked. Nothing here is scheduled or posted — the handoff file goes to ChoZen Publisher.</p>
+  <div id="cal"><div class="empty">No plan yet. Fill the brief and press Generate, or load the sample plan to see the layout.</div></div>
+  <pre id="out" hidden></pre>
+</div>
+</section>
+
+<script>
+{
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- brand defaults ---------- */
+const PLATFORMS = [
+  {id:"instagram",name:"Instagram",media:true},{id:"tiktok",name:"TikTok",media:true},
+  {id:"facebook",name:"Facebook",media:false},{id:"threads",name:"Threads",media:false},
+  {id:"youtube",name:"YouTube Shorts",media:true},{id:"x",name:"X",media:false}];
+const DEFAULT_ON = ["instagram","tiktok","facebook","threads"];
+const DEFAULTS = {
+  brand:"ChoZen", site:"https://chozenunlimited.com", goal:"Drive sales",
+  about:"ChoZen is a faith-rooted apparel brand from Detroit built on 1 Peter 2:9 — a chosen generation, set apart. Shirts and jackets carry fringes with a ribbon of blue (Numbers 15:38); women's maxi skirts and dresses are modest (1 Timothy 2:9). The athletic/windbreaker line carries no fringes. Built for every body.",
+  voice:"Bold, direct, testimony-driven, faith-rooted. Checkable claims, no hype, no desperate selling.",
+  aud:"Believers 18–45 who want their clothes to say who they are; streetwear buyers; the Detroit community.",
+  avoid:"revolutionary, game-changing, the best, guaranteed, unverifiable claims, cho-ZEN pronunciation",
+  subs:"streetwear, Christianity, malefashionadvice, smallbusiness, Detroit",
+  topics:"faith and identity, modest fashion, streetwear drops, building a clothing brand"};
+const DEFAULT_MIX = [
+  {name:"Story",def:"Faith and identity — testimony, 1 Peter 2:9, why ChoZen exists.",pct:40},
+  {name:"Product",def:"The garment — drops, fits, fringes and ribband details, how it's made.",pct:35},
+  {name:"Proof",def:"People wearing it — customers, behind the scenes, community, results.",pct:25}];
+const TYPE_COLORS = ["var(--t1)","var(--t2)","var(--t3)"];
+/* Best-time table (America/Detroit). Mon–Fri FB/TT/IG/Threads from ChoZen's own history;
+   Sunday reuses Monday; YouTube and X are ASSUMED offsets until ledger data exists. */
+const TIMES = {
+  1:{facebook:"10:00",tiktok:"10:30",instagram:"19:00",threads:"19:45"},
+  2:{facebook:"10:00",tiktok:"10:30",instagram:"18:00",threads:"18:45"},
+  3:{facebook:"12:00",tiktok:"10:00",instagram:"16:00",threads:"17:00"},
+  4:{facebook:"10:45",tiktok:"10:00",instagram:"17:00",threads:"18:00"},
+  5:{facebook:"10:45",tiktok:"10:00",instagram:"12:00",threads:"13:00"}};
+TIMES[0] = TIMES[1];
+const DAY_ORDER = [1,3,5,2,4,0];  // Mon, Wed, Fri, Tue, Thu, Sun
+const MAX_POSTS = 40, MAX_DAYS = 31;
+
+/* ---------- SABBATH GUARD (port of chozen-autopost/scripts/sundown_guard.py) ---------- */
+/* @@SABBATH-START */
+const TZ = "America/Detroit", LAT = 42.3314, LON = -83.0458, CANDLE_MIN = 18, HAVDALAH_MIN = 42;
+const rad = d => d * Math.PI / 180, deg = r => r * 180 / Math.PI;
+function julianDay(y, m, d) { if (m <= 2) { y -= 1; m += 12; } const a = Math.floor(y / 100), b = 2 - a + Math.floor(a / 4);
+  return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524.5; }
+function declEot(jd) {
+  const t = (jd - 2451545.0) / 36525.0;
+  const L0 = ((280.46646 + t * (36000.76983 + t * 0.0003032)) % 360 + 360) % 360;
+  const M = 357.52911 + t * (35999.05029 - 0.0001537 * t);
+  const e = 0.016708634 - t * (0.000042037 + 0.0000001267 * t);
+  const mr = rad(M);
+  const C = Math.sin(mr) * (1.914602 - t * (0.004817 + 0.000014 * t)) + Math.sin(2 * mr) * (0.019993 - 0.000101 * t) + Math.sin(3 * mr) * 0.000289;
+  const om = 125.04 - 1934.136 * t;
+  const app = L0 + C - 0.00569 - 0.00478 * Math.sin(rad(om));
+  const mo = 23 + (26 + (21.448 - t * (46.815 + t * (0.00059 - t * 0.001813))) / 60) / 60;
+  const oc = mo + 0.00256 * Math.cos(rad(om));
+  const decl = Math.asin(Math.sin(rad(oc)) * Math.sin(rad(app)));
+  const vy = Math.tan(rad(oc / 2)) ** 2, l0 = rad(L0);
+  const eot = 4 * deg(vy * Math.sin(2 * l0) - 2 * e * Math.sin(mr) + 4 * e * vy * Math.sin(mr) * Math.cos(2 * l0)
+    - 0.5 * vy * vy * Math.sin(4 * l0) - 1.25 * e * e * Math.sin(2 * mr));
+  return [decl, eot];
+}
+function sunsetUTC(y, m, d) {
+  const lr = rad(LAT), z = rad(90.833), jd0 = julianDay(y, m, d);
+  let mins = 720;
+  for (let i = 0; i < 3; i++) {
+    const [decl, eot] = declEot(jd0 + mins / 1440);
+    const cosHa = Math.cos(z) / (Math.cos(lr) * Math.cos(decl)) - Math.tan(lr) * Math.tan(decl);
+    mins = 720 + 4 * (-LON + deg(Math.acos(cosHa))) - eot;
+  }
+  return Date.UTC(y, m - 1, d) + mins * 60000;
+}
+const fmtParts = new Intl.DateTimeFormat("en-US", {timeZone: TZ, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"});
+function local(ts) { const p = {}; for (const x of fmtParts.formatToParts(new Date(ts))) p[x.type] = x.value;
+  const y = +p.year, m = +p.month, d = +p.day; return {y, m, d, h: +p.hour, mi: +p.minute, s: +p.second, wd: new Date(Date.UTC(y, m - 1, d)).getUTCDay()}; }
+function offsetMin(ts) { const l = local(ts); return Math.round((Date.UTC(l.y, l.m - 1, l.d, l.h, l.mi, l.s) - ts) / 60000); }
+function wallToUTC(y, m, d, h, mi) { const g = Date.UTC(y, m - 1, d, h, mi); let t = g - offsetMin(g) * 60000; return g - offsetMin(t) * 60000; }
+function sabbathWindow(ts) {
+  const l = local(ts), back = (l.wd - 5 + 7) % 7;
+  const f = new Date(Date.UTC(l.y, l.m - 1, l.d - back)), s = new Date(f.getTime() + 86400000);
+  return [sunsetUTC(f.getUTCFullYear(), f.getUTCMonth() + 1, f.getUTCDate()) - CANDLE_MIN * 60000,
+          sunsetUTC(s.getUTCFullYear(), s.getUTCMonth() + 1, s.getUTCDate()) + HAVDALAH_MIN * 60000];
+}
+function inSabbath(ts) { const [a, b] = sabbathWindow(ts); return ts >= a && ts <= b; }
+function nextSafe(ts) { if (!inSabbath(ts)) return ts; const [, b] = sabbathWindow(ts); const t = b + 15 * 60000; return Math.ceil(t / 300000) * 300000; }
+/* @@SABBATH-END */
+
+function isoLocal(ts) { const l = local(ts), o = offsetMin(ts), sg = o < 0 ? "-" : "+", a = Math.abs(o), p = n => String(n).padStart(2, "0");
+  return `${l.y}-${p(l.m)}-${p(l.d)}T${p(l.h)}:${p(l.mi)}:00${sg}${p(Math.floor(a / 60))}:${p(a % 60)}`; }
+const dayName = ts => new Intl.DateTimeFormat("en-US", {timeZone: TZ, weekday: "short", month: "short", day: "numeric"}).format(new Date(ts));
+const clock = ts => new Intl.DateTimeFormat("en-US", {timeZone: TZ, hour: "numeric", minute: "2-digit"}).format(new Date(ts));
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 24) || "type";
+
+/* ---------- state ---------- */
+let mix = DEFAULT_MIX.map(x => ({...x}));
+let plan = null, sample = null, mcp = null, downloads = null, abort = null, researchTool = null;
+const store = {get(k){try{return JSON.parse(localStorage.getItem(k))}catch(_){return null}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}}};
+
+function renderPlatforms(on) { $("plats").innerHTML = PLATFORMS.map(p => `<label><input type="checkbox" value="${p.id}" ${on.includes(p.id) ? "checked" : ""}> ${p.name}</label>`).join(""); }
+function renderMix() {
+  $("mix").innerHTML = mix.map((t, i) => `<div class="mix"><span class="dot" style="background:${TYPE_COLORS[i]}"></span>
+    <input aria-label="Type ${i + 1} name" data-i="${i}" data-f="name" value="${esc(t.name)}">
+    <input aria-label="Type ${i + 1} percent" data-i="${i}" data-f="pct" type="number" min="0" max="100" value="${t.pct}">
+    <span></span><input aria-label="Type ${i + 1} definition" data-i="${i}" data-f="def" value="${esc(t.def)}"><span></span></div>`).join("");
+  $("legend").innerHTML = mix.map((t, i) => `<span><i class="dot" style="background:${TYPE_COLORS[i]}"></i>${esc(t.name)} ${t.pct}%</span>`).join("");
+}
+$("mix").addEventListener("input", e => { const i = +e.target.dataset.i, f = e.target.dataset.f; if (!f) return;
+  mix[i][f] = f === "pct" ? Math.max(0, Math.min(100, +e.target.value || 0)) : e.target.value; saveBrief();
+  $("legend").innerHTML = mix.map((t, j) => `<span><i class="dot" style="background:${TYPE_COLORS[j]}"></i>${esc(t.name)} ${t.pct}%</span>`).join(""); });
+
+function readBrief() {
+  const b = {}; for (const k of ["brand","site","goal","about","voice","aud","avoid","ppw","start","end","subs","topics"]) b[k] = $(k).value.trim();
+  b.platforms = [...$("plats").querySelectorAll("input:checked")].map(i => i.value); b.humanize = $("human").checked; b.mix = mix; return b; }
+function saveBrief() { store.set("czg-brief", readBrief()); estimate(); }
+function loadBrief() {
+  const s = store.get("czg-brief") || {}; const today = new Date(); const iso = d => d.toISOString().slice(0, 10);
+  const st = new Date(today.getTime() + 86400000), en = new Date(st.getTime() + 13 * 86400000);
+  for (const k of Object.keys(DEFAULTS)) $(k).value = s[k] ?? DEFAULTS[k];
+  $("ppw").value = s.ppw || 3; $("start").value = s.start || iso(st); $("end").value = s.end || iso(en);
+  $("human").checked = s.humanize ?? true; if (Array.isArray(s.mix) && s.mix.length === 3) mix = s.mix;
+  renderPlatforms(s.platforms || DEFAULT_ON); renderMix(); estimate();
+}
+$("brief").addEventListener("change", saveBrief);
+
+/* ---------- schedule (deterministic, no Claude) ---------- */
+function buildSlots(b) {
+  const [sy, sm, sd] = b.start.split("-").map(Number), [ey, em, ed] = b.end.split("-").map(Number);
+  const days = Math.round((Date.UTC(ey, em - 1, ed) - Date.UTC(sy, sm - 1, sd)) / 86400000) + 1;
+  if (!(days >= 1)) throw new Error("End date must be on or after the start date.");
+  if (days > MAX_DAYS) throw new Error(`A run covers at most ${MAX_DAYS} days.`);
+  if (!b.platforms.length) throw new Error("Pick at least one platform.");
+  const n = Math.max(1, Math.min(6, +b.ppw || 3)), useDays = new Set(DAY_ORDER.slice(0, n));
+  const slots = [];
+  for (let i = 0; i < days; i++) {
+    const dt = new Date(Date.UTC(sy, sm - 1, sd + i)), wd = dt.getUTCDay();
+    if (!useDays.has(wd)) continue;
+    b.platforms.forEach((p, k) => {
+      const base = TIMES[wd][p] || offsetTime(TIMES[wd], p, k);
+      const [h, mi] = base.split(":").map(Number);
+      const planned = wallToUTC(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate(), h, mi);
+      const safe = nextSafe(planned);
+      slots.push({platform: p, dateKey: dt.toISOString().slice(0, 10), ts: safe, planned, moved: safe !== planned, timeAssumed: !TIMES[wd][p]});
+    });
+  }
+  slots.sort((a, b2) => a.ts - b2.ts);
+  return slots.slice(0, MAX_POSTS);
+}
+function offsetTime(row, p, k) { // YouTube follows TikTok +45 min; X follows Threads −30 min (assumed)
+  const add = (t, m) => { const [h, mi] = t.split(":").map(Number), x = h * 60 + mi + m; return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`; };
+  return p === "youtube" ? add(row.tiktok, 45) : p === "x" ? add(row.threads, -30) : add("12:00", k * 20);
+}
+function assignTypes(count) { // largest-deficit so the mix holds across the run
+  const w = mix.map(t => Math.max(0, +t.pct || 0)), tot = w.reduce((a, b) => a + b, 0) || 1, got = [0, 0, 0], out = [];
+  for (let i = 0; i < count; i++) { let best = 0, bd = -Infinity; w.forEach((x, j) => { const d = x / tot * (i + 1) - got[j]; if (d > bd) { bd = d; best = j; } }); got[best]++; out.push(best); }
+  return out;
+}
+function estimate() { try { const b = readBrief(), s = buildSlots(b), ideas = new Set(s.map(x => x.dateKey)).size;
+  $("est").textContent = `${s.length} posts across ${ideas} ideas (one idea, native versions per platform). Cap: ${MAX_POSTS} posts, ${MAX_DAYS} days.`; } catch (e) { $("est").textContent = e.message; } }
+
+/* ---------- log + globe ---------- */
+function log(msg, cls) { const d = document.createElement("div"); d.textContent = `${new Date().toLocaleTimeString()} — ${msg}`; if (cls) d.className = cls; $("log").prepend(d); }
+const gsvg = $("gsvg");
+function drawGlobe() {
+  const W = gsvg.clientWidth || 400, H = gsvg.clientHeight || 320, cx = W / 2, cy = H / 2, r = Math.min(W, H) * 0.36;
+  const ideas = plan ? plan.ideas : [];
+  const rings = [0.25, 0.55, 0.85].map(k => `<ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${r * k}" fill="none" stroke="var(--line)"/>`).join("")
+    + [0.3, 0.7].map(k => `<ellipse cx="${cx}" cy="${cy}" rx="${r * k}" ry="${r}" fill="none" stroke="var(--line)"/>`).join("");
+  const nodes = ideas.map((idea, i) => { const a = i / Math.max(1, ideas.length) * Math.PI * 2, rr = r * (1.08 + (i % 3) * 0.1);
+    const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr * 0.62;
+    return `<g><title>${esc(idea.title)}</title><line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${TYPE_COLORS[idea.type]}" stroke-opacity=".25"/><circle cx="${x}" cy="${y}" r="${W < 520 ? 5 : 7}" fill="${TYPE_COLORS[idea.type]}"/></g>`; }).join("");
+  gsvg.innerHTML = `<defs><radialGradient id="chrome" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#F5F8FB"/><stop offset=".55" stop-color="#6B7685"/><stop offset="1" stop-color="#0A1F44"/></radialGradient></defs>
+    <circle cx="${cx}" cy="${cy + r * 0.92}" r="${r * 0.7}" fill="#000" opacity=".18" transform="scale(1 .25) translate(0 ${(cy + r) * 3})"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#chrome)"/><g class="spin" style="transform-origin:${cx}px ${cy}px">${rings}</g>${nodes}
+    ${ideas.length ? "" : `<text x="${cx}" y="${cy + r + 28}" text-anchor="middle" fill="var(--mute)" font-size="13">Ideas appear here as they are planned</text>`}`;
+}
+const ro = new ResizeObserver(drawGlobe); ro.observe(gsvg);
+
+/* ---------- Claude prompts ---------- */
+const brandBlock = b => `BRAND: ${b.brand} (${b.site || "no site"})\nABOUT: ${b.about}\nVOICE: ${b.voice}\nAUDIENCE: ${b.aud}\nGOAL: ${b.goal}\nAVOID: ${b.avoid}
+CONTENT TYPES:\n${b.mix.map((t, i) => `${i}. ${t.name} — ${t.def}`).join("\n")}
+BRAND LAW: Say "Sabbath", never "Shabbat". "ChoZen" is pronounced exactly like "chosen". Scripture is KJV with exact references. Male shirts/jackets show fringes with a blue ribband on the lower hem (not the athletic/windbreaker line); women's looks are maxi skirts/dresses, modest, fringes and blue ribbon at the hem. No hype words, no unverifiable claims, no fake testimonials or numbers.`;
+const PLAT_SPEC = {instagram:"Instagram: hook within the first 125 characters, short paragraphs, 3–5 hashtags at the end, 'link in bio'.",
+  tiktok:"TikTok: caption under 150 characters, 2–4 hashtags; describe the 1.5-second visual hook.",
+  facebook:"Facebook: 2–4 short paragraphs, story first then offer; link allowed; 0–2 hashtags.",
+  threads:"Threads: 1–3 punchy conversational sentences, a take or question, max 1 hashtag.",
+  youtube:"YouTube Shorts: title ≤60 characters that is the hook; 1–2 line description.",
+  x:"X: lead post ≤200 characters, at most 1 hashtag."};
+const MOVES = ["tracking","orbit","whip-pan","pull-back"];
+
+async function askJSON(prompt, signal, tier) {
+  const opts = {signal, modelTier: tier || "default"};
+  let txt;
+  if (typeof sample.json === "function") { try { return await sample.json(prompt, opts); } catch (e) { if (e && e.code) throw e; } }
+  txt = (await sample(prompt, opts)).text || "";
+  const m = txt.match(/[\[{][\s\S]*[\]}]/); if (!m) throw new Error("Claude did not return JSON.");
+  return JSON.parse(m[0]);
+}
+
+/* ---------- research (Parallel Search connector, optional) ---------- */
+async function research(b, signal) {
+  if (!mcp) { log("Reddit research skipped — Parallel Search not available in this view. Ideas come from the brief only."); return []; }
+  const subs = b.subs.split(",").map(s => s.trim().replace(/^r\//, "")).filter(Boolean).slice(0, 5);
+  const topics = b.topics.split(",").map(s => s.trim()).filter(Boolean).slice(0, 4);
+  const queries = subs.flatMap((s, i) => [`site:reddit.com/r/${s} ${topics[i % Math.max(1, topics.length)] || b.brand}`]).slice(0, 5);
+  const objective = `Find recent Reddit threads where people ask questions, share struggles, or debate: ${topics.join("; ")}. Prefer threads from r/${subs.join(", r/")}.`;
+  let input = {objective, search_queries: queries};
+  try { const d = await mcp.describeTool("Parallel Search", "web_search"); input = shapeInput(d.inputSchema, objective, queries); } catch (_) {}
+  log("Researching Reddit via Parallel Search…");
+  try {
+    const res = await mcp.callTool("Parallel Search", "web_search", input, {signal});
+    const found = collect(res.payload ?? res).slice(0, 15);
+    setChip("c-research", "on", `Reddit research: ${found.length} threads`);
+    log(`Found ${found.length} threads.`, "k"); return found;
+  } catch (e) {
+    if (e && e.code === "tool_error") { try { const d = await mcp.describeTool("Parallel Search", "web_search");
+      const res = await mcp.callTool("Parallel Search", "web_search", shapeInput(d.inputSchema, objective, queries), {signal});
+      const found = collect(res.payload ?? res).slice(0, 15); log(`Found ${found.length} threads.`, "k"); return found; } catch (_) {} }
+    const fix = {server_not_connected: "Add Parallel Search in claude.ai Settings → Connectors.", needs_reauth: "Reconnect Parallel Search in claude.ai Settings → Connectors.",
+      not_in_manifest: "Parallel Search is turned off for this page.", approval_required: "Allow Parallel Search when Claude asks, then Generate again."}[e && e.code];
+    setChip("c-research", "warn", "Reddit research: unavailable");
+    log(`Research skipped (${(e && e.code) || "error"}). ${fix || "Continuing from the brief."}`, "e"); return [];
+  }
+}
+function shapeInput(schema, objective, queries) {
+  const props = (schema && schema.properties) || {}, out = {};
+  for (const k of Object.keys(props)) { const t = props[k].type;
+    if (/objective|purpose|goal/i.test(k)) out[k] = objective;
+    else if (/quer/i.test(k)) out[k] = t === "array" ? queries : queries.join(" OR ");
+    else if (/max|limit|count|num/i.test(k) && t !== "array") out[k] = 10; }
+  return Object.keys(out).length ? out : {objective, search_queries: queries};
+}
+function collect(v, out = [], depth = 0) {
+  if (!v || depth > 6) return out;
+  if (Array.isArray(v)) { v.forEach(x => collect(x, out, depth + 1)); return out; }
+  if (typeof v === "object") { const url = v.url || v.link;
+    if (typeof url === "string" && /^https:\/\//.test(url)) { const ex = Array.isArray(v.excerpts) ? v.excerpts.join(" ") : (v.snippet || v.excerpt || v.content || "");
+      out.push({title: String(v.title || url).slice(0, 160), url, snippet: String(ex).slice(0, 400)}); }
+    else Object.values(v).forEach(x => collect(x, out, depth + 1)); }
+  return out;
+}
+
+/* ---------- pipeline ---------- */
+function setChip(id, s, text) { const c = $(id); c.dataset.s = s; c.textContent = text; }
+function busy(on) { $("gen").disabled = on; $("demo").disabled = on; $("stop").disabled = !on; }
+
+$("brief").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  if (!sample) { log("Claude is not available in this view — open the artifact in claude.ai to generate. The sample plan works anywhere.", "e"); return; }
+  const b = readBrief(); if (!b.brand || !b.about) { log("Brand and About are required.", "e"); return; }
+  let slots; try { slots = buildSlots(b); } catch (e) { log(e.message, "e"); return; }
+  abort = new AbortController(); const signal = abort.signal; busy(true);
+  try {
+    const threads = await research(b, signal);
+    const dates = [...new Set(slots.map(s => s.dateKey))], types = assignTypes(dates.length);
+    log(`Planning ${dates.length} ideas…`);
+    const wanted = dates.map((d, i) => `${i}: ${d} type=${types[i]} (${b.mix[types[i]].name})`).join("\n");
+    const ideaRes = await askJSON(`${brandBlock(b)}
+
+RESEARCH (Reddit threads — real questions and pains; use them, cite the url you used):
+${threads.length ? threads.map(t => `- ${t.title} | ${t.url} | ${t.snippet}`).join("\n") : "(none — work from the brief)"}
+
+Plan exactly ${dates.length} content ideas, one per line below, with the given content type index:
+${wanted}
+
+Each idea is one plain sentence worth saying, not a slogan. Vary angles; no two ideas alike.
+Return JSON only: {"ideas":[{"i":0,"title":"...","angle":"...","source_url":"https://... or null","scripture_ref":"Book c:v or null"}]}`, signal, "complex");
+    const list = (ideaRes && ideaRes.ideas) || [];
+    const ideas = dates.map((d, i) => { const x = list.find(y => +y.i === i) || list[i] || {};
+      const src = typeof x.source_url === "string" && threads.some(t => t.url === x.source_url) ? x.source_url : null;
+      return {id: `idea-${i + 1}`, dateKey: d, type: types[i], title: String(x.title || `Idea ${i + 1}`), angle: String(x.angle || ""), source_url: src, scripture_ref: x.scripture_ref ? String(x.scripture_ref) : null}; });
+    plan = {brief: b, ideas, posts: [], threads, created: Date.now()}; drawGlobe(); log(`${ideas.length} ideas planned.`, "k");
+    slots.forEach(s => plan.posts.push(newPost(s, ideas.find(i => i.dateKey === s.dateKey))));
+    renderCal();
+    let next = 0; const lane = async name => { while (next < ideas.length && !signal.aborted) { const idea = ideas[next++]; await writeIdea(idea, name, b, signal); } };
+    await Promise.all([lane("Writer 1"), lane("Writer 2")]);
+    store.set("czg-plan", plan); log(signal.aborted ? "Stopped. Finished posts are kept." : "Plan complete. Review, edit, then export the publisher handoff.", "k");
+  } catch (e) { log(e && e.code === "rate_limited" ? "Claude usage limit reached — wait and try again." : e && e.code === "not_granted" ? "Claude was not allowed for this page." : `Stopped: ${(e && e.message) || e}`, "e"); }
+  finally { busy(false); }
+});
+$("stop").addEventListener("click", () => abort && abort.abort());
+
+function newPost(s, idea) { const m = mix[idea.type]; const ym = s.dateKey.slice(0, 7).replace("-", "");
+  return {id: `${idea.id}-${s.platform}`, idea_id: idea.id, content_type: m.name, type: idea.type, platform: s.platform, ts: s.ts, planned: s.planned, moved: s.moved, timeAssumed: s.timeAssumed,
+    campaign_tag: `cz-${ym}-${slug(m.name)}`, hook: "", caption: "", hashtags: [], cta: "", visual_brief: "", camera_moves: [], status: "writing", humanized: false}; }
+
+async function writeIdea(idea, lane, b, signal) {
+  const posts = plan.posts.filter(p => p.idea_id === idea.id); if (!posts.length) return;
+  log(`${lane}: “${idea.title.slice(0, 60)}”`);
+  try {
+    const r = await askJSON(`${brandBlock(b)}
+
+IDEA (${b.mix[idea.type].name}): ${idea.title}
+ANGLE: ${idea.angle}${idea.scripture_ref ? `\nSCRIPTURE: ${idea.scripture_ref} (KJV — quote only if certain of the exact wording)` : ""}
+
+Write one genuinely different, native post for each platform below — never the same caption twice.
+${posts.map(p => PLAT_SPEC[p.platform]).join("\n")}
+For video platforms (TikTok, Instagram Reels, YouTube Shorts) also give a shot list of 2–3 camera moves chosen from: ${MOVES.join(", ")} (tracking = walk with him; orbit = circle him, he is still; whip-pan = fast blur transition; pull-back = start tight, reveal the place). Footage is real-street, handheld, not cinematic.
+visual_brief: one sentence a designer or the ChoZen scene generator can execute (honour the garment law).
+${b.humanize ? "HUMANIZE: write like a real person from Detroit — varied sentence length, no em-dash chains, no 'in today's world', no 'elevate', no 'unlock', no rhetorical triplets, no emoji walls." : ""}
+Return JSON only: {"posts":[{"platform":"instagram","hook":"...","caption":"...","hashtags":["#..."],"cta":"...","visual_brief":"...","camera_moves":["tracking","pull-back"]}]}`, signal);
+    for (const p of posts) { const w = ((r && r.posts) || []).find(x => x.platform === p.platform) || {};
+      Object.assign(p, {hook: String(w.hook || ""), caption: String(w.caption || ""), hashtags: Array.isArray(w.hashtags) ? w.hashtags.map(String).slice(0, 8) : [],
+        cta: String(w.cta || ""), visual_brief: String(w.visual_brief || ""), camera_moves: Array.isArray(w.camera_moves) ? w.camera_moves.map(String).filter(x => MOVES.includes(x)).slice(0, 3) : [],
+        status: w.caption ? "draft" : "failed", humanized: !!(b.humanize && w.caption)}); }
+  } catch (e) { if (signal.aborted) return; posts.forEach(p => p.status = "failed"); log(`${lane}: could not write “${idea.title.slice(0, 40)}” (${(e && e.code) || (e && e.message) || "error"}).`, "e"); }
+  renderCal();
+}
+
+/* ---------- calendar ---------- */
+const flags = p => { const f = []; const t = (p.caption + " " + p.hook).toLowerCase();
+  for (const w of ["shabbat","revolutionary","game-changing","game changing","the best","guaranteed"]) if (t.includes(w)) f.push(`contains “${w}”`);
+  return f; };
+function renderCal() {
+  if (!plan || !plan.posts.length) return;
+  const byDay = {}; for (const p of [...plan.posts].sort((a, b) => a.ts - b.ts)) { const k = dayName(p.ts); (byDay[k] = byDay[k] || []).push(p); }
+  $("cal").innerHTML = Object.entries(byDay).map(([d, ps]) => `<div class="day"><div class="date">${esc(d)}</div><div>${ps.map(p => {
+    const pl = PLATFORMS.find(x => x.id === p.platform), fl = flags(p), idea = plan.ideas.find(i => i.id === p.idea_id) || {};
+    return `<article class="post"><div class="time">${esc(clock(p.ts))}</div><div>
+      <div class="meta"><span class="tag" style="border-color:${TYPE_COLORS[p.type]}">${esc(p.content_type)}</span><span class="tag">${esc(pl ? pl.name : p.platform)}</span>
+      ${p.moved ? `<span class="tag moved">moved out of Sabbath</span>` : ""}${p.timeAssumed ? `<span class="tag">time assumed</span>` : ""}
+      ${pl && pl.media ? `<span class="tag">needs media</span>` : ""}${p.status !== "draft" ? `<span class="tag ${p.status === "failed" ? "flag" : ""}">${esc(p.status)}</span>` : ""}
+      ${fl.map(f => `<span class="tag flag">${esc(f)}</span>`).join("")}</div>
+      <div class="hook">${esc(p.hook || idea.title || "")}</div>
+      ${p.caption ? `<details><summary>Caption, visual and shots</summary>
+        <textarea data-id="${esc(p.id)}" aria-label="Caption for ${esc(pl ? pl.name : p.platform)}">${esc(p.caption)}</textarea>
+        <p class="small">${esc(p.hashtags.join(" "))}${p.cta ? ` · CTA: ${esc(p.cta)}` : ""}</p>
+        <p class="small">Visual: ${esc(p.visual_brief)}${p.camera_moves.length ? ` · Shots: ${esc(p.camera_moves.join(" → "))} (node index.js --moves ${esc(p.camera_moves.join(","))})` : ""}</p>
+        ${idea.scripture_ref ? `<p class="small">Scripture: ${esc(idea.scripture_ref)} — verify before publishing</p>` : ""}
+        ${idea.source_url ? `<p class="small">Research: <a href="${esc(idea.source_url)}">${esc(idea.source_url)}</a></p>` : ""}
+        <p class="small">${esc(p.campaign_tag)}</p></details>` : ""}
+    </div></article>`; }).join("")}</div></div>`).join("");
+  $("exports").hidden = false;
+}
+$("cal").addEventListener("input", e => { const id = e.target.dataset && e.target.dataset.id; if (!id || !plan) return;
+  const p = plan.posts.find(x => x.id === id); if (p) { p.caption = e.target.value; p.humanized = false; p.edited = true; store.set("czg-plan", plan); } });
+
+/* ---------- exports ---------- */
+function handoff() {
+  return {schema: "chozen-content-system/plan@1", generated_at: new Date().toISOString(), timezone: TZ, engine: "chozen-publisher",
+    note: "Drafts only. Publisher must attach media for media platforms, verify scripture, run Brand Law pre-flight and re-check the Sabbath guard before scheduling.",
+    brief: {brand: plan.brief.brand, goal: plan.brief.goal, platforms: plan.brief.platforms, start: plan.brief.start, end: plan.brief.end},
+    content_mix: plan.brief.mix.map(t => ({name: t.name, definition: t.def, pct: t.pct})),
+    ideas: plan.ideas.map(i => ({id: i.id, date: i.dateKey, content_type: plan.brief.mix[i.type].name, title: i.title, angle: i.angle, scripture_ref: i.scripture_ref, scripture_verified: false, source_url: i.source_url})),
+    posts: plan.posts.filter(p => p.status === "draft").sort((a, b) => a.ts - b.ts).map(p => ({id: p.id, idea_id: p.idea_id, campaign_tag: p.campaign_tag, content_type: p.content_type,
+      platform: p.platform, local_time: isoLocal(p.ts), utc_time: new Date(p.ts).toISOString(), sabbath_guard: inSabbath(p.ts) ? "BLOCKED" : p.moved ? "MOVED" : "PASS",
+      time_assumed: !!p.timeAssumed, hook: p.hook, caption: p.caption, hashtags: p.hashtags, cta: p.cta, visual_brief: p.visual_brief, camera_moves: p.camera_moves,
+      media_required: !!(PLATFORMS.find(x => x.id === p.platform) || {}).media, media: null, humanized: p.humanized, status: "draft"}))};
+}
+const csvCell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+function exportAs(kind) {
+  if (!plan) return; const h = handoff(); let name, data;
+  if (kind === "handoff") { name = "chozen-plan.json"; data = JSON.stringify(h, null, 2); }
+  if (kind === "csv") { name = "chozen-plan.csv"; const cols = ["local_time","platform","content_type","campaign_tag","hook","caption","hashtags","cta","visual_brief","camera_moves","sabbath_guard"];
+    data = [cols.join(","), ...h.posts.map(p => cols.map(c => csvCell(Array.isArray(p[c]) ? p[c].join(" ") : p[c])).join(","))].join("\n"); }
+  if (kind === "md") { name = "chozen-plan.md"; data = `# ${h.brief.brand} content plan — ${h.brief.start} to ${h.brief.end}\n\n` + h.posts.map(p =>
+    `## ${p.local_time} · ${p.platform} · ${p.content_type}\n\n**${p.hook}**\n\n${p.caption}\n\n${p.hashtags.join(" ")}\n\n_Visual:_ ${p.visual_brief}${p.camera_moves.length ? `\n_Shots:_ ${p.camera_moves.join(" → ")}` : ""}\n_Tag:_ ${p.campaign_tag} · _Sabbath guard:_ ${p.sabbath_guard}\n`).join("\n"); }
+  if (kind === "ledger") { name = "campaign-ledger-entries.json"; const tags = [...new Set(h.posts.map(p => p.campaign_tag))];
+    data = JSON.stringify({campaigns: tags.map(t => ({tag: t, hypothesis: null, variable: "content_type", posts: h.posts.filter(p => p.campaign_tag === t).map(p => ({platform: p.platform, scheduled_for: p.local_time,
+      caption_first_line: (p.caption.split("\n")[0] || "").slice(0, 120), status: "planned", results: {pulled_at: null, reach: null, engagements: null, clicks: null, follows: null}})), verdict: null, learnings: null}))}, null, 2); }
+  deliver(name, data);
+}
+async function deliver(name, data) {
+  if (downloads) { try { await downloads.save({filename: name, data}); log(`Saved ${name}.`, "k"); return; } catch (e) { log(`Download declined — copy it from below instead.`); } }
+  const out = $("out"); out.hidden = false; out.textContent = data;
+  try { await navigator.clipboard.writeText(data); log(`${name} copied to clipboard and shown below.`, "k"); } catch (_) { log(`${name} shown below — select and copy it.`); }
+}
+$("exports").addEventListener("click", e => { const k = e.target.dataset && e.target.dataset.x; if (k) exportAs(k); });
+
+/* ---------- sample plan (no Claude usage) ---------- */
+$("demo").addEventListener("click", () => {
+  const b = readBrief(); let slots; try { slots = buildSlots(b); } catch (e) { log(e.message, "e"); return; }
+  const dates = [...new Set(slots.map(s => s.dateKey))], types = assignTypes(dates.length);
+  const T = [["Chosen isn't a slogan. It's a verdict.", "1 Peter 2:9"], ["Why every ChoZen tee carries a ribbon of blue", "Numbers 15:38"], ["Saturday night, after the Sabbath — what you wore all week", null]];
+  const ideas = dates.map((d, i) => ({id: `idea-${i + 1}`, dateKey: d, type: types[i], title: T[types[i]][0], angle: "Sample idea", source_url: null, scripture_ref: T[types[i]][1]}));
+  plan = {brief: b, ideas, posts: [], threads: [], created: Date.now(), sample: true};
+  slots.forEach(s => { const idea = ideas.find(i => i.dateKey === s.dateKey), p = newPost(s, idea);
+    Object.assign(p, {hook: idea.title, caption: `Sample caption for ${s.platform}. Generate to replace this with real copy.`, hashtags: ["#ChoZen"], cta: "Link in bio", visual_brief: "Sample visual brief.",
+      camera_moves: ["tiktok","instagram","youtube"].includes(s.platform) ? ["tracking","pull-back"] : [], status: "draft"}); plan.posts.push(p); });
+  drawGlobe(); renderCal(); log("Sample plan loaded — every caption is placeholder text.", "k");
+});
+
+/* ---------- boot ---------- */
+loadBrief(); drawGlobe();
+const saved = store.get("czg-plan"); if (saved && saved.posts) { plan = saved; drawGlobe(); renderCal(); log("Restored your last plan from this browser."); }
+(async () => {
+  if (!(window.claude && window.claude.use)) { setChip("c-claude", "off", "Claude: open in claude.ai"); setChip("c-research", "off", "Reddit research: off"); setChip("c-dl", "off", "Downloads: copy instead"); return; }
+  const [s, m, d] = await Promise.all(["sample", "mcp", "downloads"].map(n => window.claude.use(n).catch(() => null)));
+  sample = s; mcp = m; downloads = d;
+  setChip("c-claude", s ? "on" : "warn", s ? "Claude: ready" : "Claude: unavailable");
+  setChip("c-research", m ? "on" : "off", m ? "Reddit research: Parallel Search" : "Reddit research: off");
+  setChip("c-dl", d ? "on" : "off", d ? "Downloads: on" : "Downloads: copy instead");
+})();
+}
+</script>
+</body>
+</html>

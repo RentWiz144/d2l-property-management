@@ -24,6 +24,21 @@ node index.js --list
 
 ---
 
+## Shot Director (video)
+
+Layer 9, optional. Adds one of four operator camera moves — tracking, orbit, whip pan, pull back — plus operator realism, for image-to-video models.
+
+```bash
+node index.js --moves-list
+node index.js --preset authority --move orbit
+node index.js --preset discipline --moves tracking,whip-pan,pull-back   # one prompt per clip
+npm test
+```
+
+Part of the ChoZen Content System — see `content-system/README.md`.
+
+---
+
 ## Architecture
 
 ```
@@ -38,7 +53,8 @@ src/
 │   ├── EnvironmentImperfection.js ← Layer 5: Stains, wear, misplacement
 │   ├── FaceDetail.js           ← Layer 6: Pores, fatigue, tone breaks
 │   ├── CameraDegradation.js    ← Layer 7: Grain, drift, edge softness
-│   └── TextImperfection.js     ← Layer 8 (optional): Quote visuals
+│   ├── TextImperfection.js     ← Layer 8 (optional): Quote visuals
+│   └── CameraMove.js           ← Layer 9 (optional, video): Shot Director
 ├── presets/
 │   ├── authority.js
 │   ├── faith.js

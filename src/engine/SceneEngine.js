@@ -13,6 +13,7 @@
  *   6. FACE & MICRO DETAIL BREAK
  *   7. CAMERA DEGRADATION
  *   8. TEXT IMPERFECTION (optional)
+ *   9. CAMERA MOVE (optional, video only — Shot Director)
  */
 
 const { buildIdentityLock } = require("../modules/IdentityLock");
@@ -23,6 +24,7 @@ const { buildEnvironmentImperfection } = require("../modules/EnvironmentImperfec
 const { buildFaceDetail } = require("../modules/FaceDetail");
 const { buildCameraDegradation } = require("../modules/CameraDegradation");
 const { buildTextImperfection } = require("../modules/TextImperfection");
+const { buildCameraMove } = require("../modules/CameraMove");
 
 const HARD_CONSTRAINTS = `CONSTRAINTS (NON-NEGOTIABLE):
 – No symmetry
@@ -47,6 +49,8 @@ const HARD_CONSTRAINTS = `CONSTRAINTS (NON-NEGOTIABLE):
  * @param {string[]} [config.faceDetailExtras] - Additional face detail rules
  * @param {object} [config.cameraOptions] - Options for camera degradation
  * @param {object|null} [config.textImperfection] - Text imperfection config, or null to omit
+ * @param {string|object|null} [config.cameraMove] - Video only: "TRACKING" | "ORBIT" | "WHIP_PAN" | "PULL_BACK",
+ *   or { move, durationSec, direction }. Omit for a still image.
  * @returns {string} Complete assembled scene prompt
  */
 function buildScene(config) {
@@ -60,13 +64,15 @@ function buildScene(config) {
     faceDetailExtras = [],
     cameraOptions = {},
     textImperfection = null,
+    cameraMove = null,
   } = config;
 
   if (!emotionalState) throw new Error("SceneEngine: emotionalState is required.");
   if (!location) throw new Error("SceneEngine: location is required.");
 
   // Assemble opener
-  const opener = `Capture a real, unguarded moment of a man living within ${emotionalState.toLowerCase()}.
+  const medium = cameraMove ? "Film" : "Capture";
+  const opener = `${medium} a real, unguarded moment of a man living within ${emotionalState.toLowerCase()}.
 
 This is not a posed image.
 This is a moment observed too late to fix.
@@ -88,6 +94,11 @@ Location: ${location}`;
   // Optional text layer
   if (textImperfection) {
     layers.push(buildTextImperfection(textImperfection));
+  }
+
+  // Optional video layer — Shot Director
+  if (cameraMove) {
+    layers.push(buildCameraMove(cameraMove));
   }
 
   // Hard constraints always last
