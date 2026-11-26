@@ -1,141 +1,194 @@
-# ChoZen UGC Content System — Plan v2 (DRAFT, awaiting owner approval)
+# ChoZen UGC Content System — Plan v3 (DRAFT, awaiting owner approval)
 
 Seat: ORCHESTRATOR · Date: 2026-11-26 · Branch: `claude/gallant-clarke-dsysfj`
-v1 → red team (3 adversaries) → **FIX THEN LAUNCH** (5 Critical, 4 Major). v2 addresses each finding; disposition in §8.
+History: v1 red team → FIX THEN LAUNCH (5C/4M). v2 red team → FIX THEN LAUNCH (7C/15M). v3 adds the owner's decisions and live store data; the disposition table is in §10.
 
-## 0. Owner decisions (2026-11-26)
+## 0. Owner decisions
 
-| # | Decision | Owner's answer | How v2 applies it |
+| # | Decision | Answer | Applied as |
 |---|---|---|---|
-| D1 | Offer | Every piece of content sells a **product** with a **destination URL** | `brief.offer.product` and `brief.offer.destination_url` are required. The validator rejects any package without them |
-| D2 | Synthetic founder | **AI-rendered Amoz is allowed**, including faith/testimony formats | Allowed, with a mandatory burned-in AI label (§5 HS4). The owner can override the burn-in; see §9 |
-| D3 | Sequencing | **Build in parallel** with producing content | Track A (content now) and Track B (code) run together (§3) |
-| D4 | Real customer testimony | **Yes**, with consent | Adds a `testimony` format that requires a consent record |
-| D5 | Spend control | **Owner approves per ad** (I read "Porter ad" as "per ad"; confirm in §9) | Mechanical per-ad approval gate (§5 HS2) |
-| D6 | Repo visibility | **Private** | `raw.githubusercontent` URLs won't work. Renders are never committed; media is hosted per §4.4 |
+| D1 | Offer | Every package sells a **product** with a **destination URL** | Required `offer` block (§5.4). Destination can be Online Store, Etsy, or TikTok Shop (see §1) |
+| D2 | AI-rendered Amoz | Allowed | Allowed in all founder formats |
+| D2b | AI faith/testimony (red-team Critical) | **OWNER OVERRIDE, 2026-11-26.** Proceed despite the Critical rating | Override conditions are mandatory and cannot be removed (§6 HS4). The override is logged in §11 |
+| D3 | Sequencing | Build in parallel, smaller | Track B is time-boxed and scoped (§4) |
+| D4 | Real testimony | Yes | Collection sprint in Track A week 1 (§3) |
+| D5 | Spend / approvals | **Paid generation stays in Amoz's hands** | No automated renderer. Amoz presses every render and every ad button himself (§6 HS2) |
+| D6 | Repo | Private | Renders are never committed. Media path is in §5.5 |
+| D7 | Scripture posts | Soft CTA allowed; hard product CTAs ≤ 60%/week | `cta_mode` field plus a weekly batch check |
+| D8 | Consent store | Google Drive folder **"ChoZen Ecosystem"** | Releases go in a subfolder (proposed: `Testimony Releases`, not created yet; §11) |
 
-## 1. Goal
+## 1. Revenue research (live Shopify data, pulled 2026-11-26)
 
-One brief in, one validated **UGC package** out. The package uses a defined schema that `chozen-social-command` reads, so it can schedule the post and log it to the ledger against a real product and URL.
+**Store:** ChoZen Unlimited, chozenunlimited.com, Shopify Basic, USD.
 
-```
-brief.json (offer + subject + format)
-  → script + hooks (Claude in session, checked by code)
-  → shot list + image/video prompts (scene engine, UGC mode)
-  → [optional, per-ad owner approval] paid render
-  → burned-in AI label · captions · UTM link
-  → ugc-package v1 → chozen-social-command → ledger
-```
-
-## 2. Grounding (corrected from v1)
-
-| Claim | Status | Source |
+| Metric (last 12 months) | Value | Source |
 |---|---|---|
-| Opener hard-codes "Capture a real, unguarded moment of **a man** living within …" | VERIFIED | `src/engine/SceneEngine.js:68-74` (v1 cited 62-68, which was wrong) |
-| `HARD_CONSTRAINTS` include "No posing" | VERIFIED | `src/engine/SceneEngine.js:27-35` (v1 was off by one) |
-| Identity Lock uses "exact facial identity from reference images" and is always applied | VERIFIED | `src/modules/IdentityLock.js:40`, `SceneEngine.js:79` |
-| Camera Degradation's purpose is "feel captured, not generated" | VERIFIED | `src/modules/CameraDegradation.js:35` |
-| FAITH state requires "head slightly lowered", "eyes not fully visible", which conflicts with direct address | VERIFIED | `src/modules/EmotionalState.js:25-26` |
-| The 4 existing presets are deterministic. CompositionBreak and EnvironmentImperfection call `Math.random` when picks are omitted | VERIFIED | `CompositionBreak.js:38-39`, `EnvironmentImperfection.js:39-40`. The red team ran md5 on two runs of each preset |
-| The kie.ai price on file covers **text-to-video, no audio** only | VERIFIED | `brand/textures/generate.js:11-12`, `prompts.json` |
-| The ledger, Shabbat gate and A/B process exist **only as written instructions**. No ledger file exists, and nothing in code enforces them | VERIFIED | `chozen-social-command/SKILL.md:43,57`, `references/campaign-playbook.md:17` |
-| social-command has **no input schema**; intake is conversational | VERIFIED | `SKILL.md:57` |
-| A Postiz publishing engine is set up in the repo | VERIFIED | `postiz-setup/` |
-| Captions show only the first 125 characters before "…more" on IG. Scripture must be verified before scheduling | VERIFIED | `references/platform-specs.md:6,38` |
-| kie.ai can do 9:16 image-to-video of a talking person with speech/lip-sync, and at what price | **UNKNOWN**. Blocks P4 | kie.ai docs |
+| Total sales / orders | **$6,612.47 / 45 orders** | ShopifyQL `sales` |
+| AOV | $147 overall; $159–$206 over Sep–Nov 2026 | `sales` by month |
+| Best month | Aug 2026: $1,727 / 11 orders | `sales` by month |
+| Recent | Sep $869 (5 orders) · Oct $570 (3) · Nov 1–26 $686 (3) | `sales` by month |
+| Sales by channel | Etsy $2,584 (16) · Online Store $2,113 (16) · **TikTok Shop $796 (7)** · Draft Orders $770 (6) · Shop app $350 (2) | `sales` by `sales_channel` |
+| Attribution | **42 of 45 orders have no referrer source.** In 90 days social sent 350 sessions to the store and **0** completed checkouts | `sales` by referrer; `sessions` by referrer |
+| Store funnel, 90 days | 2,962 sessions · 98 sessions with an add-to-cart (3.3%) · Shopify-reported conversion 0.07% | `sessions` |
 
-## 3. Two parallel tracks (D3)
+**Top products by revenue (12 months).** The top three are **53%** of revenue, and all three are **women's modest wear**:
 
-**Track A: content now (starts this week, no code needed)**
-- Target: **10 UGC packages/week**, drafted by Claude in session using the §4.1 format library as a written reference doc. Amoz films some on his phone and AI-renders others by hand under the §5 rules.
-- Each is logged in the ledger with an `ai-render` vs `self-shot` tag. Early on, one social-command A/B test compares **AI-render vs. self-shot Amoz on the same script**, judged on 3-second retention and follows. The result decides how much P4 is worth.
-- Track A is what moves revenue in the 5 weeks before the Jan 2027 target. Track B must never block it.
+| Product | Price | Orders | Revenue | URL |
+|---|---|---|---|---|
+| ChoZen Deuteronomy 22:5 Maxi Jersey Dress | $109.99–$119.99 | 14 | $1,576 | chozenunlimited.com/products/chozen-deuteronomy-22-5-maxi-jersey-dress |
+| ChoZen Skyline Track Maxi Dress | $129.99 | 9 | $1,267 | …/products/chozen-skyline-track-maxi-dress |
+| ChoZen Signature Modest Set | $129.99 | 5 | $683 | …/products/chozen-signature-modest-set |
+| The Tribal Sherpa Jacket (winter) | $389.99 | 2 | $741 | …/products/the-tribal-shearling-jacket |
 
-**Track B: code (P1 → P5)**, which turns Track A's manual steps into tooling.
+Inventory: the top product has `tracksInventory: false` and `inventoryPolicy: CONTINUE`. Fulfillment median is 0 days (30 orders, 180 days). **Inferred:** made-to-order or print-on-demand. **Unknown:** production plus shipping time, so the Christmas ship-by date can't be computed.
 
-## 4. Design (forks settled in v1, revised)
+**Target math (verified arithmetic, inferred conclusion):**
+- $10K/month at ~$150 AOV is about **67 orders/month (~15/week)**. The current pace is ~3/month, so that's roughly 20×.
+- At a 3.3% add-to-cart rate and the Online Store's observed ~1 checkout per ~1,500 sessions, organic UGC to the web store alone won't close that gap in 5 weeks.
+- **Inferred:** January's $10K is out of reach from this system alone. What the system can do is produce a measurable weekly lift in orders on the channels that already sell (TikTok Shop, Etsy, Online Store).
+- **Track A's primary metric is therefore orders per week by channel**, not views.
 
-### 4.1 Format library (`src/ugc/formats.js`): the ChoZen moat, not stock UGC
-| Format | Required brief fields | Rule |
+**What this changes in the plan:**
+1. The best sellers are **women's dresses**. AI Amoz cannot model them. The money format is **`fit` with real women wearers plus `testimony`**, not founder talking-heads.
+2. **TikTok Shop already converts** (7 orders), while social → web store converts nothing. TikTok packages link the **TikTok Shop product**.
+3. Most sales can't be attributed today. We need a **per-package discount code** in addition to UTM, so Etsy, TikTok Shop and DM/draft orders can be tied back to a package.
+
+## 2. Goal
+
+One brief produces one validated `ugc-package/v1`, which `chozen-social-command` schedules. Every package is tied to a named product, a channel-correct destination, and an attribution code, so the weekly ledger reports **orders by package**.
+
+## 3. Track A: content now (starts this week; no code needed)
+
+**Week 1 (Nov 27 – Dec 3)**
+1. **Testimony and wearer sprint.** Message the buyers of the top 3 dresses (Etsy, TikTok Shop and Online Store orders; up to ~28 customers). Ask for a 15–30 s phone clip wearing the piece, plus a signed release. Use a one-page release template (Claude drafts it; Amoz approves). Signed releases go in Drive under `ChoZen Ecosystem`.
+2. **10 packages**, all formats real or self-shot except `founder-direct`. Floor: **≥ 3 `fit`/`testimony` packages on the top 3 dresses** and **≥ 2 `precept` packages**, with Deuteronomy 22:5 as the natural first. Hard product CTA on ≤ 60% of packages.
+3. **First test: offer/hook, not production.** One variable, for example a scripture-first hook vs. a fit-first hook on the Deut 22:5 dress. Primary metric is **orders** (attribution code + UTM), with link clicks secondary. Settle windows and the ≥ 25% rule follow `campaign-playbook.md:47-52`. Arms are compared to each other until 30 days of baseline exist (`campaign-playbook.md:49`).
+
+**Weeks 2–5 (Dec 4 – Jan 1)**
+- **Christmas push** on the top dresses and the Sherpa jacket, ending at Amoz's **ship-by date**. He supplies that date from the supplier lead time (§11).
+- **New Year "Set Apart / Discipline" drop** content goes out from Dec 26.
+- **AI-render vs. self-shot test runs last** (week 4+). It uses separate days, `founder-direct` format only, and is judged on orders, link clicks and a **negative-signal count** (AI call-out comments, hides, unfollows).
+
+## 4. Track B: code (time-boxed, smaller)
+
+| Phase | Deliverable | Box |
 |---|---|---|
-| `testimony` | `consent.id`, `consent.signed_at`, `quote_source` (release/transcript path) | Real customer, **real footage only**, quote verbatim from the source. AI never renders a customer's likeness |
-| `precept` | `scripture[]` (book, chapter, verse(s)), `cross_refs[]` | IUIC-style precept-upon-precept. The validator checks that citations are present and well-formed. **Verse accuracy is a human/Claude check against a Bible text before scheduling**, because code cannot verify it |
-| `fit` | `sizes_shown[]`, `subject.kind` must be `real_wearer` | Size-inclusive. Real wearers only, never AI bodies |
-| `founder-direct` | (none extra) | Amoz direct address: talking-head, "day in the discipline", objection-flip |
-| `faith-moment` | `scripture[]` | Founder faith testimony. An AI render is allowed (D2) but carries the burned-in label |
-| `pov` / `reaction` | (none extra) | Generic formats, allowed but capped at ≤30% of a week's packages |
+| **B1** | `src/ugc/schema.js` (`ugc-package/v1`), `src/ugc/validate.js` (per package + `--week` batch), `src/ugc/shabbat.js` (NOAA sunset, no dependencies), `src/ugc/formats.js` (format beat templates), tests | **by Dec 7** |
+| **B2** | `ugc.js` CLI: `--brief` → `ugc/out/<id>/`; `--ledger-entry` → `ugc/out/<id>/ledger-entry.json`; `--week <dir>`; `.gitignore`; update `chozen-social-command` SKILL.md (package intake, media playbook for a private repo, Shabbat rule) | **by Dec 7** |
+| B3 | Scene engine `captureMode: "ugc"` + subject-aware layers + `ugc-*` presets | **frozen** until Track A has a sales winner |
+| ~~P4 render~~ | **Cut** (D5). Claude writes prompts; Amoz renders in kie.ai or Higgsfield himself | — |
+| B4 | `chozen-ugc` skill | after B2. Until then Track A uses this plan plus `formats.js` as a reference |
 
-Hook archetypes live here too. All formats require `offer.product`, `offer.destination_url`, and a CTA that names the product.
+**Gate 5 for Track B is lightweight:** Amoz runs one real brief (the Deut 22:5 `fit` package) through social-command once. No other owner time is needed in December.
 
-### 4.2 Script validator (`src/ugc/validateScript.js`)
-Rejects a package if: hook > 3 s; word count > duration × 2.5; the CTA count isn't exactly 1 or the CTA doesn't name `offer.product`; `offer.destination_url` is missing or not https; a required format field is missing (§4.1); a synthetic render lacks `ai_label.burned_in: true`; a schedule timestamp falls Fri 18:00 – Sat 20:00 America/Detroit; `subject.kind = "founder"` with `render: "ai"` but no `likeness_approved_by`; or a `fit` or `testimony` format has `render: "ai"`.
+## 5. Design
 
-### 4.3 Scene engine: `captureMode: "ugc"`
-- `"observed"` stays the default and is byte-identical (snapshot test).
-- UGC mode has a new **UGC expression set** (`src/ugc/ugcStates.js`) built for direct address. It doesn't reuse the four STATES, which fixes the FAITH eye-contact conflict. Examples: `UGC_AUTHORITY` (steady eye contact, unhurried), `UGC_FAITH` (eyes up to the lens after a lowered beat), `UGC_PRESSURE`, `UGC_DISCIPLINE`.
-- The opener is parameterized by `subject` (`founder` / `real_wearer` / `labeled_ai_person`) instead of hard-coding "a man". Identity Lock applies **only** when `subject.kind = "founder"`.
-- UGC mode **requires** `compositionPicks` and `environmentPicks` (no `Math.random`), so output is deterministic and snapshot-testable.
-- Camera Degradation is kept, because realism is the aesthetic. Honesty comes from the burned-in label, not from looking worse.
+### 5.1 Format library (`formats.js`): beat templates, not just names
+Each format defines viewer-facing beats (0–1.5 s hook / middle / close), on-screen text rules and required fields:
 
-### 4.4 Package schema `ugc-package/v1` (`src/ugc/schema.js`): the hand-off contract
+| Format | Render allowed | Required fields | Beats (summary) |
+|---|---|---|---|
+| `fit` | **real wearer only** | `sizes_shown[]`, `wearer.consent_id`, `product` | 0–1.5 s full-length reveal → movement (coverage in motion) → size/fit on-screen text → CTA overlay |
+| `testimony` | **real customer only** | `consent_id`, `quote_source`, `material_connection{type, disclosed}` | Customer's verbatim words, no brand hook, no CTA spoken by the customer. The CTA is a caption or overlay only |
+| `precept` | founder (real or AI*) | `scripture[]`, `cross_refs[]`, `scripture_verified{by, against, at}` | Verse on screen → precept-upon-precept chain → application → soft CTA by default |
+| `faith-moment` | founder (real or AI*) | `scripture[]`, `scripture_verified{…}` | Lowered beat → eyes to lens → one line of witness → soft CTA |
+| `founder-direct` | founder (real or AI*) | — | Hook → objection or story → product → hard CTA |
+| `pov` / `reaction` | real only | — | ≤ 30% of a week |
+
+\*AI renders carry the HS4 conditions. **There is no synthetic non-founder person**: v2's `labeled_ai_person` is removed. Testimony is exempt from the hook, word-budget and spoken-CTA rules.
+
+### 5.2 Per-package validator rules
+- **Offer:** `offer.product` and `offer.channel ∈ {online_store, etsy, tiktok_shop}` are required. `destination_url` must be https, and an `online_store` destination must be on `chozenunlimited.com`. `attribution_code` is required and unique per package.
+- **Hook:** `script.hook_s` ≤ 1.5 for TikTok, ≤ 3 for other platforms (`platform-specs.md:12`). Word count ≤ `duration_s` × 2.5 (testimony is exempt).
+- **CTA:** `cta_mode ∈ {hard, soft, none}`. `hard` must name `offer.product`. `precept` and `faith-moment` default to `soft`.
+- **Captions:** per-platform `captions{platform: text}` are required. When `render.mode = "ai"`, the AI disclosure must appear within the first 125 characters of every caption (`platform-specs.md:6`).
+- **Claims:** `claims[]` entries each need a `source`. The validator flags superlatives ("best", "changed my life", "everyone") that have no source.
+- **Material connection:** `testimony` with `material_connection.type ≠ "none"` requires `#ad` or a partnership label in the captions.
+- **Subjects:** `subject.kind ∈ {founder, real_wearer, real_customer}`. `fit` and `testimony` with `render.mode = "ai"` are rejected.
+- **Shabbat:** if `schedule[]` is present, every timestamp is checked (§5.6).
+
+### 5.3 Weekly batch rules (`validate --week`)
+Checks a week's packages together: hard CTA ≤ 60%; `pov`/`reaction` ≤ 30%; founder-face share ≤ 50%; ≥ 3 `fit`/`testimony`; ≥ 2 `precept`; no two consecutive founder packages may share the same location.
+
+### 5.4 `ugc-package/v1` schema
 ```
-{ schema: "ugc-package/v1", id, created_at, format, subject{kind, consent_id?},
-  offer{product, destination_url, utm_url}, campaign_tag,          // cz-YYYYMM-name[-a|-b]
-  script{hook, body, cta, duration_s}, hooks[], shotlist[],
-  prompts{image, video}, render{mode: "self-shot"|"ai"|"none", approved_ad_id?, cost_usd?},
-  ai_label{burned_in, caption_label, platform_toggle_checklist[]},
-  likeness_approved_by?, scripture[]?, media{local_path?, public_url?}, platforms[], schedule[]? }
+{ schema:"ugc-package/v1", package_id, created_at, format, product,
+  subject{kind, consent_id?}, wearer?{consent_id, sizes_shown[]},
+  offer{product, channel, destination_url, attribution_code},
+  campaign{tag, hypothesis, variable, arm},                     // ledger needs these before results (playbook:24-25)
+  script{hook, hook_s, body, cta, cta_mode, duration_s}, hooks[], shotlist[],
+  prompts{image, video},
+  render{mode:"self-shot"|"ai"|"none"},                          // no cost or approval fields: Amoz renders outside the system
+  ai_label?{text:"AI-generated likeness of Amoz — his words", position:"safe-zone top-left", min_height_pct:4, from_frame:0, to_end:true},
+  captions{instagram?, tiktok?, facebook?, threads?, youtube?},  // ≤125-char hook + disclosure
+  utm{per_platform:{<platform>: url}},                           // utm_source=<platform>, utm_campaign=<tag>
+  scripture?[], scripture_verified?{by, against, at}, claims?[], material_connection?,
+  media{local_path?, drive_file_id?, public_url?}, platforms[], schedule?[] }
 ```
-- `utm_url` is built by code from `destination_url` + `campaign_tag` (`utm_campaign` = tag).
-- `chozen-social-command/SKILL.md` gains a section: "If given a `ugc-package/v1` file, read it instead of running conversational intake." The ledger entry gains `ai_label`, `offer_url`, `likeness_approved_by`, `consent_id`, and `ugc-package` creates it (`node ugc.js --ledger-entry <pkg>`), covered by a round-trip test.
-- **Media hosting (private repo, D6):** `ugc/out/` and all renders are **gitignored and never committed**. To publish, Amoz either uploads natively by hand (no host needed), or shares the file on Google Drive as "anyone with the link". In that case the package records `public_url`, and the skill checks that the URL serves video/image content rather than HTML before scheduling (social-command media playbook, option 2).
+- **Instagram link-in-bio:** IG captions say "link in bio". The package records `bio_link_required: <url>` so social-command can remind Amoz to set the bio link for that post's window.
+- **Ledger entry:** `--ledger-entry` writes JSON in the `campaign-playbook.md:19-39` shape, plus `package_id`, `product`, `channel`, `render_mode`, `attribution_code`, and `results.orders`/`results.revenue`. The canonical ledger stays where the playbook says (one copy). social-command appends the entry; the CLI never writes the live ledger.
 
-## 5. Hard stops (mechanism, not just policy)
+### 5.5 Media path (private repo, cloud container)
+- Renders are produced by Amoz outside the container (kie.ai or Higgsfield UI, or his phone). They go straight from his phone or desktop into his Drive, so nothing has to leave the container.
+- Prompts, scripts and captions leave the container through git (text only) or are pasted from chat.
+- If a package needs a URL, social-command records the Drive file and checks that the link serves `video/*` or `image/*`. The `/view` URL serves HTML, so use the direct-download form. For large files Drive serves a virus-scan HTML page, so native upload is preferred for video.
+- B2 updates `SKILL.md:47-50`: the public GitHub path no longer applies to this private repo.
 
-| # | Stop | Mechanism |
+### 5.6 Shabbat (fixes the winter hole)
+`shabbat.js` computes Detroit sunset per date with the NOAA solar formula. The block runs from **Friday sunset − 18 min** to **Saturday sunset + 50 min**, and any timestamp inside it is rejected. Tests use fixed dates: Fri 2026-12-18 17:30 → reject; Fri 2026-12-18 16:00 → accept; Sat 2027-06-19 21:00 → reject. social-command re-runs `validate` on final timestamps before scheduling (B2 SKILL.md update), which closes the gap where `schedule[]` was optional.
+
+### 5.7 Scene engine (B3, frozen; spec kept so it's ready)
+- `captureMode: "ugc"`. The opener comes from `subject.kind`, and when `render.mode = "ai"` the "not a posed image / observed too late" lines are **dropped**.
+- `FaceDetail`'s beard line (`FaceDetail.js:12`) and IdentityLock (`IdentityLock.js:11`) apply only to `founder`. "No posing" is replaced in UGC mode.
+- Picks are mandatory. The `observed` mode is unchanged and covered by a snapshot test with **pinned preset names** (`index.js:69-72` otherwise picks a random preset).
+
+## 6. Hard stops
+
+| # | Stop | Mechanism, honestly classified |
 |---|---|---|
-| HS1 | Existing preset output never changes | Snapshot test of the 4 presets (md5 of output) in `node --test` |
-| HS2 | **No spend without per-ad owner approval (D5)** | (a) `.claude/settings.json` **deny** rule on `node src/ugc/render.js*--confirm*`, so Claude cannot run a paid render; Amoz runs it himself. (b) `render.js --confirm` also requires `--approve <package-id>:<max-usd>`; it refuses if the estimate exceeds `max-usd` or the id doesn't match. (c) Prices are keyed by model + mode (t2v/i2v) + audio + resolution; any unknown combination is refused |
-| HS3 | P4 doesn't start until kie.ai talking-head capability and price are verified from kie.ai's docs | Orchestrator check, reported to the owner with the source URL |
-| HS4 | Every AI render is labeled where the viewer sees it first | Validator requires `ai_label.burned_in`; caption label in the first 125 characters; platform AI-label toggle checklist |
-| HS5 | No AI render of a customer's likeness or of fit/size content; testimony is verbatim with consent | Validator rules in §4.2 |
-| HS6 | Founder likeness is used only with sign-off per package | Validator requires `likeness_approved_by` for `founder` + `ai`; the field is set only by Amoz |
-| HS7 | This system never publishes. Postiz and other schedulers are called only by `chozen-social-command` | No network code in `src/ugc/` except `render.js`; a test greps for this |
-| HS8 | Shabbat | Validator rejects any schedule timestamp from Fri 18:00 to Sat 20:00 America/Detroit |
-| HS9 | No new npm dependencies; renders never committed | `package.json` diff check; `.gitignore` entry |
+| HS1 | Existing preset output never changes | **Mechanism:** snapshot test (B3) |
+| HS2 | **No paid generation or ad spend by Claude** | **Mechanism:** no render code exists, and `KIE_API_KEY` is **not** placed in any cloud environment. Paid tools are pressed by Amoz in their own UIs. **Policy:** Claude does not call Higgsfield, Meta Ads, Windsor write or any other paid MCP tool for this work. Turning that policy into a mechanism needs a project permission deny list, which is offered in §11 and not applied without Amoz's say-so |
+| HS3 | (retired: P4 cut) | — |
+| HS4 | **Override conditions for AI faith/testimony (D2b)** | Validator: `render.mode = "ai"` requires the `ai_label` block with the fixed text, from frame 0 to the end, inside the safe zone. The label is non-removable: the validator has no off-switch. The B3 prompt for AI drops the "pass-as-real" opener lines. **Limit:** code can't see pixels. The burn-in itself is done by Amoz at render or edit time, and Gate 5 includes a visual check |
+| HS5 | No AI of customers, wearers or fit content; testimony stays verbatim; material connection disclosed | **Mechanism:** validator rules |
+| HS6 | Founder likeness is used with Amoz's sign-off | **Mechanism:** Amoz is the only person who can render (HS2), so every AI likeness is his own action. The v2 `likeness_approved_by` string is removed as theatre |
+| HS7 | This system never publishes | **Mechanism:** `src/ugc/` has no network code, and a test asserts that no `http`, `https`, `net` or `child_process` module is required. **Policy:** publishing only through social-command |
+| HS8 | Shabbat | **Mechanism:** §5.6 |
+| HS9 | No new npm dependencies; renders never committed | **Mechanism:** test on `package.json` dependencies; `.gitignore` |
 
-## 6. Phases (Track B)
+## 7. Tests (B1–B2), one named test per rule
+Validator: each §5.2 rule with a pass case and a fail case. Weekly batch: each §5.3 ratio. Shabbat: the 3 fixed dates plus a DST edge. Schema → ledger round trip (shape matches the playbook). UTM builder per platform. HS7 forbidden-module scan. HS9 dependency check. Deterministic only: no clock, no network, no `Math.random`.
 
-| Phase | Deliverable | Spend |
-|---|---|---|
-| P1 | `formats.js`, `ugcStates.js`, `schema.js`, `validateScript.js` and tests | none |
-| P2 | `captureMode: "ugc"` + subject-parameterized opener + 4 `ugc-*` presets with pinned picks + snapshot test (HS1) | none |
-| P3 | `ugc.js` CLI: `--brief` → `ugc/out/<id>/` (package.json, script.md, hooks.md, shotlist.md, prompts, captions.md), `--ledger-entry`, `.gitignore`, social-command SKILL.md hand-off section | none |
-| P4 | `render.js` (kie.ai) with HS2 gates. **Starts only after HS3** | paid, owner-run |
-| P5 | `.claude/skills/chozen-ugc/SKILL.md` (Track A's written process, now pointing at the CLI) | none |
+## 8. Verification
+- `node --test` passes.
+- **Real surface (Gate 5):** Amoz produces one real `fit` package for the Deut 22:5 dress, with a consenting wearer, through social-command, and confirms three things: the schedule plan respects his true Shabbat window, the ledger entry has the attribution code, and an order using that code shows up in Shopify against the package. **That order, not green tests, is "done".**
 
-## 7. Verification
+## 9. Grounding (corrections carried from the red team)
+`SceneEngine.js:68-74` opener · `:27-35` constraints · `FaceDetail.js:12` and `IdentityLock.js:11` beard (male defaults) · `CameraDegradation.js:4,35` "captured, not rendered" · `CompositionBreak.js:38-39` and `EnvironmentImperfection.js:39-40` random picks · `index.js:69-72` random preset · `platform-specs.md:6,9,12,18,37,38` · `campaign-playbook.md:15-52` ledger and judging · `SKILL.md:43` fixed 18:00/20:00 Shabbat buffer (wrong in winter) · `SKILL.md:47-50` public-repo media path · `SKILL.md:95` ad spend recommendations only · `postiz-setup/` is an **install kit**, not a running engine · no `.claude/settings.json` exists.
 
-- `node --test` passes, covering the validator rules in §4.2, snapshot HS1, package → ledger round trip, and the HS7 grep.
-- Real surface (Gate 5): Amoz runs `node ugc.js --brief briefs/example-precept.json` with a real product and URL, opens the package, and (a) pastes the image prompt into his generator and judges it as ChoZen UGC, and (b) hands the package to social-command and sees a correct schedule plan and ledger entry. Tests passing is not "done".
+## 10. Disposition of v2 red-team findings
 
-## 8. Disposition of v1 red-team findings
-
-| Finding | v2 response |
+| Finding | v3 |
 |---|---|
-| C1 label hidden / counterfeit witness | HS4 burned-in label; D2 keeps AI faith content, with labeling as the safeguard. Track A's A/B test measures the audience's reaction |
-| C2 no moat formats | §4.1 testimony / precept / fit; scripture fields; real-testimony route (D4) |
-| C3 runway | §3 Track A ships content this week, weekly quota, never blocked by code |
-| C4 pipeline breaks after the CLI | §4.4 schema, social-command reads it, ledger round-trip, private-repo media path |
-| C5 hard stops were policy | §5 settings deny rule, `--approve` id:cap, mode-keyed prices, `likeness_approved_by`, Shabbat check |
-| M1 no offer | D1 required fields, CTA must name the product, UTM built by code |
-| M2 one man only | Subject parameter; real wearers for fit |
-| M3 faith/eye-contact conflict, sameness | `ugcStates.js`; ≤30% generic formats; A/B test |
-| M4 randomness | Picks required in UGC mode |
-| Accepted / not fixed | Ledger results are still pasted in by hand from native analytics. Each script still needs a live Claude session (F2). Both are acceptable at 10 packages/week and get revisited at 10× |
+| AI faith testimony reads as counterfeit (Critical ×2) | **Owner override (D2b)** with HS4 conditions. The red-team Critical stands and is logged |
+| Precept as ad copy (Critical) | D7 soft CTA + 60% cap |
+| Spend gate bypassable / covers wrong spend (Critical) | Render code cut, no key in the cloud, Amoz presses every paid button. The MCP part is policy, with the deny list offered |
+| Approvals are typed strings (Critical) | `likeness_approved_by` and `--approve` removed. Approval = Amoz's own action |
+| Moat formats are only names (Critical) | Beat templates, testimony/wearer sprint, `scripture_verified` record, weekly floors |
+| No sales metric (Critical) | Orders by channel, attribution codes, `results.orders` |
+| No revenue math / December offer (Critical) | §1 live data, Christmas push to ship-by date, New Year drop |
+| Shabbat winter hole | NOAA sunset + final-timestamp re-check |
+| Beard / no-posing for every subject | §5.7 subject-aware layers (B3) |
+| `labeled_ai_person` | Removed |
+| Testimony forced into ad rules; FTC | Exempt from hook/CTA rules; `material_connection` |
+| Label underspecified | Fixed text, position, size, frame range |
+| Hand-off gaps, per-platform UTM, IG link, ledger location, media out of container | §5.4–5.5 |
+| Uncomputable rules | `hook_s`, `cta_mode`, weekly batch validator |
+| Track B un-boxed | B1–B2 by Dec 7, B3 frozen, P4 cut |
 
-## 9. Still open
-
-1. D5 reading: confirm that "Porter ad" means "**per ad**" approval.
-2. D2: burned-in AI label on every synthetic render is the default (HS4). Override only if you explicitly choose caption-only.
-3. Who holds the signed consent forms for testimony (Drive folder?), so `consent.id` can point somewhere real.
+## 11. Still open (owner)
+1. **Christmas ship-by date.** Supplier production + shipping time per top product (unknown: inventory is untracked).
+2. Create the `Testimony Releases` subfolder in Drive `ChoZen Ecosystem`? (I can create it; it's a write to your Drive.)
+3. Apply a project permission **deny list** for paid/ad-write MCP tools (Higgsfield generate, Meta Ads write, Windsor `execute_action`, Adspirer)? Without it, HS2's MCP half stays policy only.
+4. Accept that **$10K in January is unlikely from this system alone** (§1 math) and track orders/week instead, or keep $10K as the formal target?
+5. **Override record (D2b):** "AI-rendered Amoz may appear in faith-moment, precept and founder content despite the red-team Critical, under HS4 conditions." Owner, 2026-11-26.
