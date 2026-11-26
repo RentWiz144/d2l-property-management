@@ -1,0 +1,1 @@
+{ "name": "chozen-system-pdf", "private": true, "scripts": { "build": "node build.js" }, "dependencies": { "marked": "^12.0.0" } }
