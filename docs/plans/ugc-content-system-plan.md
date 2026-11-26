@@ -1,4 +1,4 @@
-# ChoZen UGC Content System — Plan v3 (DRAFT, awaiting owner approval)
+# ChoZen UGC Content System — Plan v3.1 (DRAFT, awaiting red team + owner approval)
 
 Seat: ORCHESTRATOR · Date: 2026-11-26 · Branch: `claude/gallant-clarke-dsysfj`
 History: v1 red team → FIX THEN LAUNCH (5C/4M). v2 red team → FIX THEN LAUNCH (7C/15M). v3 adds the owner's decisions and live store data; the disposition table is in §10.
@@ -15,7 +15,10 @@ History: v1 red team → FIX THEN LAUNCH (5C/4M). v2 red team → FIX THEN LAUNC
 | D5 | Spend / approvals | **Paid generation stays in Amoz's hands** | No automated renderer. Amoz presses every render and every ad button himself (§6 HS2) |
 | D6 | Repo | Private | Renders are never committed. Media path is in §5.5 |
 | D7 | Scripture posts | Soft CTA allowed; hard product CTAs ≤ 60%/week | `cta_mode` field plus a weekly batch check |
-| D8 | Consent store | Google Drive folder **"ChoZen Ecosystem"** | Releases go in a subfolder (proposed: `Testimony Releases`, not created yet; §11) |
+| D8 | Consent store | Google Drive folder **"ChoZen Ecosystem"** | Created 2026-11-26: `ChoZen Ecosystem/Testimony Releases` (Drive id `15FdY_qKkDqPReG67-_V_fYFQ2JntpcW3`). `consent_id` = file id of the signed release |
+| D9 | Revenue target | **Changed to $5K/mo** (was $10K, Jan 2027) | §1 math restated |
+| D10 | Ship-by date | Amoz handles it | Christmas push end date set by Amoz |
+| D11 | Paid-tool block | **Block** | `.claude/settings.json` deny list applied (§6 HS2) |
 
 ## 1. Revenue research (live Shopify data, pulled 2026-11-26)
 
@@ -42,10 +45,11 @@ History: v1 red team → FIX THEN LAUNCH (5C/4M). v2 red team → FIX THEN LAUNC
 
 Inventory: the top product has `tracksInventory: false` and `inventoryPolicy: CONTINUE`. Fulfillment median is 0 days (30 orders, 180 days). **Inferred:** made-to-order or print-on-demand. **Unknown:** production plus shipping time, so the Christmas ship-by date can't be computed.
 
-**Target math (verified arithmetic, inferred conclusion):**
-- $10K/month at ~$150 AOV is about **67 orders/month (~15/week)**. The current pace is ~3/month, so that's roughly 20×.
+**Target math (owner target: $5K/month; verified arithmetic, inferred conclusion):**
+- $5K/month at ~$150 AOV is about **34 orders/month (~8/week)**. The current pace is ~3/month (Nov), so that's roughly 11×. The best month so far, Aug 2026, reached $1,727 / 11 orders (~35% of target).
+- Track A weekly scoreboard: orders/week by channel against **8/week**. Week-over-week lift is what decides SCALE/KILL.
 - At a 3.3% add-to-cart rate and the Online Store's observed ~1 checkout per ~1,500 sessions, organic UGC to the web store alone won't close that gap in 5 weeks.
-- **Inferred:** January's $10K is out of reach from this system alone. What the system can do is produce a measurable weekly lift in orders on the channels that already sell (TikTok Shop, Etsy, Online Store).
+- **Inferred:** $5K is a stretch but not out of reach within the Christmas window if the top dresses convert on TikTok Shop and Etsy. Organic UGC to the web store alone won't do it. Target date: owner to set (default: first full month after the Christmas push, Jan 2027).
 - **Track A's primary metric is therefore orders per week by channel**, not views.
 
 **What this changes in the plan:**
@@ -147,7 +151,7 @@ Checks a week's packages together: hard CTA ≤ 60%; `pov`/`reaction` ≤ 30%; f
 | # | Stop | Mechanism, honestly classified |
 |---|---|---|
 | HS1 | Existing preset output never changes | **Mechanism:** snapshot test (B3) |
-| HS2 | **No paid generation or ad spend by Claude** | **Mechanism:** no render code exists, and `KIE_API_KEY` is **not** placed in any cloud environment. Paid tools are pressed by Amoz in their own UIs. **Policy:** Claude does not call Higgsfield, Meta Ads, Windsor write or any other paid MCP tool for this work. Turning that policy into a mechanism needs a project permission deny list, which is offered in §11 and not applied without Amoz's say-so |
+| HS2 | **No paid generation or ad spend by Claude** | **Mechanism:** no render code exists, and `KIE_API_KEY` is **not** placed in any cloud environment. **Mechanism (applied 2026-11-26):** `.claude/settings.json` denies the entire Higgsfield server (generation, Meta Ads write, TikTok publish), the entire Adspirer server, and all four Windsor `execute_action` tools. Verified: a Higgsfield call was denied. **Remaining policy only:** other credit-spending MCP tools not on the list (e.g. Melius runs, Picsart, vidIQ generation, Canva generate) and Bash `curl` to paid APIs. Amoz can extend the deny list |
 | HS3 | (retired: P4 cut) | — |
 | HS4 | **Override conditions for AI faith/testimony (D2b)** | Validator: `render.mode = "ai"` requires the `ai_label` block with the fixed text, from frame 0 to the end, inside the safe zone. The label is non-removable: the validator has no off-switch. The B3 prompt for AI drops the "pass-as-real" opener lines. **Limit:** code can't see pixels. The burn-in itself is done by Amoz at render or edit time, and Gate 5 includes a visual check |
 | HS5 | No AI of customers, wearers or fit content; testimony stays verbatim; material connection disclosed | **Mechanism:** validator rules |
@@ -186,9 +190,8 @@ Validator: each §5.2 rule with a pass case and a fail case. Weekly batch: each 
 | Uncomputable rules | `hook_s`, `cta_mode`, weekly batch validator |
 | Track B un-boxed | B1–B2 by Dec 7, B3 frozen, P4 cut |
 
-## 11. Still open (owner)
-1. **Christmas ship-by date.** Supplier production + shipping time per top product (unknown: inventory is untracked).
-2. Create the `Testimony Releases` subfolder in Drive `ChoZen Ecosystem`? (I can create it; it's a write to your Drive.)
-3. Apply a project permission **deny list** for paid/ad-write MCP tools (Higgsfield generate, Meta Ads write, Windsor `execute_action`, Adspirer)? Without it, HS2's MCP half stays policy only.
-4. Accept that **$10K in January is unlikely from this system alone** (§1 math) and track orders/week instead, or keep $10K as the formal target?
-5. **Override record (D2b):** "AI-rendered Amoz may appear in faith-moment, precept and founder content despite the red-team Critical, under HS4 conditions." Owner, 2026-11-26.
+## 11. Owner record
+1. **Override (D2b):** "AI-rendered Amoz may appear in faith-moment, precept and founder content despite the red-team Critical, under HS4 conditions." Owner, 2026-11-26.
+2. **Target change (D9):** $10K/mo → **$5K/mo**. Owner, 2026-11-26.
+3. **Paid-tool block (D11):** applied, owner-approved, 2026-11-26.
+4. **Open:** Christmas ship-by date (Amoz supplying). Target month for $5K (default Jan 2027 unless Amoz says otherwise).
