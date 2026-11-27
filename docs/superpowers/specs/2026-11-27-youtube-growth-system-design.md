@@ -156,13 +156,33 @@ setting comes from that scorecard.
 - No Shabbat-window slots.
 - No metric written that was not read from a source.
 
-## Open with the owner
+## Answered by the owner (2026-11-27)
 
-1. What is producing the repeat uploads: hand posting, or a scheduler queue
-   (Postiz or another)? If a queue, it has to be paused or gated at the queue,
-   because a planning-time check never touches it.
-2. Who makes the value Shorts and from what (owner on camera, generated
-   scenes with voiceover, recut older videos), and are the five pillars right?
+1. **Source of the repeats:** the ChoZen scheduler. Verified in the account's
+   scheduled tasks: posting goes through ChoZen Publisher
+   (`chozen-publisher-pi.vercel.app`), which lives outside this repo and is
+   queued from the owner's Mac after he approves each payload. The assistant
+   has no access to that queue and does not seek it. So the gate sits where
+   payloads are prepared: `plan-check.js` (below) must pass before a YouTube
+   payload is proposed, and the owner clears repeated YouTube entries from the
+   Publisher queue himself.
+2. **Value Shorts production:** kie.ai Seedance 2.0, through the existing
+   `brand/textures/generate.js` (dry run by default, `--confirm` to spend,
+   needs `KIE_API_KEY`). It gains a `--config` option and a Shorts prompt file
+   at 9:16. Generation spends the owner's money, so the assistant only ever
+   runs the dry run; the owner runs `--confirm`.
+3. **Design approved**, including the five pillars.
+
+### Added by these answers
+
+- `youtube/plan-check.js` validates `plan.csv`: no Shabbat-window slot, at
+  most one Short a day, 4:1 value-to-product mix, title ≤ 60 characters, no
+  title already in the ledger or repeated in the plan.
+- Hook text: Seedance clips carry no words. The calendar gives the on-screen
+  hook line for each Short; the owner adds it in the YouTube Shorts editor.
+  Burning the text in with ffmpeg is left out for now; add it if the manual
+  step proves a drag.
+- AI-made realistic footage gets YouTube's "altered content" label at upload.
 
 ## Left to the builder
 
